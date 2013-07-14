@@ -137,6 +137,10 @@ function x2_google_fonts_field_font() {
 function x2_google_fonts_list() {
 	 $options = (array) get_option( 'tk_google_fonts_options' );
 
+// echo '<pre>';
+// print_r($options);
+// echo '</pre>';
+
     if ( isset( $options['selected_fonts'] ) )
         $selected_fonts = $options['selected_fonts'];
 
@@ -150,8 +154,9 @@ function x2_google_fonts_list() {
 
 	  	    if( isset( $selected_fonts ) ) {
 		  	    foreach( $selected_fonts as $key => $selected_font ):
+					$font_family =  str_replace("+", " ", $selected_font);
 					echo '<li class="'.$selected_font.'">
-							<p style="font-family:'.$selected_font.'">'.$selected_font.'<p>
+							<p style="font-family:'.$font_family.'">'.$font_family.'<p>
 							<a class="dele_form" id="'.$selected_font.'" href="'.$selected_font.'">
 							<b>Delete</b>
 							</a>
@@ -175,7 +180,7 @@ function x2_google_fonts_list() {
  */
 function google_fonts_add_font(){
 	$tk_google_fonts_options = get_option('tk_google_fonts_options');
-	$tk_google_fonts_options['selected_fonts'][sanitize_title($_POST['google_font_name'])] = sanitize_title($_POST['google_font_name']);
+	$tk_google_fonts_options['selected_fonts'][$_POST['google_font_name']] = $_POST['google_font_name'];
 		
 	update_option("tk_google_fonts_options", $tk_google_fonts_options);
 
@@ -216,8 +221,27 @@ function google_fonts_js(){
 	wp_enqueue_script('google_fonts_admin_js', plugins_url('/js/admin.js', __FILE__));
     wp_register_script('jquery-fontselect', plugins_url('/js/jquery.fontselect.min.js', __FILE__), false,'1.6');
     wp_enqueue_script('jquery-fontselect');
+	
+		$x2google_fonts_options = get_option('tk_google_fonts_options');
+	 foreach ($x2google_fonts_options['selected_fonts'] as $key => $x2google_font) {
+		wp_register_style( 'font-style-'.$x2google_font, 'http://fonts.googleapis.com/css?family='.$x2google_font );
+		wp_enqueue_style( 'font-style-'.$x2google_font );
+	}
+	
 }
 
+// Includes the necessary css
+add_action('wp_enqueue_scripts', 'google_fonts_enqueue_fonts' );
+function google_fonts_enqueue_fonts() {
+    
+	$x2google_fonts_options = get_option('tk_google_fonts_options');
+	 foreach ($x2google_fonts_options['selected_fonts'] as $key => $x2google_font) {
+		wp_register_style( 'font-style-'.$x2google_font, 'http://fonts.googleapis.com/css?family='.$x2google_font );
+		wp_enqueue_style( 'font-style-'.$x2google_font );
+	}
+        
+        
+}
 
 /** 
  * Enqueue CSS
