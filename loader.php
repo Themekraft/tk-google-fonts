@@ -142,13 +142,14 @@ add_action('wp_ajax_nopriv_google_fonts_delete_font', 'google_fonts_delete_font'
 
 add_action('admin_enqueue_scripts', 'google_fonts_js');
 function google_fonts_js(){
-	wp_enqueue_script('google_fonts_admin_js', get_template_directory_uri() . '/admin/google-fonts/js/admin.js');
-    wp_register_script('jquery-fontselect', get_template_directory_uri() . '/admin/google-fonts/js/jquery.fontselect.min.js', false,'1.6');
+
+	wp_enqueue_script('google_fonts_admin_js', plugins_url('/js/admin.js', __FILE__));
+    wp_register_script('jquery-fontselect', plugins_url('/js/jquery.fontselect.min.js', __FILE__), false,'1.6');
     wp_enqueue_script('jquery-fontselect');
 }
 
 add_action('admin_enqueue_scripts', 'google_fonts_css');
 function google_fonts_css(){
-	wp_enqueue_style('jquery-fontselect-css', get_template_directory_uri() . '/admin/google-fonts/css/fontselect.css');	
+	wp_enqueue_style('jquery-fontselect-css', plugins_url('/css/fontselect.css', __FILE__));	
 }	
 ?>
