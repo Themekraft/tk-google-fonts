@@ -1,0 +1,62 @@
+/** The font selector **/ 
+
+.input-wrap {
+	width: auto;
+	margin-bottom: 30px;
+	overflow: visible;
+	height: 30px;
+}	
+.input-wrap .font-select {
+	float: left;
+}
+.input-wrap input[type="text"] {
+	float: left;
+	width: 200px;
+	margin: 0 10px;
+	padding: 6px 6px 5px 6px;
+}
+input.add_google_font.button { 
+	padding: 2px 10px 1px;
+	height: auto;
+	float: left;
+	margin-top: 0px;
+}
+
+
+/** The preview screen **/
+	
+.font-preview-screen { 
+	width: 70%; 
+	padding: 25px 10%;	
+	background: #ffffff; 
+	border: 1px solid #aaa; 
+	margin: 10px 0 30px 0;
+	box-shadow: 2px 2px 1px rgba(0,0,0,0.3);
+}
+
+
+/** Section for managing the fonts **/
+
+ul#selected-fonts {
+	width: 100%;
+}
+
+ul#selected-fonts li {
+	width: 55%;
+	padding: 20px;
+	overflow: auto;
+	background: #ededed;
+	border-top: 1px solid #fff;
+	border-bottom: 1px solid #cfcfcf;
+}
+
+ul#selected-fonts li p {
+	font-size: 23px;
+	float: left;
+	width: auto;
+	margin: 10px 10px 10px 0;
+}
+
+ul#selected-fonts li p a.dele_form {
+	font-size: 12px;
+}
