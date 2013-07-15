@@ -31,7 +31,7 @@
  */ 
 add_action( 'admin_menu', 'x2_google_fonts_admin_menu' );
 function x2_google_fonts_admin_menu() {
-    add_theme_page( 'X2 Google Fonts', 'X2 Google Fonts', 'edit_theme_options', 'x2-google-fonts-options', 'x2_google_fonts_screen' );
+    add_theme_page( 'TK Google Fonts', 'TK Google Fonts', 'edit_theme_options', 'x2-google-fonts-options', 'x2_google_fonts_screen' );
 }
 
 
