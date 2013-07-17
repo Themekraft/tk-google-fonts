@@ -90,7 +90,7 @@ Bugs can be reported either in our support forum or preferably on the [Themekraf
 1. The slick TK GOOGLE FONTS settings panel.
 2. The Fonts Selector
 3. The Preview
-4. The List of instaled Google Fonts
+4. The List of instaled Google Fonts	
 
 == Changelog ==
 
