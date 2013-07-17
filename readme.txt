@@ -98,7 +98,7 @@ Bugs can be reported either in our support forum or preferably on the [TK Google
 
 == Screenshots ==
 
-1. The TK Google Fonts Settings Panel - images/settings-panel.(png) 
+1. The TK Google Fonts Admin Settings Panel - images/settings-panel.(png) 
 
 == Changelog ==
 
