@@ -48,7 +48,12 @@ function x2_google_fonts_screen() { ?>
 
         <div id="icon-themes" class="icon32"><br></div>
         <h2>Google Fonts Setup</h2>
-
+		
+		<p style="margin: 30px 0; font-size: 15px;">
+		    Need help? <a class="button secondary" href="http://support.themekraft.com/" target="_blank">Documentation</a> <a class="button secondary" href=/#" target="_blank" title="Submit an email support ticket">Ask Question</a>
+		    <span style="font-size: 13px; float:right;">Proudly brought to you by <a href="http://themekraft.com/" target="_blank">Themekraft</a>.</span>
+        </p>
+		
         <form method="post" action="options.php">
             <?php wp_nonce_field( 'update-options' ); ?>
             <?php settings_fields( 'x2-google-fonts-setup' ); ?>
