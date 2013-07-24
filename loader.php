@@ -142,14 +142,28 @@ function x2_google_fonts_field_font() {
 function x2_google_fonts_list() {
 	 $options = (array) get_option( 'tk_google_fonts_options' );
 
-// echo '<pre>';
-// print_r($options);
-// echo '</pre>';
+	// echo '<pre>';
+	// print_r($options);
+	// echo '</pre>';
+
+
+	if ( is_a( $wp_styles, 'WP_Styles' ) ) {
+	    print_r( $wp_styles->queue );
+	} else {
+	    print 'no styles enqueued';
+	}
+
+
+	if(wp_style_is('font-style-ubuntu', 'registered')){
+		echo 'geschenkeübergab';
+	}    
+	
+		
 
     if ( isset( $options['selected_fonts'] ) )
         $selected_fonts = $options['selected_fonts'];
 
-    ?>
+	?>
    
 	<div class="display_selected_fonts">
 		
@@ -183,9 +197,16 @@ function x2_google_fonts_list() {
  * @package TK Google Fonts
  * @since 1.0
  */
-function google_fonts_add_font(){
+function google_fonts_add_font($google_font_name){
+	
+	if(isset($_POST['google_font_name']))
+		$google_font_name = $_POST['google_font_name'];
+	
+	if(empty($google_font_name))
+		return;
+	
 	$tk_google_fonts_options = get_option('tk_google_fonts_options');
-	$tk_google_fonts_options['selected_fonts'][$_POST['google_font_name']] = $_POST['google_font_name'];
+	$tk_google_fonts_options['selected_fonts'][$google_font_name] = $google_font_name;
 		
 	update_option("tk_google_fonts_options", $tk_google_fonts_options);
 
@@ -226,8 +247,8 @@ function google_fonts_js(){
 	wp_enqueue_script('google_fonts_admin_js', plugins_url('/js/admin.js', __FILE__));
     wp_register_script('jquery-fontselect', plugins_url('/js/jquery.fontselect.min.js', __FILE__), false,'1.6');
     wp_enqueue_script('jquery-fontselect');
-	
-		$x2google_fonts_options = get_option('tk_google_fonts_options');
+		
+	$x2google_fonts_options = get_option('tk_google_fonts_options');
 	 foreach ($x2google_fonts_options['selected_fonts'] as $key => $x2google_font) {
 		wp_register_style( 'font-style-'.$x2google_font, 'http://fonts.googleapis.com/css?family='.$x2google_font );
 		wp_enqueue_style( 'font-style-'.$x2google_font );
