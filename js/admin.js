@@ -7,7 +7,7 @@ jQuery(document).ready(function(){
 		jQuery.ajax({
 			type: 'POST',
 			url: ajaxurl,
-			data: {"action": "google_fonts_add_font", "google_font_name": google_font_name},
+			data: {"action": "tk_google_fonts_add_font", "google_font_name": google_font_name},
 			success: function(data){
 				window.location.reload(true);
 			},
@@ -25,7 +25,7 @@ jQuery(document).ready(function(){
 			jQuery.ajax({
 				type: 'POST',
 				url: ajaxurl,
-				data: {"action": "google_fonts_delete_font", "google_font_name": google_font_name},
+				data: {"action": "tk_google_fonts_delete_font", "google_font_name": google_font_name},
 				success: function(data){
 					window.location.reload(true);
 				}
