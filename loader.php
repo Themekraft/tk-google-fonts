@@ -263,7 +263,11 @@ add_action('wp_enqueue_scripts', 'google_fonts_enqueue_fonts' );
 function google_fonts_enqueue_fonts() {
     
 	$x2google_fonts_options = get_option('tk_google_fonts_options');
-	 foreach ($x2google_fonts_options['selected_fonts'] as $key => $x2google_font) {
+	
+	if(!isset($x2google_fonts_options['selected_fonts']));
+		return;
+	
+	foreach ($x2google_fonts_options['selected_fonts'] as $key => $x2google_font) {
 		wp_register_style( 'font-style-'.$x2google_font, 'http://fonts.googleapis.com/css?family='.$x2google_font );
 		wp_enqueue_style( 'font-style-'.$x2google_font );
 	}
