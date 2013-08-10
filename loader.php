@@ -81,7 +81,7 @@ function tk_google_fonts_register_admin_settings() {
     add_settings_field( 'primary-font', '<b>Add Google Font</b>', 'tk_google_fonts_field_font', 'tk_google_fonts_options', 'section_typography' );
     add_settings_field( 'primary-list', '<b>Manage Font</b>', 'tk_google_fonts_list', 'tk_google_fonts_options', 'section_typography' );
     add_settings_field( 
-    		'customizer_enable',
+    		'customizer_disabled',
     		'<b>Use the Customizer</b>',
     		'tk_google_fonts_customizer',
     		'tk_google_fonts_options',
@@ -268,11 +268,11 @@ function tk_google_fonts_customizer(){
 	 $options = get_option( 'tk_google_fonts_options' );
 	 
 	 $customizer_disabled = 0;
-	 if(isset( $options['customizer_enable']))
-	 	 $customizer_disabled = $options['customizer_enable'];
+	 if(isset( $options['customizer_disabled']))
+	 	 $customizer_disabled = $options['customizer_disabled'];
 	
 	 
-    	?> <b>Disable Customizer: </b> <input id='checkbox' name='tk_google_fonts_options[customizer_enable]' type='checkbox' value='1' <?php checked( $customizer_disabled, 1  ) ; ?> />
+    	?> <b>Disable Customizer: </b> <input id='checkbox' name='tk_google_fonts_options[customizer_disabled]' type='checkbox' value='1' <?php checked( $customizer_disabled, 1  ) ; ?> />
 	
 	<?php submit_button(); ?>
 	
@@ -284,7 +284,7 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 
 	$tk_google_fonts_options = get_option('tk_google_fonts_options');
 	
-	 if(isset( $tk_google_fonts_options['customizer_enable']))
+	 if(isset( $tk_google_fonts_options['customizer_disabled']))
 	 	return;
 	
 	
@@ -327,15 +327,24 @@ add_action( 'init', 'tk_google_fonts_customizer_init' );
 
 
 function tk_google_fonts_customize_css(){
+	$tk_google_fonts_options = get_option('tk_google_fonts_options');
+	
+	if(isset( $tk_google_fonts_options['customizer_disabled']))
+	 	return;
 	?>
 	<style type="text/css">
-		h1, h1 a { font-family:<?php echo get_theme_mod('h1_font'); ?>; }
+		h1, h1 a, h1 a:hover { font-family:<?php echo get_theme_mod('h1_font'); ?>; }
 	</style>
 	<?php
 }
 add_action( 'wp_head', 'tk_google_fonts_customize_css',99999);
 
 function tk_google_fonts_customize_preview_init(){
+	$tk_google_fonts_options = get_option('tk_google_fonts_options');
+	
+	if(isset( $tk_google_fonts_options['customizer_disabled']))
+	 	return;
+	
 	wp_enqueue_script(
 		'google_fonts_customize_preview_js',
 		plugins_url('/js/theme-customize.js', __FILE__),
