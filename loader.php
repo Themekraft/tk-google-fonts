@@ -267,12 +267,12 @@ function tk_google_fonts_customizer(){
 	<?php 
 	 $options = get_option( 'tk_google_fonts_options' );
 	 
-	 $customizer_enable = 0;
+	 $customizer_disabled = 0;
 	 if(isset( $options['customizer_enable']))
-	 	 $customizer_enable = $options['customizer_enable'];
+	 	 $customizer_disabled = $options['customizer_enable'];
 	
 	 
-    	?> <b>Disable Customizer: </b> <input id='checkbox' name='tk_google_fonts_options[customizer_enable]' type='checkbox' value='1' <?php checked( $customizer_enable, 1  ) ; ?> />
+    	?> <b>Disable Customizer: </b> <input id='checkbox' name='tk_google_fonts_options[customizer_enable]' type='checkbox' value='1' <?php checked( $customizer_disabled, 1  ) ; ?> />
 	
 	<?php submit_button(); ?>
 	
