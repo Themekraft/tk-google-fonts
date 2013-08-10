@@ -29,9 +29,9 @@
  * @package TK Google Fonts 
  * @since 1.0
  */ 
-add_action( 'admin_menu', 'x2_google_fonts_admin_menu' );
-function x2_google_fonts_admin_menu() {
-    add_theme_page( 'TK Google Fonts', 'TK Google Fonts', 'edit_theme_options', 'x2-google-fonts-options', 'x2_google_fonts_screen' );
+add_action( 'admin_menu', 'tk_google_fonts_admin_menu' );
+function tk_google_fonts_admin_menu() {
+    add_theme_page( 'TK Google Fonts', 'TK Google Fonts', 'edit_theme_options', 'tk-google-fonts-options', 'tk_google_fonts_screen' );
 }
 
 
@@ -42,7 +42,7 @@ function x2_google_fonts_admin_menu() {
  * @package TK Google Fonts 
  * @since 1.0
  */ 
-function x2_google_fonts_screen() { ?>
+function tk_google_fonts_screen() { ?>
 
     <div class="wrap">
 
@@ -56,8 +56,8 @@ function x2_google_fonts_screen() { ?>
 		
         <form method="post" action="options.php">
             <?php wp_nonce_field( 'update-options' ); ?>
-            <?php settings_fields( 'x2-google-fonts-setup' ); ?>
-            <?php do_settings_sections( 'x2-google-fonts-setup' ); ?>
+            <?php settings_fields( 'tk-google-fonts-setup' ); ?>
+            <?php do_settings_sections( 'tk-google-fonts-setup' ); ?>
             <?php //submit_button(); ?>
         </form>
 
@@ -73,13 +73,14 @@ function x2_google_fonts_screen() { ?>
  * @package TK Google Fonts 
  * @since 1.0
  */ 
-add_action( 'admin_init', 'x2_google_fonts_register_admin_settings' );
-function x2_google_fonts_register_admin_settings() {
-    register_setting( 'x2-google-fonts-setup', 'x2-google-fonts-setup' );
+add_action( 'admin_init', 'tk_google_fonts_register_admin_settings' );
+function tk_google_fonts_register_admin_settings() {
+    register_setting( 'tk-google-fonts-setup', 'tk-google-fonts-setup' );
     // Settings fields and sections
-    add_settings_section( 'section_typography', '', 'x2_google_fonts_typography', 'x2-google-fonts-setup' );
-    add_settings_field( 'primary-font', '<b>Add Google Font</b>', 'x2_google_fonts_field_font', 'x2-google-fonts-setup', 'section_typography' );
-    add_settings_field( 'primary-list', '<b>Manage Font</b>', 'x2_google_fonts_list', 'x2-google-fonts-setup', 'section_typography' );
+    add_settings_section( 'section_typography', '', 'tk_google_fonts_typography', 'tk-google-fonts-setup' );
+    add_settings_field( 'primary-font', '<b>Add Google Font</b>', 'tk_google_fonts_field_font', 'tk-google-fonts-setup', 'section_typography' );
+    add_settings_field( 'primary-list', '<b>Manage Font</b>', 'tk_google_fonts_list', 'tk-google-fonts-setup', 'section_typography' );
+    add_settings_field( 'customiser', '<b>Use the Customiser</b>', 'tk_google_fonts_customiser', 'tk-google-fonts-setup', 'section_typography' );
 }
 
 
@@ -90,7 +91,7 @@ function x2_google_fonts_register_admin_settings() {
  * @package TK Google Fonts 
  * @since 1.0
  */ 
-function x2_google_fonts_typography() {
+function tk_google_fonts_typography() {
     echo '<p><i>Please keep in mind that every font will slow down your site a bit more. <br>
 			If you use to many fonts you will have a slow siteload and that\'s also bad for SEO. Best is to use 1-2 Fonts.</i></p><br>';
 }
@@ -103,7 +104,7 @@ function x2_google_fonts_typography() {
  * @package TK Google Fonts 
  * @since 1.0
  */ 
-function x2_google_fonts_field_font() {
+function tk_google_fonts_field_font() {
     $options = (array) get_option( 'tk_google_fonts_options' );
 
     if ( isset( $options['selected_fonts'] ) )
@@ -139,7 +140,7 @@ function x2_google_fonts_field_font() {
  * @package TK Google Fonts 
  * @since 1.0
  */ 
-function x2_google_fonts_list() {
+function tk_google_fonts_list() {
 	 $options = (array) get_option( 'tk_google_fonts_options' );
 
 	// echo '<pre>';
@@ -189,7 +190,6 @@ function x2_google_fonts_list() {
 
 }
 
-
 /**
  * Ajax call back function to add a form element
  * 
@@ -235,57 +235,140 @@ add_action('wp_ajax_tk_google_fonts_delete_font', 'tk_google_fonts_delete_font')
 add_action('wp_ajax_nopriv_tk_google_fonts_delete_font', 'tk_google_fonts_delete_font');
 
 
+
+
+function tk_google_fonts_customiser(){
+	?>
+	
+	
+	<b>Use Themem Customiser</b>
+
+	<p>
+		You can define the global use of Google fonts for general Site elemenst lik Lins Lists, Headers... In the Themem Customiser.
+		For this just enable the customiser.
+		
+		If your plugin supports tk google fonts, ceep in mind that the tk-google-fonts customiser settings are stronger than the rest of the site css and will overrite your other settings.
+		
+		Same affect will be if you use google fonts in your css.
+		
+		If you already use tk-google-fonts in your themes thettigs or css use this option with care.
+		
+		<a href="<?php echo get_admin_url(); ?>customize.php" >Go to the Customiser</a>
+	</p>
+	
+	<?php
+}
+
+function tk_google_fonts_customize_register( $wp_customize ) {
+
+	$tk_google_fonts_options = get_option('tk_google_fonts_options');
+	$tk_selected_fonts = $tk_google_fonts_options['selected_fonts'];
+	
+	$tk_google_font_array = Array();
+	
+	if(isset($tk_selected_fonts)){
+		foreach ($tk_selected_fonts as $key => $tk_selected_font) {
+			$tk_google_font_string = str_replace("+", " ", $tk_selected_font);
+			$tk_google_font_array[$tk_google_font_string] = $tk_google_font_string;
+		}
+	}
+	
+	$wp_customize->get_setting( 'h1_font' )->transport = 'postMessage';
+
+	$wp_customize->add_section( 'tk_google_fonts_settings', array(
+		'title'          => 'TK Google Fonts',
+		'priority'       => 9999,
+	) );
+ 
+	$wp_customize->add_setting( 'h1_font', array(
+		'default'        => 'default',
+		'transport'   => 'postMessage',
+	) );
+ 
+	$wp_customize->add_control( 'h1_font', array(
+		'label'   => 'Select Something:',
+		'section' => 'tk_google_fonts_settings',
+		'type'    => 'select',
+		'choices'    => $tk_google_font_array
+	) );
+ 
+}
+
+function tk_google_fonts_customiser_init(){
+	add_action( 'customize_register', 'tk_google_fonts_customize_register' );
+}
+add_action( 'init', 'tk_google_fonts_customiser_init' );
+
+
+function tk_google_fonts_customize_css(){
+	?>
+	<style type="text/css">
+		h1, h1 a { font-family:<?php echo get_theme_mod('h1_font'); ?>; }
+	</style>
+	<?php
+}
+add_action( 'wp_head', 'tk_google_fonts_customize_css',99999);
+
+function tk_google_fonts_customize_preview_init(){
+	wp_enqueue_script(
+		'google_fonts_customize_preview_js',
+		plugins_url('/js/theme-customize.js', __FILE__),
+		array( 'jquery','customize-preview' ),
+		'',
+		true
+	);
+}
+add_action( 'customize_preview_init', 'tk_google_fonts_customize_preview_init');
+
 /** 
- * Enqueue JS
+ * Enqueue admin JS and CSS
  * 
  * @author Sven Lehnert 
  * @package TK Google Fonts
  * @since 1.0
  */
-add_action('admin_enqueue_scripts', 'google_fonts_js');
-function google_fonts_js(){
+add_action('admin_enqueue_scripts', 'tk_google_fonts_js');
+function tk_google_fonts_js(){
+	
 	wp_enqueue_script('google_fonts_admin_js', plugins_url('/js/admin.js', __FILE__));
+	
     wp_register_script('jquery-fontselect', plugins_url('/js/jquery.fontselect.min.js', __FILE__), false,'1.6');
     wp_enqueue_script('jquery-fontselect');
 		
-	$x2google_fonts_options = get_option('tk_google_fonts_options');
+	wp_enqueue_style('jquery-fontselect-css', plugins_url('/css/fontselect.css', __FILE__));
 	
-	if(isset($x2google_fonts_options['selected_fonts'])){
-		foreach ($x2google_fonts_options['selected_fonts'] as $key => $x2google_font) {
-			wp_register_style( 'font-style-'.$x2google_font, 'http://fonts.googleapis.com/css?family='.$x2google_font );
-			wp_enqueue_style( 'font-style-'.$x2google_font );
+	wp_enqueue_style('tk-google-fonts-css', plugins_url('/css/tk-google-fonts.css', __FILE__));	
+	
+	$tk_google_fonts_options = get_option('tk_google_fonts_options');
+	
+	if(isset($tk_google_fonts_options['selected_fonts'])){
+		foreach ($tk_google_fonts_options['selected_fonts'] as $key => $tk_google_font) {
+			wp_register_style( 'font-style-'.$tk_google_font, 'http://fonts.googleapis.com/css?family='.$tk_google_font );
+			wp_enqueue_style( 'font-style-'.$tk_google_font );
 		}
 	}
 }
 
-// Includes the necessary css
-add_action('wp_enqueue_scripts', 'google_fonts_enqueue_fonts' );
-function google_fonts_enqueue_fonts() {
-    
-	$x2google_fonts_options = get_option('tk_google_fonts_options');
-	
-	if(!isset($x2google_fonts_options['selected_fonts']));
-		return;
-	
-	foreach ($x2google_fonts_options['selected_fonts'] as $key => $x2google_font) {
-		wp_register_style( 'font-style-'.$x2google_font, 'http://fonts.googleapis.com/css?family='.$x2google_font );
-		wp_enqueue_style( 'font-style-'.$x2google_font );
-	}
-        
-        
-}
-
 /** 
- * Enqueue CSS
+ * Enqueue JS and CSS for the frontend
  * 
  * @author Sven Lehnert 
  * @package TK Google Fonts
  * @since 1.0
  */
-add_action('admin_enqueue_scripts', 'google_fonts_css');
-function google_fonts_css(){
-	wp_enqueue_style('jquery-fontselect-css', plugins_url('/css/fontselect.css', __FILE__));
-	wp_enqueue_style('tk-google-fonts-css', plugins_url('/css/tk-google-fonts.css', __FILE__));	
-}	
+add_action('wp_enqueue_scripts', 'tk_google_fonts_enqueue_fonts' );
+function tk_google_fonts_enqueue_fonts() {
+    
+	$tk_google_fonts_options = get_option('tk_google_fonts_options');
+	
+	if( !isset( $tk_google_fonts_options['selected_fonts'] ) )
+		return;
+	
+	foreach ($tk_google_fonts_options['selected_fonts'] as $key => $tk_google_font) {
+		wp_register_style( 'font-style-'.$tk_google_font, 'http://fonts.googleapis.com/css?family='.$tk_google_font );
+		wp_enqueue_style( 'font-style-'.$tk_google_font );
+	}
+               
+}
 
 ?>
