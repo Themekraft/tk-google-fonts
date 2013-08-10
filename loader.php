@@ -56,9 +56,9 @@ function tk_google_fonts_screen() { ?>
 		
         <form method="post" action="options.php">
             <?php wp_nonce_field( 'update-options' ); ?>
-            <?php settings_fields( 'tk-google-fonts-setup' ); ?>
-            <?php do_settings_sections( 'tk-google-fonts-setup' ); ?>
-            <?php //submit_button(); ?>
+            <?php settings_fields( 'tk_google_fonts_options' ); ?>
+            <?php do_settings_sections( 'tk_google_fonts_options' ); ?>
+            
         </form>
 
     </div><?php
@@ -75,12 +75,18 @@ function tk_google_fonts_screen() { ?>
  */ 
 add_action( 'admin_init', 'tk_google_fonts_register_admin_settings' );
 function tk_google_fonts_register_admin_settings() {
-    register_setting( 'tk-google-fonts-setup', 'tk-google-fonts-setup' );
+    register_setting( 'tk_google_fonts_options', 'tk_google_fonts_options' );
     // Settings fields and sections
-    add_settings_section( 'section_typography', '', 'tk_google_fonts_typography', 'tk-google-fonts-setup' );
-    add_settings_field( 'primary-font', '<b>Add Google Font</b>', 'tk_google_fonts_field_font', 'tk-google-fonts-setup', 'section_typography' );
-    add_settings_field( 'primary-list', '<b>Manage Font</b>', 'tk_google_fonts_list', 'tk-google-fonts-setup', 'section_typography' );
-    add_settings_field( 'customiser', '<b>Use the Customiser</b>', 'tk_google_fonts_customiser', 'tk-google-fonts-setup', 'section_typography' );
+    add_settings_section( 'section_typography', '', 'tk_google_fonts_typography', 'tk_google_fonts_options' );
+    add_settings_field( 'primary-font', '<b>Add Google Font</b>', 'tk_google_fonts_field_font', 'tk_google_fonts_options', 'section_typography' );
+    add_settings_field( 'primary-list', '<b>Manage Font</b>', 'tk_google_fonts_list', 'tk_google_fonts_options', 'section_typography' );
+    add_settings_field( 
+    		'customizer_enable',
+    		'<b>Use the Customizer</b>',
+    		'tk_google_fonts_customizer',
+    		'tk_google_fonts_options',
+    		'section_typography' );
+
 }
 
 
@@ -181,6 +187,7 @@ function tk_google_fonts_list() {
 							<b>Delete</b>
 							</a>
 						</li>';
+					echo '<input type="hidden" name="tk_google_fonts_options[selected_fonts][' . $key . ']" value="' . $selected_font . '" />';
 		        endforeach;	
 	  	    } ?>
 
@@ -237,24 +244,38 @@ add_action('wp_ajax_nopriv_tk_google_fonts_delete_font', 'tk_google_fonts_delete
 
 
 
-function tk_google_fonts_customiser(){
+function tk_google_fonts_customizer(){
 	?>
 	
 	
-	<b>Use Themem Customiser</b>
+	<p><b>Use Themem Customizer</b></p>
 
+	<p> You can define the global use of Google fonts in the Themem Customizer. </p>
+		
+	<p> <b> </b><a href="<?php echo get_admin_url(); ?>customize.php"  class="button-primary">Go to the Customizer</a> </p>
+		
+	<p><b>Turn off Customizer Support:</b></p>
+	
 	<p>
-		You can define the global use of Google fonts for general Site elemenst lik Lins Lists, Headers... In the Themem Customiser.
-		For this just enable the customiser.
+		If your theme supports tk-google-fonts or you use tk-google-fonts in your css keep in mind that the tk-google-fonts customizer settings are stronger than the rest of the site css and will overrite your other settings.
 		
-		If your plugin supports tk google fonts, ceep in mind that the tk-google-fonts customiser settings are stronger than the rest of the site css and will overrite your other settings.
 		
-		Same affect will be if you use google fonts in your css.
+		If you already use tk-google-fonts in your themes thettigs or css you my want to deactivate the customizer Support.
 		
-		If you already use tk-google-fonts in your themes thettigs or css use this option with care.
-		
-		<a href="<?php echo get_admin_url(); ?>customize.php" >Go to the Customiser</a>
-	</p>
+	</p>	
+	
+	<?php 
+	 $options = get_option( 'tk_google_fonts_options' );
+	 
+	 $customizer_enable = 0;
+	 if(isset( $options['customizer_enable']))
+	 	 $customizer_enable = $options['customizer_enable'];
+	
+	 
+    	?> <b>Disable Customizer: </b> <input id='checkbox' name='tk_google_fonts_options[customizer_enable]' type='checkbox' value='1' <?php checked( $customizer_enable, 1  ) ; ?> />
+	
+	<?php submit_button(); ?>
+	
 	
 	<?php
 }
@@ -262,6 +283,11 @@ function tk_google_fonts_customiser(){
 function tk_google_fonts_customize_register( $wp_customize ) {
 
 	$tk_google_fonts_options = get_option('tk_google_fonts_options');
+	
+	 if(isset( $tk_google_fonts_options['customizer_enable']))
+	 	return;
+	
+	
 	$tk_selected_fonts = $tk_google_fonts_options['selected_fonts'];
 	
 	$tk_google_font_array = Array();
@@ -294,10 +320,10 @@ function tk_google_fonts_customize_register( $wp_customize ) {
  
 }
 
-function tk_google_fonts_customiser_init(){
+function tk_google_fonts_customizer_init(){
 	add_action( 'customize_register', 'tk_google_fonts_customize_register' );
 }
-add_action( 'init', 'tk_google_fonts_customiser_init' );
+add_action( 'init', 'tk_google_fonts_customizer_init' );
 
 
 function tk_google_fonts_customize_css(){
