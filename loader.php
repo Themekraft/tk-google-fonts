@@ -312,7 +312,7 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 	) );
  
 	$wp_customize->add_control( 'h1_font', array(
-		'label'   => 'Select Something:',
+		'label'   => 'H1:',
 		'section' => 'tk_google_fonts_settings',
 		'type'    => 'select',
 		'choices'    => $tk_google_font_array
