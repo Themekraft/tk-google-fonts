@@ -248,20 +248,20 @@ function tk_google_fonts_customizer(){
 	?>
 	
 	
-	<p><b>Use Themem Customizer</b></p>
+	<h3>Use the WordPress Theme Customizer</h3>
 
-	<p> You can define the global use of Google fonts in the Themem Customizer. </p>
+	<p>You can define the use of Google fonts in the Theme Customizer. </p>
 		
-	<p> <b> </b><a href="<?php echo get_admin_url(); ?>customize.php"  class="button-primary">Go to the Customizer</a> </p>
+	<p><a href="<?php echo get_admin_url(); ?>customize.php"  class="button-primary">Go to the Customizer</a></p>
+	
+	<br>
 		
-	<p><b>Turn off Customizer Support:</b></p>
+	<h3>Turn off Customizer Support</h3>
 	
 	<p>
-		If your theme supports tk-google-fonts or you use tk-google-fonts in your css keep in mind that the tk-google-fonts customizer settings are stronger than the rest of the site css and will overrite your other settings.
+		If your theme supports TK Google Fonts or you use the Google fonts in your CSS, keep in mind that the TK Google Fonts customizer settings are stronger than the rest of the site CSS and will overwrite your other settings (except you make a very strong CSS).
 		
-		
-		If you already use tk-google-fonts in your themes thettigs or css you my want to deactivate the customizer Support.
-		
+		If you already use TK Google Fonts in your themes options or CSS you might want to deactivate the Customizer Support.
 	</p>	
 	
 	<?php 
@@ -292,6 +292,8 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 	
 	$tk_google_font_array = Array();
 	
+	$tk_google_font_array['none'] = '';
+	
 	if(isset($tk_selected_fonts)){
 		foreach ($tk_selected_fonts as $key => $tk_selected_font) {
 			$tk_google_font_string = str_replace("+", " ", $tk_selected_font);
@@ -312,9 +314,101 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 	) );
  
 	$wp_customize->add_control( 'h1_font', array(
-		'label'   => 'H1:',
+		'label'   => 'H1 Heading',
 		'section' => 'tk_google_fonts_settings',
 		'type'    => 'select',
+		'priority'		=> 10,
+		'choices'    => $tk_google_font_array
+	) );
+ 	
+ 	$wp_customize->add_setting( 'h2_font', array(
+		'default'        => 'default',
+		'transport'   => 'postMessage',
+	) );
+ 
+	$wp_customize->add_control( 'h2_font', array(
+		'label'   => 'H2 Heading',
+		'section' => 'tk_google_fonts_settings',
+		'type'    => 'select',
+		'priority'		=> 20,
+		'choices'    => $tk_google_font_array
+	) );
+
+ 	$wp_customize->add_setting( 'h3_font', array(
+		'default'        => 'default',
+		'transport'   => 'postMessage',
+	) );
+ 
+	$wp_customize->add_control( 'h3_font', array(
+		'label'   => 'H3 Heading',
+		'section' => 'tk_google_fonts_settings',
+		'type'    => 'select',
+		'priority'		=> 30,
+		'choices'    => $tk_google_font_array
+	) );
+
+ 	$wp_customize->add_setting( 'h4_font', array(
+		'default'        => 'default',
+		'transport'   => 'postMessage',
+	) );
+ 
+	$wp_customize->add_control( 'h4_font', array(
+		'label'   => 'H4 Heading',
+		'section' => 'tk_google_fonts_settings',
+		'type'    => 'select',
+		'priority'		=> 40,
+		'choices'    => $tk_google_font_array
+	) );
+	
+ 	$wp_customize->add_setting( 'h5_font', array(
+		'default'        => 'default',
+		'transport'   => 'postMessage',
+	) );
+ 
+	$wp_customize->add_control( 'h5_font', array(
+		'label'   => 'H5 Heading',
+		'section' => 'tk_google_fonts_settings',
+		'type'    => 'select',
+		'priority'		=> 50,
+		'choices'    => $tk_google_font_array
+	) );
+
+ 	$wp_customize->add_setting( 'h6_font', array(
+		'default'        => 'default',
+		'transport'   => 'postMessage',
+	) );
+ 
+	$wp_customize->add_control( 'h6_font', array(
+		'label'   => 'H6 Heading',
+		'section' => 'tk_google_fonts_settings',
+		'type'    => 'select',
+		'priority'		=> 60,
+		'choices'    => $tk_google_font_array
+	) );
+
+ 	$wp_customize->add_setting( 'body_text', array(
+		'default'        => 'default',
+		'transport'   => 'postMessage',
+	) );
+ 
+	$wp_customize->add_control( 'body_text', array(
+		'label'   => 'Body Text (body, paragraph)',
+		'section' => 'tk_google_fonts_settings',
+		'type'    => 'select',
+		'priority'		=> 70,
+		'choices'    => $tk_google_font_array
+	) );
+	
+ 	$wp_customize->add_setting( 'blockquotes', array(
+		'default'        => 'default',
+		'transport'   => 'postMessage',
+	) );
+
+	$wp_customize->add_control( 'blockquotes', array(
+		'label'   => 'Blockquotes',
+		'section' => 'tk_google_fonts_settings',
+		'type'    => 'select',
+		'priority'		=> 80,
 		'choices'    => $tk_google_font_array
 	) );
  
@@ -331,11 +425,37 @@ function tk_google_fonts_customize_css(){
 	
 	if(isset( $tk_google_fonts_options['customizer_disabled']))
 	 	return;
-	?>
-	<style type="text/css">
-		h1, h1 a, h1 a:hover { font-family:<?php echo get_theme_mod('h1_font'); ?>; }
-	</style>
-	<?php
+	
+	?><style type="text/css"><?php 
+	
+		if(  get_theme_mod('h1_font', '') != 'none' )
+			echo 'h1, h1 a, h1 a:hover { font-family:'. get_theme_mod('h1_font') . '; } ';
+		
+		if(  get_theme_mod('h2_font', '') != 'none' )
+			echo 'h2, h2 a, h2 a:hover { font-family:'. get_theme_mod('h2_font') . '; } ';
+		
+		if(  get_theme_mod('h3_font', '') != 'none' )
+			echo 'h3, h3 a, h3 a:hover { font-family:'. get_theme_mod('h3_font') . '; } ';
+		
+		if(  get_theme_mod('h4_font', '') != 'none' )
+			echo 'h4, h4 a, h4 a:hover { font-family:'. get_theme_mod('h4_font') . '; } ';
+		
+		if(  get_theme_mod('h5_font', '') != 'none' )
+			echo 'h5, h5 a, h5 a:hover { font-family:'. get_theme_mod('h5_font') . '; } ';
+		
+		if(  get_theme_mod('h6_font', '') != 'none' )
+			echo 'h6, h6 a, h6 a:hover { font-family:'. get_theme_mod('h6_font') . '; } ';
+		
+		if(  get_theme_mod('body_text', '') != 'none' )
+			echo 'body, p { font-family:'. get_theme_mod('body_text') . '; } ';
+		
+		if(  get_theme_mod('blockquotes', '') != 'none' )
+			echo 'blockquote, blockquote p, blockquote p a { font-family:'. get_theme_mod('blockquotes') . '; }'; 
+	
+	?></style>
+
+<?php
+
 }
 add_action( 'wp_head', 'tk_google_fonts_customize_css',99999);
 
