@@ -1,5 +1,5 @@
 === TK Google Fonts ===
-Contributors: themekraft, svenl77, konrads
+Contributors: svenl77, konradS
 Tags: google fonts, fonts, webfonts
 Requires at least: 3.5
 Tested up to: 3.6 beta 3
@@ -23,12 +23,17 @@ Easy adding and removing of fonts with just one click.
 
 TK Google Fonts will automatically add the selected fonts to your site. 
 
+= Use via WordPress Customizer =
+
+Simply use the new options that appear in the WordPress Customizer 
+to apply the Google Fonts to your titles, body text or blockquotes. 
+
 = Use via CSS = 
 
 You can then use the fonts in your CSS without any extra step needed. 
 Follow the instructions on the Google Page how to integrate your font. 
 
-= Use within the theme options =
+= Use within theme options =
 
 If your theme supports TK Google Fonts in its theme options, 
 your selected fonts will be offered in the theme options there! 
@@ -69,7 +74,8 @@ Automatic updates are coming with version 1.0
 
 = Supported Themes =
 
-TK Google Fonts works with every WordPress theme. You need to add the new fonts via CSS.  
+TK Google Fonts works with every WordPress theme. 
+You need to apply the new fonts via the WOrdPress Customizer or your custom CSS.  
 
 Themes with theme options can use TK Google Fonts for their font options.
 The following themes integrate TK Google Fonts in their theme options: 
@@ -84,13 +90,9 @@ please contact us so we can add it to this list.
 
 = Will TK Google Fonst work with my theme? =
 
-Yes. TK Google Fonts will work with any theme, you can use the fonts in your CSS. 
+Yes. TK Google Fonts will work with any theme, you can use the fonts via the WordPress Customizer or in your CSS. 
 
 Checkout the related Google Page of the font to see how to write the CSS to call the font.  
-
-But if your theme has theme options for your theme fonts, the theme needs to support TK Google Fonts.
-
-Or you build a small function to add your fonts to your fonts options.
 
 = Where can I report bugs or contribute to the project? =
 
@@ -102,10 +104,10 @@ Bugs can be reported either in our support forum or preferably on the [TK Google
 
 == Changelog ==
 
-= 1.0 - 16/07/2013 =
+= 1.0 - 12/08/2013 =
 * Initial Release. 
 
 == Upgrade Notice == 
 
-= 1.0 - 16/07/2013 = 
+= 1.0 - 12/08/2013 = 
 * Initial Release.

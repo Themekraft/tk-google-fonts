@@ -1,3 +1,4 @@
+// The TK Google Fonts Admin Settings Panel 
 jQuery(document).ready(function(){
 		
 	jQuery('.add_google_font').click(function(){
@@ -17,10 +18,9 @@ jQuery(document).ready(function(){
 		});
 	});
  	jQuery('.dele_form').click(function(){
-
  		var google_font_name = jQuery(this).attr('id');
-
 		var action = jQuery(this); 
+
 		if (confirm('Delete Permanently'))
 			jQuery.ajax({
 				type: 'POST',
@@ -34,16 +34,19 @@ jQuery(document).ready(function(){
 		return false;
  	});
 		
-
     jQuery('#myTxt').keyup(function(){
         jQuery('.add_text').html(jQuery(this).val());
     });
 
-
 });
-    
-jQuery(function(){
 
+/**
+ * The Font Selector himself
+ * 
+ * @author Sven Lehnert 
+ * @since 1.0
+ */     
+jQuery(function(){
 
 	jQuery('#font').fontselect().change(function(){
 

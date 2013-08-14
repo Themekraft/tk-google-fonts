@@ -1,23 +1,31 @@
 <?php
-/*
- Plugin Name: TK Google Fonts
- Plugin URI:  http://themekraft.com/shop/product-category/themes/extentions/
- Description: Google Fonts UI for WordPress Themes
- Version: 1.0
- Author: Sven Lehnert
- Author URI: http://themekraft.com/members/svenl77/
- Licence: GPLv3
- Network: true
- */
- 
-/* 
- * This is the ThemeKraft Google Fonts Managing Plugin
+
+/**
+ * Plugin Name: TK Google Fonts
+ * Plugin URI:  http://themekraft.com/shop/product-category/themes/extentions/
+ * Description: Google Fonts UI for WordPress Themes
+ * Version: 1.0
+ * Author: Sven Lehnert
+ * Author URI: http://themekraft.com/members/svenl77/
+ * Licence: GPLv3
+ * Network: true
+ *
+ *
+ * This is the ThemeKraft Google Fonts WordPress Plugin
+ * 
+ * Manage your Google Fonts and use them in the WordPress Customizer, 
+ * via CSS or via theme options if intehrated into your theme. 
+ * 
  * Thanks goes to Konstantin Kovshenin for his nice tutorial. 
  * http://theme.fm/2011/08/providing-typography-options-in-your-wordpress-themes-1576/
  * It was my starting point and makes developing easy ;-)
-
+ *
  * Big thanks goes also to tommoor for his jquery fontselector plugin. https://github.com/tommoor/fontselect-jquery-plugin
  * I only needed to put this together and create an admin UI to manage the fonts.
+ * 
+ * Next we added the integration into the WordPress Customizer ;)
+ * 
+ * Have fun!
  * 
  */
 
@@ -216,6 +224,14 @@ function tk_google_fonts_delete_font(){
 add_action('wp_ajax_tk_google_fonts_delete_font', 'tk_google_fonts_delete_font');
 add_action('wp_ajax_nopriv_tk_google_fonts_delete_font', 'tk_google_fonts_delete_font');
 
+
+/**
+ * Do you want to use the WordPress Customizer? This is the option to turn on/off the WordPress Customizer Support.   
+ * 
+ * @author Sven Lehnert 
+ * @package TK Google Fonts
+ * @since 1.0
+ */
 function tk_google_fonts_customizer(){ ?>
 	
 	<h3>Use the WordPress Theme Customizer</h3>
@@ -242,7 +258,7 @@ function tk_google_fonts_customizer(){ ?>
 	 	 $customizer_disabled = $options['customizer_disabled'];
 	
 	 
-    	?> <b>Disable Customizer: </b> <input id='checkbox' name='tk_google_fonts_options[customizer_disabled]' type='checkbox' value='1' <?php checked( $customizer_disabled, 1  ) ; ?> />
+    	?> <b>Turn off Customizer: </b> <input id='checkbox' name='tk_google_fonts_options[customizer_disabled]' type='checkbox' value='1' <?php checked( $customizer_disabled, 1  ) ; ?> />
 	
 	<?php submit_button(); ?>
 	
@@ -250,6 +266,13 @@ function tk_google_fonts_customizer(){ ?>
 	<?php
 }
 
+/**
+ * Registering for the WordPress Customizer
+ * 
+ * @author Sven Lehnert 
+ * @package TK Google Fonts
+ * @since 1.0
+ */
 function tk_google_fonts_customize_register( $wp_customize ) {
 
 	$tk_google_fonts_options = get_option('tk_google_fonts_options');
@@ -383,12 +406,25 @@ function tk_google_fonts_customize_register( $wp_customize ) {
  
 }
 
+/**
+ * WordPress Customizer initialization
+ * 
+ * @author Sven Lehnert 
+ * @package TK Google Fonts
+ * @since 1.0
+ */
 function tk_google_fonts_customizer_init(){
 	add_action( 'customize_register', 'tk_google_fonts_customize_register' );
 }
 add_action( 'init', 'tk_google_fonts_customizer_init' );
 
-
+/**
+ * Here comes the resulting CSS output for the frontend!
+ * 
+ * @author Sven Lehnert 
+ * @package TK Google Fonts
+ * @since 1.0
+ */
 function tk_google_fonts_customize_css(){
 	$tk_google_fonts_options = get_option('tk_google_fonts_options');
 	
@@ -428,6 +464,13 @@ function tk_google_fonts_customize_css(){
 }
 add_action( 'wp_head', 'tk_google_fonts_customize_css',99999);
 
+/**
+ * WordPress Customizer Preview init
+ * 
+ * @author Sven Lehnert 
+ * @package TK Google Fonts
+ * @since 1.0
+ */
 function tk_google_fonts_customize_preview_init(){
 	$tk_google_fonts_options = get_option('tk_google_fonts_options');
 	
