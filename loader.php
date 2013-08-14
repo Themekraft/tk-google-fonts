@@ -10,8 +10,9 @@
  * Licence: GPLv3
  * Network: true
  *
- *
- * This is the ThemeKraft Google Fonts WordPress Plugin
+ */
+ 
+/** This is the ThemeKraft Google Fonts WordPress Plugin
  * 
  * Manage your Google Fonts and use them in the WordPress Customizer, 
  * via CSS or via theme options if intehrated into your theme. 
@@ -23,12 +24,10 @@
  * Big thanks goes also to tommoor for his jquery fontselector plugin. https://github.com/tommoor/fontselect-jquery-plugin
  * I only needed to put this together and create an admin UI to manage the fonts.
  * 
- * Next we added the integration into the WordPress Customizer ;)
  * 
  * Have fun!
  * 
- */
-
+*/
 
 /**
  * Adding the Admin Page
@@ -37,12 +36,16 @@
  * @package TK Google Fonts 
  * @since 1.0
  */ 
-add_action( 'admin_menu', 'tk_google_fonts_admin_menu' );
-function tk_google_fonts_admin_menu() {
-	define('TK_GOOGLE_FONTS', '1.0' );
-    add_theme_page( 'TK Google Fonts', 'TK Google Fonts', 'edit_theme_options', 'tk-google-fonts-options', 'tk_google_fonts_screen' );	
-}
 
+add_action( 'admin_menu', 'tk_google_fonts_admin_menu' );
+
+function tk_google_fonts_admin_menu() {
+	
+	define('TK_GOOGLE_FONTS', '1.0' );
+    
+    add_theme_page( 'TK Google Fonts', 'TK Google Fonts', 'edit_theme_options', 'tk-google-fonts-options', 'tk_google_fonts_screen' );	
+
+}
 
 /**
  * The Admin Page
@@ -51,6 +54,7 @@ function tk_google_fonts_admin_menu() {
  * @package TK Google Fonts 
  * @since 1.0
  */ 
+ 
 function tk_google_fonts_screen() { ?>
 
     <div class="wrap">
@@ -74,7 +78,6 @@ function tk_google_fonts_screen() { ?>
 
 }
 
-
 /**
  * Register the admin settings
  * 
@@ -82,8 +85,11 @@ function tk_google_fonts_screen() { ?>
  * @package TK Google Fonts 
  * @since 1.0
  */ 
+ 
 add_action( 'admin_init', 'tk_google_fonts_register_admin_settings' );
+
 function tk_google_fonts_register_admin_settings() {
+	
     register_setting( 'tk_google_fonts_options', 'tk_google_fonts_options' );
     
     // Settings fields and sections
@@ -95,7 +101,6 @@ function tk_google_fonts_register_admin_settings() {
 
 }
 
-
 /**
  * Important notice on top of the screen
  * 
@@ -103,12 +108,14 @@ function tk_google_fonts_register_admin_settings() {
  * @package TK Google Fonts 
  * @since 1.0
  */ 
+ 
 function tk_google_fonts_typography() {
+	
     echo '<p><i>Please keep in mind that every font will slow down your site a bit more. <br>
 			If you use to many fonts you will have a slow siteload and that\'s also bad for SEO. 
 			Best is to use 1-2 Fonts.</i></p><br>';
+			
 }
-
 
 /**
  * The font selector and preview screen
@@ -117,16 +124,16 @@ function tk_google_fonts_typography() {
  * @package TK Google Fonts 
  * @since 1.0
  */ 
+ 
 function tk_google_fonts_field_font() {
+
     $options = (array) get_option( 'tk_google_fonts_options' );
 
     if ( isset( $options['selected_fonts'] ) )
         $selected_fonts = $options['selected_fonts'];
-
     ?>
-     
     <div id="google_fonts_selecter">
-        
+
         <div class="input-wrap">
         	<input id="font" type="text" />
         	<input type="text" id="myTxt" placeholder="Test your custom text here!" />
@@ -139,12 +146,11 @@ function tk_google_fonts_field_font() {
 		    <p class="add_text">Preview for p text. This is how it looks with more and smaller or italic text. <br>
 		    	How about <b>one more coffee?</b> or maybe some <i>fast looking italic text?</i></p>  
 	    </div>
-	    	
+
     </div>
-
     <?php
+    
 }
-
 
 /**
  * Google fonts list
@@ -153,7 +159,9 @@ function tk_google_fonts_field_font() {
  * @package TK Google Fonts 
  * @since 1.0
  */ 
+ 
 function tk_google_fonts_list() {
+	
 	 $options = (array) get_option( 'tk_google_fonts_options' );
 
     if ( isset( $options['selected_fonts'] ) )
@@ -177,7 +185,8 @@ function tk_google_fonts_list() {
 			?>
 		</ul>  
 	</div>
-	<?php 
+	<?php
+	
 }
 
 /**
@@ -187,6 +196,10 @@ function tk_google_fonts_list() {
  * @package TK Google Fonts
  * @since 1.0
  */
+
+add_action( 'wp_ajax_tk_google_fonts_add_font', 'tk_google_fonts_add_font' );
+add_action( 'wp_ajax_nopriv_tk_google_fonts_add_font', 'tk_google_fonts_add_font' );
+  
 function tk_google_fonts_add_font($google_font_name){
 	
 	if(isset($_POST['google_font_name']))
@@ -201,10 +214,8 @@ function tk_google_fonts_add_font($google_font_name){
 	update_option("tk_google_fonts_options", $tk_google_fonts_options);
 
 	die();
+	
 }
-add_action( 'wp_ajax_tk_google_fonts_add_font', 'tk_google_fonts_add_font' );
-add_action( 'wp_ajax_nopriv_tk_google_fonts_add_font', 'tk_google_fonts_add_font' );
-
 
 /**
  * Ajax call back function to delete a form element
@@ -213,6 +224,10 @@ add_action( 'wp_ajax_nopriv_tk_google_fonts_add_font', 'tk_google_fonts_add_font
  * @package TK Google Fonts
  * @since 1.0
  */
+ 
+add_action('wp_ajax_tk_google_fonts_delete_font', 'tk_google_fonts_delete_font');
+add_action('wp_ajax_nopriv_tk_google_fonts_delete_font', 'tk_google_fonts_delete_font');
+ 
 function tk_google_fonts_delete_font(){
 	
 	$tk_google_fonts_options = get_option('tk_google_fonts_options');
@@ -220,9 +235,8 @@ function tk_google_fonts_delete_font(){
     
 	update_option("tk_google_fonts_options", $tk_google_fonts_options);
     die();
+	
 }
-add_action('wp_ajax_tk_google_fonts_delete_font', 'tk_google_fonts_delete_font');
-add_action('wp_ajax_nopriv_tk_google_fonts_delete_font', 'tk_google_fonts_delete_font');
 
 
 /**
@@ -232,6 +246,7 @@ add_action('wp_ajax_nopriv_tk_google_fonts_delete_font', 'tk_google_fonts_delete
  * @package TK Google Fonts
  * @since 1.0
  */
+ 
 function tk_google_fonts_customizer(){ ?>
 	
 	<h3>Use the WordPress Theme Customizer</h3>
@@ -258,12 +273,10 @@ function tk_google_fonts_customizer(){ ?>
 	 	 $customizer_disabled = $options['customizer_disabled'];
 	
 	 
-    	?> <b>Turn off Customizer: </b> <input id='checkbox' name='tk_google_fonts_options[customizer_disabled]' type='checkbox' value='1' <?php checked( $customizer_disabled, 1  ) ; ?> />
+    ?><b>Turn off Customizer: </b> <input id='checkbox' name='tk_google_fonts_options[customizer_disabled]' type='checkbox' value='1' <?php checked( $customizer_disabled, 1  ) ; ?> /><?php 
 	
-	<?php submit_button(); ?>
-	
-	
-	<?php
+	submit_button(); 
+
 }
 
 /**
@@ -273,6 +286,7 @@ function tk_google_fonts_customizer(){ ?>
  * @package TK Google Fonts
  * @since 1.0
  */
+ 
 function tk_google_fonts_customize_register( $wp_customize ) {
 
 	$tk_google_fonts_options = get_option('tk_google_fonts_options');
@@ -413,10 +427,14 @@ function tk_google_fonts_customize_register( $wp_customize ) {
  * @package TK Google Fonts
  * @since 1.0
  */
-function tk_google_fonts_customizer_init(){
-	add_action( 'customize_register', 'tk_google_fonts_customize_register' );
-}
+
 add_action( 'init', 'tk_google_fonts_customizer_init' );
+
+function tk_google_fonts_customizer_init(){
+	
+	add_action( 'customize_register', 'tk_google_fonts_customize_register' );
+	
+}
 
 /**
  * Here comes the resulting CSS output for the frontend!
@@ -425,7 +443,11 @@ add_action( 'init', 'tk_google_fonts_customizer_init' );
  * @package TK Google Fonts
  * @since 1.0
  */
+ 
+add_action( 'wp_head', 'tk_google_fonts_customize_css',99999);
+
 function tk_google_fonts_customize_css(){
+	
 	$tk_google_fonts_options = get_option('tk_google_fonts_options');
 	
 	if(isset( $tk_google_fonts_options['customizer_disabled']))
@@ -462,7 +484,6 @@ function tk_google_fonts_customize_css(){
 <?php
 
 }
-add_action( 'wp_head', 'tk_google_fonts_customize_css',99999);
 
 /**
  * WordPress Customizer Preview init
@@ -471,7 +492,11 @@ add_action( 'wp_head', 'tk_google_fonts_customize_css',99999);
  * @package TK Google Fonts
  * @since 1.0
  */
+
+add_action( 'customize_preview_init', 'tk_google_fonts_customize_preview_init');
+
 function tk_google_fonts_customize_preview_init(){
+	
 	$tk_google_fonts_options = get_option('tk_google_fonts_options');
 	
 	if(isset( $tk_google_fonts_options['customizer_disabled']))
@@ -484,8 +509,8 @@ function tk_google_fonts_customize_preview_init(){
 		'',
 		true
 	);
+	
 }
-add_action( 'customize_preview_init', 'tk_google_fonts_customize_preview_init');
 
 /** 
  * Enqueue admin JS and CSS
@@ -494,7 +519,9 @@ add_action( 'customize_preview_init', 'tk_google_fonts_customize_preview_init');
  * @package TK Google Fonts
  * @since 1.0
  */
+ 
 add_action('admin_enqueue_scripts', 'tk_google_fonts_js');
+
 function tk_google_fonts_js(){
 	
 	wp_enqueue_script('google_fonts_admin_js', plugins_url('/js/admin.js', __FILE__));
@@ -523,7 +550,9 @@ function tk_google_fonts_js(){
  * @package TK Google Fonts
  * @since 1.0
  */
+ 
 add_action('wp_enqueue_scripts', 'tk_google_fonts_enqueue_fonts' );
+
 function tk_google_fonts_enqueue_fonts() {
     
 	$tk_google_fonts_options = get_option('tk_google_fonts_options');
@@ -534,7 +563,6 @@ function tk_google_fonts_enqueue_fonts() {
 	foreach ($tk_google_fonts_options['selected_fonts'] as $key => $tk_google_font) {
 		wp_register_style( 'font-style-'.$tk_google_font, 'http://fonts.googleapis.com/css?family='.$tk_google_font );
 		wp_enqueue_style( 'font-style-'.$tk_google_font );
-	}
-               
+	}              
 }
 ?>
