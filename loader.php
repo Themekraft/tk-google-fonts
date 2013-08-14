@@ -31,7 +31,8 @@
  */ 
 add_action( 'admin_menu', 'tk_google_fonts_admin_menu' );
 function tk_google_fonts_admin_menu() {
-    add_theme_page( 'TK Google Fonts', 'TK Google Fonts', 'edit_theme_options', 'tk-google-fonts-options', 'tk_google_fonts_screen' );
+	define('TK_GOOGLE_FONTS', '1.0' );
+    add_theme_page( 'TK Google Fonts', 'TK Google Fonts', 'edit_theme_options', 'tk-google-fonts-options', 'tk_google_fonts_screen' );	
 }
 
 
@@ -76,16 +77,13 @@ function tk_google_fonts_screen() { ?>
 add_action( 'admin_init', 'tk_google_fonts_register_admin_settings' );
 function tk_google_fonts_register_admin_settings() {
     register_setting( 'tk_google_fonts_options', 'tk_google_fonts_options' );
+    
     // Settings fields and sections
-    add_settings_section( 'section_typography', '', 'tk_google_fonts_typography', 'tk_google_fonts_options' );
-    add_settings_field( 'primary-font', '<b>Add Google Font</b>', 'tk_google_fonts_field_font', 'tk_google_fonts_options', 'section_typography' );
-    add_settings_field( 'primary-list', '<b>Manage Font</b>', 'tk_google_fonts_list', 'tk_google_fonts_options', 'section_typography' );
-    add_settings_field( 
-    		'customizer_disabled',
-    		'<b>Use the Customizer</b>',
-    		'tk_google_fonts_customizer',
-    		'tk_google_fonts_options',
-    		'section_typography' );
+    add_settings_section(	'section_typography'	, ''							, 'tk_google_fonts_typography'	, 'tk_google_fonts_options' );
+	
+	add_settings_field(		'primary-font'			, '<b>Add Google Font</b>'		, 'tk_google_fonts_field_font'	, 'tk_google_fonts_options'	, 'section_typography' );
+    add_settings_field(		'primary-list'			, '<b>Manage Font</b>'			, 'tk_google_fonts_list'		, 'tk_google_fonts_options' , 'section_typography' );
+    add_settings_field(		'customizer_disabled'	, '<b>Use the Customizer</b>'	, 'tk_google_fonts_customizer'	, 'tk_google_fonts_options' , 'section_typography' );
 
 }
 
@@ -99,7 +97,8 @@ function tk_google_fonts_register_admin_settings() {
  */ 
 function tk_google_fonts_typography() {
     echo '<p><i>Please keep in mind that every font will slow down your site a bit more. <br>
-			If you use to many fonts you will have a slow siteload and that\'s also bad for SEO. Best is to use 1-2 Fonts.</i></p><br>';
+			If you use to many fonts you will have a slow siteload and that\'s also bad for SEO. 
+			Best is to use 1-2 Fonts.</i></p><br>';
 }
 
 
@@ -149,37 +148,14 @@ function tk_google_fonts_field_font() {
 function tk_google_fonts_list() {
 	 $options = (array) get_option( 'tk_google_fonts_options' );
 
-	// echo '<pre>';
-	// print_r($options);
-	// echo '</pre>';
-
-
-	// if ( isset($wp_styles) && is_a( $wp_styles, 'WP_Styles' ) ) {
-	    // print_r( $wp_styles->queue );
-	// } else {
-	    // print 'no styles enqueued';
-	// }
-
-
-	if(wp_style_is('font-style-ubuntu', 'registered')){
-		echo 'geschenkeübergab';
-	}    
-	
-		
-
     if ( isset( $options['selected_fonts'] ) )
         $selected_fonts = $options['selected_fonts'];
-
 	?>
-   
 	<div class="display_selected_fonts">
-		
 		<ul id="selected-fonts">
-
-	  	    <?php 
-
-	  	    if( isset( $selected_fonts ) ) {
-		  	    foreach( $selected_fonts as $key => $selected_font ):
+			<?php 
+			if( isset( $selected_fonts ) ) {
+				foreach( $selected_fonts as $key => $selected_font ):
 					$font_family =  str_replace("+", " ", $selected_font);
 					echo '<li class="'.$selected_font.'">
 							<p style="font-family:'.$font_family.'">'.$font_family.'<p>
@@ -188,13 +164,12 @@ function tk_google_fonts_list() {
 							</a>
 						</li>';
 					echo '<input type="hidden" name="tk_google_fonts_options[selected_fonts][' . $key . ']" value="' . $selected_font . '" />';
-		        endforeach;	
-	  	    } ?>
-
-	  </ul>  
-
-	</div><?php 
-
+				endforeach;	
+			}
+			?>
+		</ul>  
+	</div>
+	<?php 
 }
 
 /**
@@ -241,12 +216,7 @@ function tk_google_fonts_delete_font(){
 add_action('wp_ajax_tk_google_fonts_delete_font', 'tk_google_fonts_delete_font');
 add_action('wp_ajax_nopriv_tk_google_fonts_delete_font', 'tk_google_fonts_delete_font');
 
-
-
-
-function tk_google_fonts_customizer(){
-	?>
-	
+function tk_google_fonts_customizer(){ ?>
 	
 	<h3>Use the WordPress Theme Customizer</h3>
 
@@ -286,7 +256,6 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 	
 	 if(isset( $tk_google_fonts_options['customizer_disabled']))
 	 	return;
-	
 	
 	$tk_selected_fonts = $tk_google_fonts_options['selected_fonts'];
 	
@@ -525,5 +494,4 @@ function tk_google_fonts_enqueue_fonts() {
 	}
                
 }
-
 ?>
