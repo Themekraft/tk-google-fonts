@@ -63,7 +63,7 @@ function tk_google_fonts_screen() { ?>
         <h2>Google Fonts Setup</h2>
 		
 		<p style="margin: 30px 0; font-size: 15px;">
-		    Need help? <a class="button secondary" href="http://support.themekraft.com/" target="_blank">Documentation</a> <a class="button secondary" href=/#" target="_blank" title="Submit an email support ticket">Ask Question</a>
+		    Need help? <a class="button secondary" href="http://wordpress-theme-plugin-support.com/section/theme-extensions/tk-google-fonts/" target="_blank">Documentation</a> <a class="button secondary" href=/#" target="_blank" title="Submit an email support ticket">Ask Question</a>
 		    <span style="font-size: 13px; float:right;">Proudly brought to you by <a href="http://themekraft.com/" target="_blank">Themekraft</a>.</span>
         </p>
 		
@@ -504,7 +504,7 @@ function tk_google_fonts_customize_preview_init(){
 	
 	wp_enqueue_script(
 		'google_fonts_customize_preview_js',
-		plugins_url('/js/theme-customize.js', __FILE__),
+		plugins_url('/js/customizer.js', __FILE__),
 		array( 'jquery','customize-preview' ),
 		'',
 		true
