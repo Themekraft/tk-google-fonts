@@ -1,10 +1,25 @@
 // The TK Google Fonts Admin Settings Panel 
 jQuery(document).ready(function(){
+	
+	if (typeof(Zenbox) !== "undefined") {
+		Zenbox.init({
+			dropboxID:   "20204992",
+			url:         "https://themekraft.zendesk.com",
+			tabTooltip:  "Feedback",
+			tabColor:    "black",
+			tabPosition: "Left",
+			hide_tab: true
+		});
+	}
 		
 	jQuery('.add_google_font').click(function(){
 		var action = jQuery(this);
 		var google_font_name = jQuery('#font').val();
+		var new_google_font = jQuery('#new_font').val();
 		
+		if(new_google_font != ''){
+			google_font_name = new_google_font;
+		}	
 		jQuery.ajax({
 			type: 'POST',
 			url: ajaxurl,
