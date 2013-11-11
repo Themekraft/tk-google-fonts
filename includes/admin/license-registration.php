@@ -31,7 +31,7 @@ class TK_Google_Fonts_Key_Registration_Menu {
 
 	// Add option page menu
 	public function add_menu() {
-		$page = add_theme_page( 'TK Google Fonsts License Activation', 'TK Google Fonsts License Activation',
+		$page = add_theme_page( 'TK Google Fonts License Activation', 'TK Google Fonts License Activation',
 						'edit_theme_options', 'tk_google_fonts_license_registration', array( $this, 'config_page')
 		);
 		add_action( 'admin_print_styles-' . $page, array( $this, 'css_scripts' ) );
