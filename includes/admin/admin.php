@@ -10,8 +10,6 @@
 add_action( 'admin_menu', 'tk_google_fonts_admin_menu' );
 
 function tk_google_fonts_admin_menu() {
-	
-	define('TK_GOOGLE_FONTS', '1.0' );
     
     add_theme_page( 'TK Google Fonts', 'TK Google Fonts', 'edit_theme_options', 'tk-google-fonts-options', 'tk_google_fonts_screen' );	
 
