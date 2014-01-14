@@ -69,9 +69,7 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 		}
 	}
 	
-	$wp_customize->get_setting( 'h1_font' )->transport = 'postMessage';
-
-	$wp_customize->add_section( 'tk_google_fonts_settings', array(
+    $wp_customize->add_section( 'tk_google_fonts_settings', array(
 		'title'          => 'TK Google Fonts',
 		'priority'       => 9999,
 	) );

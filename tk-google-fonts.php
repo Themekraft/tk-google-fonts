@@ -4,7 +4,7 @@
  * Plugin Name: TK Google Fonts
  * Plugin URI:  http://themekraft.com/shop/product-category/themes/extentions/
  * Description: Google Fonts UI for WordPress Themes
- * Version: 1.2
+ * Version: 1.2.1
  * Author: Sven Lehnert
  * Author URI: http://themekraft.com/members/svenl77/
  * Licence: GPLv3
@@ -40,17 +40,13 @@ class TK_Google_Fonts {
 	/**
 	 * @var string
 	 */
-	public $version = '1.2';
+	public $version = '1.2.1';
 
 	/**
 	 * @var string
 	 */
 	public $tk_google_fonts_version_name = 'tk_google_fonts_license_options_version';
 
-	/**
-	 * @var string
-	 */
-	public $plugin_url;
 
 	public function __construct() {
 		
@@ -99,7 +95,7 @@ class TK_Google_Fonts {
 		$options = get_option( 'tk_google_fonts_license_options' );
 
 		$upgrade_url = $this->upgrade_url; // URL to access the Update API Manager.
-		$plugin_name = 'tk_google_fonts'; // same as plugin slug. if a theme use a theme name like 'twentyeleven'
+		$plugin_name = 'tk-google-fonts'; // same as plugin slug. if a theme use a theme name like 'twentyeleven'
 		$product_id = get_option( 'tk_google_fonts_product_id' ); // Software Title
 		$api_key = $options['api_key']; // API License Key
 		$activation_email = $options['activation_email']; // License Email
