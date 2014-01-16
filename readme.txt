@@ -2,7 +2,7 @@
 Contributors: svenl77, konradS
 Tags: google fonts, fonts, webfonts
 Requires at least: 3.5
-Tested up to: 3.6 beta 3
+Tested up to: 3.7.1
 Stable tag: 1.2.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html

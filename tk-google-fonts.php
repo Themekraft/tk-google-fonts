@@ -50,7 +50,7 @@ class TK_Google_Fonts {
 
 	public function __construct() {
 		
-		define('TK_GOOGLE_FONTS', '1.2' );
+		define('TK_GOOGLE_FONTS', '1.2.1' );
 		
 		// API License Key Registration Form
 		require_once( plugin_dir_path( __FILE__ ) . 'includes/helper-functions.php');
