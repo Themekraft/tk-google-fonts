@@ -98,10 +98,6 @@ Yes. TK Google Fonts will work with any theme, you can use the fonts via the Wor
 
 Checkout the related Google Page of the font to see how to write the CSS to call the font.
 
-= Where can I report bugs or contribute to the project? =
-
-Bugs can be reported either in our support forum or preferably on the [TK Google Fonts Repository @Bitbucket](https://bitbucket.com/themekraft/tk-google-fonts/issues/ "TK Google Fonts Repository @Bitbucket").
-
 == Screenshots ==
 
 1. The TK Google Fonts Admin Settings Panel - images/settings-panel.(png)
