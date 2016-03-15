@@ -3,7 +3,7 @@ Contributors: svenl77, konradS, themekraft
 Tags: google fonts, fonts, webfonts
 Requires at least: 3.5
 Tested up to: 4.4.2
-Stable tag: 1.2.1
+Stable tag: 1.3
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -57,6 +57,7 @@ All ThemeKraft Themes support TK Google Fonts 100% and every font will be immedi
 * MySQL version 5.0 or greater
 
 = Manual installation =
+You can download and install the plugin using the built in WordPress plugin installer.
 
 The manual installation method involves downloading the plugin and uploading it to your webserver via your favourite FTP application.
 
@@ -64,18 +65,11 @@ The manual installation method involves downloading the plugin and uploading it 
 2. Using an FTP program, or your hosting control panel, upload the unzipped plugin folder to your WordPress installation’s wp-content/plugins/ directory.
 3. Activate the plugin from the Plugins menu within the WordPress admin panel.
 
-= Updating =
-
-For now manually only. This is pretty easy though.
-Delete the old plugin. Install the new one.
-See the steps for manual installation above.
-
-Automatic updates are coming with version 1.0
 
 = Supported Themes =
 
 TK Google Fonts works with every WordPress theme.
-You need to apply the new fonts via the WOrdPress Customizer or your custom CSS.
+You need to apply the new fonts via the WordPress Customizer or your custom CSS.
 
 Themes with theme options can use TK Google Fonts for their font options.
 The following themes integrate TK Google Fonts in their theme options:
@@ -100,9 +94,13 @@ Checkout the related Google Page of the font to see how to write the CSS to call
 
 == Screenshots ==
 
-1. The TK Google Fonts Admin Settings Panel - images/settings-panel.(png)
+1. The TK Google Fonts Admin Settings Panel - Select a Font with preview
+2. The TK Google Fonts - Test your Font in live Preview
+3. The TK Google Fonts - Manage Fonts
+4. The TK Google Fonts - Turn on off Customizer Support
+5. The TK Google Fonts - Customizer options
 
 == Changelog ==
 
-= 1.0 - 12/08/2013 =
+= 1.3 =
 * Initial Release.
