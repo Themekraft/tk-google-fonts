@@ -26,8 +26,7 @@
  *
  * Have fun!
  *
-*/
-
+ */
 class TK_Google_Fonts {
 
 	/**
@@ -49,22 +48,25 @@ class TK_Google_Fonts {
 
 	public function __construct() {
 
-		define('TK_GOOGLE_FONTS', '1.2.1' );
+		define( 'TK_GOOGLE_FONTS', '1.2.1' );
 
-		require_once( plugin_dir_path( __FILE__ ) . 'includes/helper-functions.php');
-		require_once( plugin_dir_path( __FILE__ ) . 'includes/admin/customizer.php');
+		require_once( plugin_dir_path( __FILE__ ) . 'includes/helper-functions.php' );
+		require_once( plugin_dir_path( __FILE__ ) . 'includes/admin/customizer.php' );
 
 		if ( is_admin() ) {
 
 			// API License Key Registration Form
-			require_once( plugin_dir_path( __FILE__ ) . 'includes/admin/admin.php');
+			require_once( plugin_dir_path( __FILE__ ) . 'includes/admin/admin.php' );
 
 		}
 
 	}
 
 	public function plugin_url() {
-		if ( isset( $this->plugin_url ) ) return $this->plugin_url;
+		if ( isset( $this->plugin_url ) ) {
+			return $this->plugin_url;
+		}
+
 		return $this->plugin_url = get_template_directory_uri() . '/';
 	}
 
