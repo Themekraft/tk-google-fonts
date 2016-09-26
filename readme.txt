@@ -3,7 +3,7 @@ Contributors: svenl77, konradS, themekraft
 Tags: google fonts, fonts, webfonts
 Requires at least: 3.5
 Tested up to: 4.4.2
-Stable tag: 1.3
+Stable tag: 1.3.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -101,6 +101,9 @@ Checkout the related Google Page of the font to see how to write the CSS to call
 5. The TK Google Fonts - Customizer options
 
 == Changelog ==
+
+= 1.3.1 =
+Add https is_ssl support
 
 = 1.3 =
 * Initial Release.
