@@ -94,12 +94,12 @@ Checkout the related Google Page of the font to see how to write the CSS to call
 
 == Screenshots ==
 
-1. The TK Google Fonts Admin Settings Panel - Select a Font with preview
+1. The TK Google Fonts Animated GIF
 2. The TK Google Fonts - Test your Font in live Preview
 3. The TK Google Fonts - Manage Fonts
 4. The TK Google Fonts - Turn on off Customizer Support
 5. The TK Google Fonts - Customizer options
-
+6. The TK Google Fonts Admin Settings Panel - Select a Font with preview
 == Changelog ==
 
 = 1.3.1 =
