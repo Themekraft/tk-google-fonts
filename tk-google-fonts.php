@@ -5,8 +5,8 @@
  * Plugin URI:  http://themekraft.com/shop/product-category/themes/extentions/
  * Description: Google Fonts UI for WordPress Themes
  * Version: 1.3.1
- * Author: Sven Lehnert
- * Author URI: http://themekraft.com/members/svenl77/
+ * Author: ThemeKraft
+ * Author URI: http://themekraft.com/
  * Licence: GPLv3
  *
  */
