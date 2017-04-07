@@ -62,3 +62,48 @@ class TK_Google_Fonts {
 } // End of class
 
 $GLOBALS['TK_Google_Fonts'] = new TK_Google_Fonts();
+
+// Create a helper function for easy SDK access.
+function tk_gf_fs() {
+	global $tk_gf_fs;
+
+	if ( ! isset( $tk_gf_fs ) ) {
+		// Include Freemius SDK.
+		require_once dirname(__FILE__) . '/includes/resources/freemius/start.php';
+
+		$tk_gf_fs = fs_dynamic_init( array(
+			'id'                  => '426',
+			'slug'                => 'tk-google-fonts',
+			'type'                => 'plugin',
+			'public_key'          => 'pk_27b7a20f60176ff52e48568808a9e',
+			'is_premium'          => false,
+			'has_addons'          => false,
+			'has_paid_plans'      => false,
+			'menu'                => array(
+				'slug'           => 'tk-google-fonts-options',
+				'override_exact' => true,
+				'account'        => false,
+				'contact'        => false,
+				'support'        => false,
+				'parent'         => array(
+					'slug' => 'themes.php',
+				),
+			),
+		) );
+	}
+
+	return $tk_gf_fs;
+}
+
+// Init Freemius.
+tk_gf_fs();
+// Signal that SDK was initiated.
+do_action( 'tk_gf_fs_loaded' );
+
+function tk_gf_fs_settings_url() {
+	return admin_url( 'themes.php?page=tk-google-fonts-options' );
+}
+
+tk_gf_fs()->add_filter( 'connect_url', 'tk_gf_fs_settings_url' );
+tk_gf_fs()->add_filter( 'after_skip_url', 'tk_gf_fs_settings_url' );
+tk_gf_fs()->add_filter( 'after_connect_url', 'tk_gf_fs_settings_url' );
