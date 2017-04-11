@@ -48,6 +48,8 @@ Use TK Google Fonts in your theme or plugin settings page to let the user select
 
 All ThemeKraft Themes support TK Google Fonts 100% and every font will be immediately available in all font selectors of the theme options.
 
+[Add Google Fonts to WordPress Themes easily with the Google Fonts WordPress Plugin](https://themekraft.com/add-google-fonts-to-wordpress-themes-easily-with-the-new-google-fonts-wordpress-plugin/)
+
 == Installation ==
 
 = Minimum Requirements =
