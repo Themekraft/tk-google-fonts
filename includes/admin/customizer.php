@@ -89,6 +89,12 @@ function tk_google_fonts_customize_register( $wp_customize ) {
     'panel'             => 'tk_google_fonts_settings'
 	) );
 
+  $wp_customize->add_section( 'tk_blockquote', array(
+		'title'             => 'Blockquotes',
+		'priority'          => 60,
+    'panel'             => 'tk_google_fonts_settings'
+	) );
+
 
   $wp_customize->add_setting( 'headings_font', array(
 		'default'           => 'default',
@@ -141,17 +147,24 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 	) );
 
 	$wp_customize->add_control( 'headings_font_size', array(
-		'label'             => 'Headings Font Sizes',
+		'label'             => 'Headings Font Size',
 		'section'           => 'tk_headings',
-		'type'              => 'radio',
-		'priority'		      => 16,
-		'choices'           => array(
-			'auto'     => 'auto',
-			'small'    => 'small',
-      'medium'   => 'medium',
-      'large'    => 'large',
-      'xlarge'   => 'xlarge',
-		),
+    'type' => 'range',
+    // 'description' => __( 'This is the range control description.' ),
+    'input_attrs' => array(
+      'min' => 0,
+      'max' => 8,
+      'step' => 2,
+    ),
+    // 'type'              => 'radio',
+		// 'priority'		      => 16,
+		// 'choices'           => array(
+		// 	'auto'     => 'auto',
+		// 	'small'    => 'small',
+    //   'medium'   => 'medium',
+    //   'large'    => 'large',
+    //   'xlarge'   => 'xlarge',
+		// ),
 	) );
 
 
@@ -285,7 +298,7 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 
 	$wp_customize->add_control( 'blockquotes', array(
 		'label'             => 'Blockquotes',
-		'section'           => 'tk_body',
+		'section'           => 'tk_blockquote',
 		'type'              => 'select',
 		'priority'		      => 80,
 		'choices'           => $tk_google_font_array
@@ -299,23 +312,23 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 
 	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'blockquote_font_color', array(
 		'label'             => __( 'Blockquote Font Color', 'mytheme' ),
-		'section'           => 'tk_body',
+		'section'           => 'tk_blockquote',
 		'settings'          => 'blockquote_font_color',
     'priority'		      => 82,
 	) ) );
 
-  // $wp_customize->add_setting( 'blockquote_bg_color', array(
-  //   'sanitize_callback' => 'sanitize_hex_color',
-  //   'default'           => 'default',
-	// 	'transport'         => 'postMessage',
-	// ) );
-  //
-	// $wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'blockquote_bg_color', array(
-	// 	'label'             => __( 'Blockquote Background Color', 'mytheme' ),
-	// 	'section'           => 'tk_google_fonts_settings',
-	// 	'settings'          => 'blockquote_bg_color',
-  //   'priority'		      => 84,
-	// ) ) );
+  $wp_customize->add_setting( 'blockquote_bg_color', array(
+    'sanitize_callback' => 'sanitize_hex_color',
+    'default'           => 'default',
+		'transport'         => 'postMessage',
+	) );
+
+	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'blockquote_bg_color', array(
+		'label'             => __( 'Blockquote Background Color', 'mytheme' ),
+		'section'           => 'tk_blockquote',
+		'settings'          => 'blockquote_bg_color',
+    'priority'		      => 84,
+	) ) );
 
 
 }
