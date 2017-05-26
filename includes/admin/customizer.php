@@ -95,6 +95,18 @@ function tk_google_fonts_customize_register( $wp_customize ) {
     'panel'             => 'tk_google_fonts_settings'
 	) );
 
+  $wp_customize->add_section( 'tk_post_fonts', array(
+		'title'             => 'Posts',
+		'priority'          => 80,
+    'panel'             => 'tk_google_fonts_settings'
+	) );
+
+  $wp_customize->add_section( 'tk_page_fonts', array(
+    'title'             => 'Pages',
+    'priority'          => 100,
+    'panel'             => 'tk_google_fonts_settings'
+  ) );
+
 
   $wp_customize->add_setting( 'headings_font', array(
 		'default'           => 'default',
@@ -324,11 +336,65 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 	) );
 
 	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'blockquote_bg_color', array(
-		'label'             => __( 'Blockquote Background Color', 'mytheme' ),
+		'label'             => __( 'Blockquote Background Color', 'tk-google-fonts' ),
 		'section'           => 'tk_blockquote',
 		'settings'          => 'blockquote_bg_color',
     'priority'		      => 84,
 	) ) );
+
+
+  $wp_customize->add_setting( 'tk_post_title', array(
+		'default'           => 'default',
+		'transport'         => 'postMessage',
+	) );
+
+	$wp_customize->add_control( 'tk_post_title', array(
+		'label'             => 'Post Title Font Family',
+		'section'           => 'tk_post_fonts',
+		'type'              => 'select',
+		'priority'		      => 10,
+		'choices'           => $tk_google_font_array
+	) );
+
+  $wp_customize->add_setting( 'tk_post_title_color', array(
+    'sanitize_callback' => 'sanitize_hex_color',
+    'default'           => 'default',
+    'transport'         => 'postMessage',
+  ) );
+
+  $wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'tk_post_title_color', array(
+    'label'             => __( 'Post Title Color', 'tk-google-fonts' ),
+    'section'           => 'tk_post_fonts',
+    'settings'          => 'tk_post_title_color',
+    'priority'		      => 20,
+  ) ) );
+
+  $wp_customize->add_setting( 'tk_page_title', array(
+		'default'           => 'default',
+		'transport'         => 'postMessage',
+	) );
+
+	$wp_customize->add_control( 'tk_page_title', array(
+		'label'             => 'Page Title Font Family',
+		'section'           => 'tk_page_fonts',
+		'type'              => 'select',
+		'priority'		      => 10,
+		'choices'           => $tk_google_font_array
+	) );
+
+  $wp_customize->add_setting( 'tk_page_title_color', array(
+    'sanitize_callback' => 'sanitize_hex_color',
+    'default'           => 'default',
+    'transport'         => 'postMessage',
+  ) );
+
+  $wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'tk_page_title_color', array(
+    'label'             => __( 'Page Title Color', 'tk-google-fonts' ),
+    'section'           => 'tk_page_fonts',
+    'settings'          => 'tk_page_title_color',
+    'priority'		      => 20,
+  ) ) );
+
 
 
 }
