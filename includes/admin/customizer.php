@@ -69,9 +69,24 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 		}
 	}
 
-    $wp_customize->add_section( 'tk_google_fonts_settings', array(
-		'title'             => 'TK Google Fonts',
-		'priority'          => 9999,
+
+  $wp_customize->add_panel( 'tk_google_fonts_settings', array(
+    'priority'          => 9999,
+    'capability'        => 'edit_theme_options',
+    'theme_supports'    => '',
+    'title'             => 'TK Google Fonts',
+  ) );
+
+  $wp_customize->add_section( 'tk_headings', array(
+		'title'             => 'Headings',
+		'priority'          => 20,
+    'panel'             => 'tk_google_fonts_settings'
+	) );
+
+  $wp_customize->add_section( 'tk_body', array(
+		'title'             => 'Body Text',
+		'priority'          => 40,
+    'panel'             => 'tk_google_fonts_settings'
 	) );
 
 
@@ -83,7 +98,7 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 	$wp_customize->add_control( 'headings_font', array(
 		'label'             => 'Headings Font Family',
     // 'description'       => 'Choose the font family for your titles.',
-		'section'           => 'tk_google_fonts_settings',
+		'section'           => 'tk_headings',
 		'type'              => 'select',
 		'priority'		      => 10,
 		'choices'           => $tk_google_font_array
@@ -96,8 +111,8 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 	) );
 
 	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'headings_font_color', array(
-		'label'             => __( 'Headings Font Color', 'mytheme' ),
-		'section'           => 'tk_google_fonts_settings',
+		'label'             => 'Headings Font Color',
+		'section'           => 'tk_headings',
 		'settings'          => 'headings_font_color',
     'priority'		      => 12,
 	) ) );
@@ -109,15 +124,36 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 
 	$wp_customize->add_control( 'headings_font_weight', array(
 		'label'             => 'Headings Font Weight',
-    // 'description'       => 'Choose the font family for your titles.',
-		'section'           => 'tk_google_fonts_settings',
+		'section'           => 'tk_headings',
 		'type'              => 'radio',
 		'priority'		      => 14,
 		'choices'           => array(
+      'auto'     => 'auto',
 			'normal'   => 'normal',
 			'bold'     => 'bold',
 		),
 	) );
+
+
+  $wp_customize->add_setting( 'headings_font_size', array(
+		'default'           => 'default',
+		'transport'         => 'postMessage',
+	) );
+
+	$wp_customize->add_control( 'headings_font_size', array(
+		'label'             => 'Headings Font Sizes',
+		'section'           => 'tk_headings',
+		'type'              => 'radio',
+		'priority'		      => 16,
+		'choices'           => array(
+			'auto'     => 'auto',
+			'small'    => 'small',
+      'medium'   => 'medium',
+      'large'    => 'large',
+      'xlarge'   => 'xlarge',
+		),
+	) );
+
 
   // $wp_customize->add_setting( 'headings_font_style', array(
 	// 	'default'           => 'default',
@@ -126,15 +162,16 @@ function tk_google_fonts_customize_register( $wp_customize ) {
   //
 	// $wp_customize->add_control( 'headings_font_style', array(
 	// 	'label'             => 'Headings Font Style',
-  //   // 'description'       => 'Choose the font family for your titles.',
 	// 	'section'           => 'tk_google_fonts_settings',
 	// 	'type'              => 'radio',
 	// 	'priority'		      => 16,
 	// 	'choices'           => array(
+  //     'auto'     => 'auto',
 	// 		'normal'   => 'normal',
 	// 		'italic'   => 'italic',
 	// 	),
 	// ) );
+
 
 
 	// $wp_customize->add_setting( 'h1_font', array(
@@ -216,16 +253,16 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 	// ) );
 
  	$wp_customize->add_setting( 'body_text', array(
-		'default'        => 'default',
-		'transport'   => 'postMessage',
+		'default'           => 'default',
+		'transport'         => 'postMessage',
 	) );
 
 	$wp_customize->add_control( 'body_text', array(
-		'label'   => 'Body Font (text, paragraph)',
-		'section' => 'tk_google_fonts_settings',
-		'type'    => 'select',
-		'priority'		=> 70,
-		'choices'    => $tk_google_font_array
+		'label'             => 'Body Font (text, paragraph)',
+		'section'           => 'tk_body',
+		'type'              => 'select',
+		'priority'		      => 70,
+		'choices'           => $tk_google_font_array
 	) );
 
   $wp_customize->add_setting( 'body_font_color', array(
@@ -236,22 +273,22 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 
 	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'body_font_color', array(
 		'label'             => __( 'Body Font Color', 'mytheme' ),
-		'section'           => 'tk_google_fonts_settings',
+		'section'           => 'tk_body',
 		'settings'          => 'body_font_color',
     'priority'		      => 72,
 	) ) );
 
  	$wp_customize->add_setting( 'blockquotes', array(
-		'default'        => 'default',
-		'transport'   => 'postMessage',
+		'default'           => 'default',
+		'transport'         => 'postMessage',
 	) );
 
 	$wp_customize->add_control( 'blockquotes', array(
-		'label'   => 'Blockquotes',
-		'section' => 'tk_google_fonts_settings',
-		'type'    => 'select',
-		'priority'		=> 80,
-		'choices'    => $tk_google_font_array
+		'label'             => 'Blockquotes',
+		'section'           => 'tk_body',
+		'type'              => 'select',
+		'priority'		      => 80,
+		'choices'           => $tk_google_font_array
 	) );
 
   $wp_customize->add_setting( 'blockquote_font_color', array(
@@ -262,7 +299,7 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 
 	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'blockquote_font_color', array(
 		'label'             => __( 'Blockquote Font Color', 'mytheme' ),
-		'section'           => 'tk_google_fonts_settings',
+		'section'           => 'tk_body',
 		'settings'          => 'blockquote_font_color',
     'priority'		      => 82,
 	) ) );
