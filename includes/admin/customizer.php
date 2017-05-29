@@ -1263,13 +1263,33 @@ function tk_google_fonts_customize_css(){
 						} ';
 
 
-		if( get_theme_mod('body_text', '') )
-			echo 'body, p { font-family: '. get_theme_mod('body_text') . '; } ';
+		// Body Fonts
 
-		if( get_theme_mod('blockquotes', '') )
-			echo 'blockquote, blockquote p { font-family: '. get_theme_mod('blockquotes') . '; } ';
+		if( get_theme_mod('body_text', '') || get_theme_mod('body_font_color', '') ):
+			echo 'body, p { ';
+				if( get_theme_mod('body_text', '') )
+					echo 'font-family: '. get_theme_mod('body_text') . '; ';
+				if( get_theme_mod('body_font_color', '') )
+					echo 'color: '. get_theme_mod('body_font_color') . '; ';
+			echo '} ';
+		endif;
 
-	?></style>
+
+		// Blockquotes
+
+		if( get_theme_mod('blockquotes', '') || get_theme_mod('blockquote_font_color', '') || get_theme_mod('blockquote_bg_color', '') ):
+			echo 'blockquote, blockquote p { ';
+			if( get_theme_mod('blockquotes', '') )
+				echo 'font-family: '. get_theme_mod('blockquotes') . '; ';
+			if( get_theme_mod('blockquote_font_color', '') )
+				echo 'color: '. get_theme_mod('blockquote_font_color') . '; ';
+			if( get_theme_mod('blockquote_bg_color', '') )
+				echo 'background-color: '. get_theme_mod('blockquote_bg_color') . '; ';
+			echo '} ';
+		endif;
+
+	?>
+	</style>
 
 <?php
 
