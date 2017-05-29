@@ -1110,7 +1110,6 @@ function tk_google_fonts_customize_css(){
 						} ';
 
 
-
 		// H3
 
 		if( get_theme_mod('h3_font', '') || get_theme_mod('h3_font_color', '') || get_theme_mod('h3_font_weight', '') && get_theme_mod('h3_font_weight', '') != 'auto' ):
@@ -1147,18 +1146,122 @@ function tk_google_fonts_customize_css(){
 								font-size: '. get_theme_mod('h3_font_size_lg') . ';
 							}
 						} ';
-		}
+
+
+		// H4
+
+		if( get_theme_mod('h4_font', '') || get_theme_mod('h4_font_color', '') || get_theme_mod('h4_font_weight', '') && get_theme_mod('h4_font_weight', '') != 'auto' ):
+			echo 'h4 { ';
+				if( get_theme_mod('h4_font', '') )
+					echo 'font-family: '. get_theme_mod('h4_font') . '; ';
+				if( get_theme_mod('h4_font_color', '') )
+					echo 'color: '. get_theme_mod('h4_font_color') . '; ';
+				if( get_theme_mod('h4_font_weight', '') && get_theme_mod('h4_font_weight', '') != 'auto' )
+					echo 'font-weight: '. get_theme_mod('h4_font_weight') . '; ';
+			echo '} ';
+		endif;
+
+		if( get_theme_mod('h4_font_size_sm', '') )
+				echo '
+						@media (max-width: 767px) {
+							h4 {
+								font-size: '. get_theme_mod('h4_font_size_sm') . ';
+							}
+						} ';
+
+		if( get_theme_mod('h4_font_size_md', '') )
+				echo '
+						@media (min-width: 768px) and (max-width: 1199px) {
+							h4 {
+								font-size: '. get_theme_mod('h4_font_size_md') . ';
+							}
+						} ';
+
+		if( get_theme_mod('h4_font_size_lg', '') )
+				echo '
+						@media (min-width: 1200px) {
+							h4 {
+								font-size: '. get_theme_mod('h4_font_size_lg') . ';
+							}
+						} ';
 
 
 
-		if( get_theme_mod('h4_font', '') )
-			echo 'h4 { font-family: '. get_theme_mod('h4_font') . '; } ';
+		// H5
 
-		if( get_theme_mod('h5_font', '') )
-			echo 'h5 { font-family: '. get_theme_mod('h5_font') . '; } ';
+		if( get_theme_mod('h5_font', '') || get_theme_mod('h5_font_color', '') || get_theme_mod('h5_font_weight', '') && get_theme_mod('h5_font_weight', '') != 'auto' ):
+			echo 'h5 { ';
+				if( get_theme_mod('h5_font', '') )
+					echo 'font-family: '. get_theme_mod('h5_font') . '; ';
+				if( get_theme_mod('h5_font_color', '') )
+					echo 'color: '. get_theme_mod('h5_font_color') . '; ';
+				if( get_theme_mod('h5_font_weight', '') && get_theme_mod('h5_font_weight', '') != 'auto' )
+					echo 'font-weight: '. get_theme_mod('h5_font_weight') . '; ';
+			echo '} ';
+		endif;
 
-		if( get_theme_mod('h6_font', '') )
-			echo 'h6 { font-family: '. get_theme_mod('h6_font') . '; } ';
+		if( get_theme_mod('h5_font_size_sm', '') )
+				echo '
+						@media (max-width: 767px) {
+							h5 {
+								font-size: '. get_theme_mod('h5_font_size_sm') . ';
+							}
+						} ';
+
+		if( get_theme_mod('h5_font_size_md', '') )
+				echo '
+						@media (min-width: 768px) and (max-width: 1199px) {
+							h5 {
+								font-size: '. get_theme_mod('h5_font_size_md') . ';
+							}
+						} ';
+
+		if( get_theme_mod('h5_font_size_lg', '') )
+				echo '
+						@media (min-width: 1200px) {
+							h5 {
+								font-size: '. get_theme_mod('h5_font_size_lg') . ';
+							}
+						} ';
+
+
+		// H6
+
+		if( get_theme_mod('h6_font', '') || get_theme_mod('h6_font_color', '') || get_theme_mod('h6_font_weight', '') && get_theme_mod('h6_font_weight', '') != 'auto' ):
+			echo 'h6 { ';
+				if( get_theme_mod('h6_font', '') )
+					echo 'font-family: '. get_theme_mod('h6_font') . '; ';
+				if( get_theme_mod('h6_font_color', '') )
+					echo 'color: '. get_theme_mod('h6_font_color') . '; ';
+				if( get_theme_mod('h6_font_weight', '') && get_theme_mod('h6_font_weight', '') != 'auto' )
+					echo 'font-weight: '. get_theme_mod('h6_font_weight') . '; ';
+			echo '} ';
+		endif;
+
+		if( get_theme_mod('h6_font_size_sm', '') )
+				echo '
+						@media (max-width: 767px) {
+							h6 {
+								font-size: '. get_theme_mod('h6_font_size_sm') . ';
+							}
+						} ';
+
+		if( get_theme_mod('h6_font_size_md', '') )
+				echo '
+						@media (min-width: 768px) and (max-width: 1199px) {
+							h6 {
+								font-size: '. get_theme_mod('h6_font_size_md') . ';
+							}
+						} ';
+
+		if( get_theme_mod('h6_font_size_lg', '') )
+				echo '
+						@media (min-width: 1200px) {
+							h6 {
+								font-size: '. get_theme_mod('h6_font_size_lg') . ';
+							}
+						} ';
+
 
 		if( get_theme_mod('body_text', '') )
 			echo 'body, p { font-family: '. get_theme_mod('body_text') . '; } ';
