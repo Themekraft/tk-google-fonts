@@ -822,6 +822,7 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 
 	$wp_customize->add_control( 'body_text', array(
 		'label'             => 'Body Font (text, paragraph)',
+		'description'       => 'Add the Google Fonts you would like to use <a href="#">in your settings</a> first.',
 		'section'           => 'tk_body',
 		'type'              => 'select',
 		'priority'		      => 70,
@@ -892,6 +893,7 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 
 	$wp_customize->add_control( 'blockquotes', array(
 		'label'             => 'Blockquotes',
+		'description'       => 'Add the Google Fonts you would like to use <a href="#">in your settings</a> first.',
 		'section'           => 'tk_blockquote',
 		'type'              => 'select',
 		'priority'		      => 80,
@@ -1014,31 +1016,155 @@ function tk_google_fonts_customize_css(){
 	if(isset( $tk_google_fonts_options['customizer_disabled']))
 	 	return;
 
-	?><style type="text/css"><?php
+	?><style type="text/css">
+						<?php
 
-		if(  get_theme_mod('h1_font', '') != 'none' )
-			echo 'h1, h1 a, h1 a:hover { font-family:'. get_theme_mod('h1_font') . '; } ';
 
-		if(  get_theme_mod('h2_font', '') != 'none' )
-			echo 'h2, h2 a, h2 a:hover { font-family:'. get_theme_mod('h2_font') . '; } ';
+		// Headings
 
-		if(  get_theme_mod('h3_font', '') != 'none' )
-			echo 'h3, h3 a, h3 a:hover { font-family:'. get_theme_mod('h3_font') . '; } ';
+		if( get_theme_mod('headings_font', '') || get_theme_mod('headings_font_color', '') || get_theme_mod('headings_font_weight', '') && get_theme_mod('headings_font_weight', '') != 'auto' ):
+			echo 'h1, h2, h3, h4, h5, h6 { ';
+				if( get_theme_mod('headings_font', '') )
+					echo 'font-family: '. get_theme_mod('headings_font') . '; ';
+				if( get_theme_mod('headings_font_color', '') )
+					echo 'color: '. get_theme_mod('headings_font_color') . '; ';
+				if( get_theme_mod('headings_font_weight', '') && get_theme_mod('headings_font_weight', '') != 'auto' )
+					echo 'font-weight: '. get_theme_mod('headings_font_weight') . '; ';
+			echo '} ';
+		endif;
 
-		if(  get_theme_mod('h4_font', '') != 'none' )
-			echo 'h4, h4 a, h4 a:hover { font-family:'. get_theme_mod('h4_font') . '; } ';
 
-		if(  get_theme_mod('h5_font', '') != 'none' )
-			echo 'h5, h5 a, h5 a:hover { font-family:'. get_theme_mod('h5_font') . '; } ';
+		// H1
 
-		if(  get_theme_mod('h6_font', '') != 'none' )
-			echo 'h6, h6 a, h6 a:hover { font-family:'. get_theme_mod('h6_font') . '; } ';
+		if( get_theme_mod('h1_font', '') || get_theme_mod('h1_font_color', '') || get_theme_mod('h1_font_weight', '') && get_theme_mod('h1_font_weight', '') != 'auto' ):
+			echo 'h1 { ';
+				if( get_theme_mod('h1_font', '') )
+					echo 'font-family: '. get_theme_mod('h1_font') . '; ';
+				if( get_theme_mod('h1_font_color', '') )
+					echo 'color: '. get_theme_mod('h1_font_color') . '; ';
+				if( get_theme_mod('h1_font_weight', '') && get_theme_mod('h1_font_weight', '') != 'auto' )
+					echo 'font-weight: '. get_theme_mod('h1_font_weight') . '; ';
+			echo '} ';
+		endif;
 
-		if(  get_theme_mod('body_text', '') != 'none' )
-			echo 'body, p { font-family:'. get_theme_mod('body_text') . '; } ';
+		if( get_theme_mod('h1_font_size_sm', '') )
+				echo '
+						@media (max-width: 767px) {
+							h1 {
+								font-size: '. get_theme_mod('h1_font_size_sm') . ';
+							}
+						} ';
 
-		if(  get_theme_mod('blockquotes', '') != 'none' )
-			echo 'blockquote, blockquote p, blockquote p a { font-family:'. get_theme_mod('blockquotes') . '; }';
+		if( get_theme_mod('h1_font_size_md', '') )
+				echo '
+						@media (min-width: 768px) and (max-width: 1199px) {
+							h1 {
+								font-size: '. get_theme_mod('h1_font_size_md') . ';
+							}
+						} ';
+
+		if( get_theme_mod('h1_font_size_lg', '') )
+				echo '
+						@media (min-width: 1200px) {
+							h1 {
+								font-size: '. get_theme_mod('h1_font_size_lg') . ';
+							}
+						} ';
+
+
+		// H2
+
+		if( get_theme_mod('h2_font', '') || get_theme_mod('h2_font_color', '') || get_theme_mod('h2_font_weight', '') && get_theme_mod('h2_font_weight', '') != 'auto' ):
+			echo 'h2 { ';
+				if( get_theme_mod('h2_font', '') )
+					echo 'font-family: '. get_theme_mod('h2_font') . '; ';
+				if( get_theme_mod('h2_font_color', '') )
+					echo 'color: '. get_theme_mod('h2_font_color') . '; ';
+				if( get_theme_mod('h2_font_weight', '') && get_theme_mod('h2_font_weight', '') != 'auto' )
+					echo 'font-weight: '. get_theme_mod('h2_font_weight') . '; ';
+			echo '} ';
+		endif;
+
+		if( get_theme_mod('h2_font_size_sm', '') )
+				echo '
+						@media (max-width: 767px) {
+							h2 {
+								font-size: '. get_theme_mod('h2_font_size_sm') . ';
+							}
+						} ';
+
+		if( get_theme_mod('h2_font_size_md', '') )
+				echo '
+						@media (min-width: 768px) and (max-width: 1199px) {
+							h2 {
+								font-size: '. get_theme_mod('h2_font_size_md') . ';
+							}
+						} ';
+
+		if( get_theme_mod('h2_font_size_lg', '') )
+				echo '
+						@media (min-width: 1200px) {
+							h2 {
+								font-size: '. get_theme_mod('h2_font_size_lg') . ';
+							}
+						} ';
+
+
+
+		// H3
+
+		if( get_theme_mod('h3_font', '') || get_theme_mod('h3_font_color', '') || get_theme_mod('h3_font_weight', '') && get_theme_mod('h3_font_weight', '') != 'auto' ):
+			echo 'h3 { ';
+				if( get_theme_mod('h3_font', '') )
+					echo 'font-family: '. get_theme_mod('h3_font') . '; ';
+				if( get_theme_mod('h3_font_color', '') )
+					echo 'color: '. get_theme_mod('h3_font_color') . '; ';
+				if( get_theme_mod('h3_font_weight', '') && get_theme_mod('h3_font_weight', '') != 'auto' )
+					echo 'font-weight: '. get_theme_mod('h3_font_weight') . '; ';
+			echo '} ';
+		endif;
+
+		if( get_theme_mod('h3_font_size_sm', '') )
+				echo '
+						@media (max-width: 767px) {
+							h3 {
+								font-size: '. get_theme_mod('h3_font_size_sm') . ';
+							}
+						} ';
+
+		if( get_theme_mod('h3_font_size_md', '') )
+				echo '
+						@media (min-width: 768px) and (max-width: 1199px) {
+							h3 {
+								font-size: '. get_theme_mod('h3_font_size_md') . ';
+							}
+						} ';
+
+		if( get_theme_mod('h3_font_size_lg', '') )
+				echo '
+						@media (min-width: 1200px) {
+							h3 {
+								font-size: '. get_theme_mod('h3_font_size_lg') . ';
+							}
+						} ';
+		}
+
+
+
+		if( get_theme_mod('h4_font', '') )
+			echo 'h4 { font-family: '. get_theme_mod('h4_font') . '; } ';
+
+		if( get_theme_mod('h5_font', '') )
+			echo 'h5 { font-family: '. get_theme_mod('h5_font') . '; } ';
+
+		if( get_theme_mod('h6_font', '') )
+			echo 'h6 { font-family: '. get_theme_mod('h6_font') . '; } ';
+
+		if( get_theme_mod('body_text', '') )
+			echo 'body, p { font-family: '. get_theme_mod('body_text') . '; } ';
+
+		if( get_theme_mod('blockquotes', '') )
+			echo 'blockquote, blockquote p { font-family: '. get_theme_mod('blockquotes') . '; } ';
 
 	?></style>
 
