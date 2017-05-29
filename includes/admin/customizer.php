@@ -1306,11 +1306,11 @@ function tk_google_fonts_customize_css(){
 		if( get_theme_mod('headings_font', '') || get_theme_mod('headings_font_color', '') || get_theme_mod('headings_font_weight', '') && get_theme_mod('headings_font_weight', '') != 'auto' ):
 			echo 'h1, h2, h3, h4, h5, h6 { ';
 				if( get_theme_mod('headings_font', '') )
-					echo 'font-family: '. get_theme_mod('headings_font') . '; ';
+					echo 'font-family: '. get_theme_mod('headings_font') . ' !important; ';
 				if( get_theme_mod('headings_font_color', '') )
-					echo 'color: '. get_theme_mod('headings_font_color') . '; ';
+					echo 'color: '. get_theme_mod('headings_font_color') . ' !important; ';
 				if( get_theme_mod('headings_font_weight', '') && get_theme_mod('headings_font_weight', '') != 'auto' )
-					echo 'font-weight: '. get_theme_mod('headings_font_weight') . '; ';
+					echo 'font-weight: '. get_theme_mod('headings_font_weight') . ' !important; ';
 			echo '} ';
 		endif;
 
@@ -1318,37 +1318,37 @@ function tk_google_fonts_customize_css(){
 		// Site Title
 
 		if( get_theme_mod('site_title_font', '') || get_theme_mod('site_title_font_color', '') || get_theme_mod('site_title_font_weight', '') && get_theme_mod('site_title_font_weight', '') != 'auto' ):
-			echo '.site-title { ';
+			echo ' .site-title,  .site-title a, .site-branding .site-title, .site-branding .site-title a { ';
 				if( get_theme_mod('site_title_font', '') )
-					echo 'font-family: '. get_theme_mod('site_title_font') . '; ';
+					echo 'font-family: '. get_theme_mod('site_title_font') . ' !important; ';
 				if( get_theme_mod('site_title_font_color', '') )
-					echo 'color: '. get_theme_mod('site_title_font_color') . '; ';
+					echo 'color: '. get_theme_mod('site_title_font_color') . ' !important; ';
 				if( get_theme_mod('site_title_font_weight', '') && get_theme_mod('site_title_font_weight', '') != 'auto' )
-					echo 'font-weight: '. get_theme_mod('site_title_font_weight') . '; ';
+					echo 'font-weight: '. get_theme_mod('site_title_font_weight') . ' !important; ';
 			echo '} ';
 		endif;
 
 		if( get_theme_mod('site_title_font_size_sm', '') )
 				echo '
 						@media (max-width: 767px) {
-							.site-title {
-								font-size: '. get_theme_mod('site_title_font_size_sm') . ';
+							.site-title,  .site-title a, .site-branding .site-title, .site-branding .site-title a {
+								font-size: '. get_theme_mod('site_title_font_size_sm') . ' !important;
 							}
 						} ';
 
 		if( get_theme_mod('site_title_font_size_md', '') )
 				echo '
 						@media (min-width: 768px) and (max-width: 1199px) {
-							.site-title {
-								font-size: '. get_theme_mod('site_title_font_size_md') . ';
+							.site-title,  .site-title a, .site-branding .site-title, .site-branding .site-title a {
+								font-size: '. get_theme_mod('site_title_font_size_md') . ' !important;
 							}
 						} ';
 
 		if( get_theme_mod('site_title_font_size_lg', '') )
 				echo '
 						@media (min-width: 1200px) {
-							.site-title {
-								font-size: '. get_theme_mod('site_title_font_size_lg') . ';
+							.site-title,  .site-title a, .site-branding .site-title, .site-branding .site-title a {
+								font-size: '. get_theme_mod('site_title_font_size_lg') . ' !important;
 							}
 						} ';
 
@@ -1356,37 +1356,37 @@ function tk_google_fonts_customize_css(){
 		// Post Title
 
 		if( get_theme_mod('post_title_font', '') || get_theme_mod('post_title_font_color', '') || get_theme_mod('post_title_font_weight', '') && get_theme_mod('post_title_font_weight', '') != 'auto' ):
-			echo '.post-title { ';
+			echo '.post-title, .post .entry-title, .post .panel-content .entry-title { ';
 				if( get_theme_mod('post_title_font', '') )
-					echo 'font-family: '. get_theme_mod('post_title_font') . '; ';
+					echo 'font-family: '. get_theme_mod('post_title_font') . ' !important; ';
 				if( get_theme_mod('post_title_font_color', '') )
-					echo 'color: '. get_theme_mod('post_title_font_color') . '; ';
+					echo 'color: '. get_theme_mod('post_title_font_color') . ' !important; ';
 				if( get_theme_mod('post_title_font_weight', '') && get_theme_mod('post_title_font_weight', '') != 'auto' )
-					echo 'font-weight: '. get_theme_mod('post_title_font_weight') . '; ';
+					echo 'font-weight: '. get_theme_mod('post_title_font_weight') . ' !important; ';
 			echo '} ';
 		endif;
 
 		if( get_theme_mod('post_title_font_size_sm', '') )
 				echo '
 						@media (max-width: 767px) {
-							.post-title {
-								font-size: '. get_theme_mod('post_title_font_size_sm') . ';
+							.post-title, .post .entry-title, .post .panel-content .entry-title {
+								font-size: '. get_theme_mod('post_title_font_size_sm') . ' !important;
 							}
 						} ';
 
 		if( get_theme_mod('post_title_font_size_md', '') )
 				echo '
 						@media (min-width: 768px) and (max-width: 1199px) {
-							.post-title {
-								font-size: '. get_theme_mod('post_title_font_size_md') . ';
+							.post-title, .post .entry-title, .post .panel-content .entry-title {
+								font-size: '. get_theme_mod('post_title_font_size_md') . ' !important;
 							}
 						} ';
 
 		if( get_theme_mod('post_title_font_size_lg', '') )
 				echo '
 						@media (min-width: 1200px) {
-							.post-title {
-								font-size: '. get_theme_mod('post_title_font_size_lg') . ';
+							.post-title, .post .entry-title, .post .panel-content .entry-title {
+								font-size: '. get_theme_mod('post_title_font_size_lg') . ' !important;
 							}
 						} ';
 
@@ -1395,37 +1395,37 @@ function tk_google_fonts_customize_css(){
 		// Page Title
 
 		if( get_theme_mod('page_title_font', '') || get_theme_mod('page_title_font_color', '') || get_theme_mod('page_title_font_weight', '') && get_theme_mod('page_title_font_weight', '') != 'auto' ):
-			echo '.page-title { ';
+			echo '.page-title, .page .entry-title, .page .panel-content .entry-title { ';
 				if( get_theme_mod('page_title_font', '') )
-					echo 'font-family: '. get_theme_mod('page_title_font') . '; ';
+					echo 'font-family: '. get_theme_mod('page_title_font') . ' !important; ';
 				if( get_theme_mod('page_title_font_color', '') )
-					echo 'color: '. get_theme_mod('page_title_font_color') . '; ';
+					echo 'color: '. get_theme_mod('page_title_font_color') . ' !important; ';
 				if( get_theme_mod('page_title_font_weight', '') && get_theme_mod('page_title_font_weight', '') != 'auto' )
-					echo 'font-weight: '. get_theme_mod('page_title_font_weight') . '; ';
+					echo 'font-weight: '. get_theme_mod('page_title_font_weight') . ' !important; ';
 			echo '} ';
 		endif;
 
 		if( get_theme_mod('page_title_font_size_sm', '') )
 				echo '
 						@media (max-width: 767px) {
-							.page-title {
-								font-size: '. get_theme_mod('page_title_font_size_sm') . ';
+							.page-title, .page .entry-title, .page .panel-content .entry-title {
+								font-size: '. get_theme_mod('page_title_font_size_sm') . ' !important;
 							}
 						} ';
 
 		if( get_theme_mod('page_title_font_size_md', '') )
 				echo '
 						@media (min-width: 768px) and (max-width: 1199px) {
-							.page-title {
-								font-size: '. get_theme_mod('page_title_font_size_md') . ';
+							.page-title, .page .entry-title, .page .panel-content .entry-title {
+								font-size: '. get_theme_mod('page_title_font_size_md') . ' !important;
 							}
 						} ';
 
 		if( get_theme_mod('page_title_font_size_lg', '') )
 				echo '
 						@media (min-width: 1200px) {
-							.page-title {
-								font-size: '. get_theme_mod('page_title_font_size_lg') . ';
+							.page-title, .page .entry-title, .page .panel-content .entry-title {
+								font-size: '. get_theme_mod('page_title_font_size_lg') . ' !important;
 							}
 						} ';
 
