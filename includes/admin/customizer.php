@@ -77,6 +77,24 @@ function tk_google_fonts_customize_register( $wp_customize ) {
     'title'             => 'TK Google Fonts',
   ) );
 
+	$wp_customize->add_section( 'tk_site_title', array(
+		'title'             => 'Site Title',
+		'priority'          => 10,
+    'panel'             => 'tk_google_fonts_settings'
+	) );
+
+	$wp_customize->add_section( 'tk_post_title', array(
+		'title'             => 'Post Title',
+		'priority'          => 11,
+    'panel'             => 'tk_google_fonts_settings'
+	) );
+
+	$wp_customize->add_section( 'tk_page_title', array(
+		'title'             => 'Page Title',
+		'priority'          => 12,
+    'panel'             => 'tk_google_fonts_settings'
+	) );
+
   $wp_customize->add_section( 'tk_headings', array(
 		'title'             => 'Headings - General',
 		'priority'          => 20,
@@ -142,6 +160,269 @@ function tk_google_fonts_customize_register( $wp_customize ) {
     'priority'          => 100,
     'panel'             => 'tk_google_fonts_settings'
   ) );
+
+
+
+
+	// Site Title
+
+  $wp_customize->add_setting( 'site_title_font', array(
+		'default'           => 'default',
+		'transport'         => 'postMessage',
+	) );
+
+	$wp_customize->add_control( 'site_title_font', array(
+		'label'             => 'Site Title Font Family',
+    'description'       => 'Add the Google Fonts you would like to use <a href="#">in your settings</a> first.',
+		'section'           => 'tk_site_title',
+		'type'              => 'select',
+		'priority'		      => 10,
+		'choices'           => $tk_google_font_array
+	) );
+
+  $wp_customize->add_setting( 'site_title_font_color', array(
+    'sanitize_callback' => 'sanitize_hex_color',
+    'default'           => 'default',
+		'transport'         => 'postMessage',
+	) );
+
+	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'site_title_font_color', array(
+		'label'             => 'Site Title Font Color',
+		'section'           => 'tk_site_title',
+		'settings'          => 'site_title_font_color',
+    'priority'		      => 12,
+	) ) );
+
+  $wp_customize->add_setting( 'site_title_font_weight', array(
+		'default'           => 'default',
+		'transport'         => 'postMessage',
+	) );
+
+	$wp_customize->add_control( 'site_title_font_weight', array(
+		'label'             => 'Site Title Font Weight',
+		'description'       => 'Auto = fallback to your current theme\'s CSS.',
+		'section'           => 'tk_site_title',
+		'type'              => 'radio',
+		'priority'		      => 14,
+		'choices'           => array(
+      'auto'     => 'auto',
+			'normal'   => 'normal',
+			'bold'     => 'bold',
+		),
+	) );
+
+  $wp_customize->add_setting( 'site_title_font_size_sm', array(
+		'default'           => 'default',
+		'transport'         => 'postMessage',
+	) );
+
+	$wp_customize->add_control( 'site_title_font_size_sm', array(
+		'label'             => 'Site Title Font Size - Mobile',
+		'description'       => 'on screens smaller than 768px. Write including unit, for example "14px" or "2em"',
+		'section'           => 'tk_site_title',
+		'type'              => 'text',
+		'priority'		      => 16,
+	) );
+
+	$wp_customize->add_setting( 'site_title_font_size_md', array(
+		'default'           => 'default',
+		'transport'         => 'postMessage',
+	) );
+
+	$wp_customize->add_control( 'site_title_font_size_md', array(
+		'label'             => 'Site Title Font Size - Pad Devices',
+		'description'       => 'on screens from 768px to 1199px. Write including unit, for example "14px" or "2em"',
+		'section'           => 'tk_site_title',
+		'type'              => 'text',
+		'priority'		      => 17,
+	) );
+
+	$wp_customize->add_setting( 'site_title_font_size_lg', array(
+		'default'           => 'default',
+		'transport'         => 'postMessage',
+	) );
+
+	$wp_customize->add_control( 'site_title_font_size_lg', array(
+		'label'             => 'Site Title Font Size - Large Screens',
+		'description'       => 'on screens from 1200px. Write including unit, for example "14px" or "2em"',
+		'section'           => 'tk_site_title',
+		'type'              => 'text',
+		'priority'		      => 18,
+	) );
+
+
+	// Post Title
+
+  $wp_customize->add_setting( 'post_title_font', array(
+		'default'           => 'default',
+		'transport'         => 'postMessage',
+	) );
+
+	$wp_customize->add_control( 'post_title_font', array(
+		'label'             => 'Post Title Font Family',
+    'description'       => 'Add the Google Fonts you would like to use <a href="#">in your settings</a> first.',
+		'section'           => 'tk_post_title',
+		'type'              => 'select',
+		'priority'		      => 10,
+		'choices'           => $tk_google_font_array
+	) );
+
+  $wp_customize->add_setting( 'post_title_font_color', array(
+    'sanitize_callback' => 'sanitize_hex_color',
+    'default'           => 'default',
+		'transport'         => 'postMessage',
+	) );
+
+	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'post_title_font_color', array(
+		'label'             => 'Post Title Font Color',
+		'section'           => 'tk_post_title',
+		'settings'          => 'post_title_font_color',
+    'priority'		      => 12,
+	) ) );
+
+  $wp_customize->add_setting( 'post_title_font_weight', array(
+		'default'           => 'default',
+		'transport'         => 'postMessage',
+	) );
+
+	$wp_customize->add_control( 'post_title_font_weight', array(
+		'label'             => 'Post Title Font Weight',
+		'description'       => 'Auto = fallback to your current theme\'s CSS.',
+		'section'           => 'tk_post_title',
+		'type'              => 'radio',
+		'priority'		      => 14,
+		'choices'           => array(
+      'auto'     => 'auto',
+			'normal'   => 'normal',
+			'bold'     => 'bold',
+		),
+	) );
+
+  $wp_customize->add_setting( 'post_title_font_size_sm', array(
+		'default'           => 'default',
+		'transport'         => 'postMessage',
+	) );
+
+	$wp_customize->add_control( 'post_title_font_size_sm', array(
+		'label'             => 'Post Title Font Size - Mobile',
+		'description'       => 'on screens smaller than 768px. Write including unit, for example "14px" or "2em"',
+		'section'           => 'tk_post_title',
+		'type'              => 'text',
+		'priority'		      => 16,
+	) );
+
+	$wp_customize->add_setting( 'post_title_font_size_md', array(
+		'default'           => 'default',
+		'transport'         => 'postMessage',
+	) );
+
+	$wp_customize->add_control( 'post_title_font_size_md', array(
+		'label'             => 'Post Title Font Size - Pad Devices',
+		'description'       => 'on screens from 768px to 1199px. Write including unit, for example "14px" or "2em"',
+		'section'           => 'tk_post_title',
+		'type'              => 'text',
+		'priority'		      => 17,
+	) );
+
+	$wp_customize->add_setting( 'post_title_font_size_lg', array(
+		'default'           => 'default',
+		'transport'         => 'postMessage',
+	) );
+
+	$wp_customize->add_control( 'post_title_font_size_lg', array(
+		'label'             => 'Post Title Font Size - Large Screens',
+		'description'       => 'on screens from 1200px. Write including unit, for example "14px" or "2em"',
+		'section'           => 'tk_post_title',
+		'type'              => 'text',
+		'priority'		      => 18,
+	) );
+
+
+	// Page Title
+
+  $wp_customize->add_setting( 'page_title_font', array(
+		'default'           => 'default',
+		'transport'         => 'postMessage',
+	) );
+
+	$wp_customize->add_control( 'page_title_font', array(
+		'label'             => 'Page Title Font Family',
+    'description'       => 'Add the Google Fonts you would like to use <a href="#">in your settings</a> first.',
+		'section'           => 'tk_page_title',
+		'type'              => 'select',
+		'priority'		      => 10,
+		'choices'           => $tk_google_font_array
+	) );
+
+  $wp_customize->add_setting( 'page_title_font_color', array(
+    'sanitize_callback' => 'sanitize_hex_color',
+    'default'           => 'default',
+		'transport'         => 'postMessage',
+	) );
+
+	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'page_title_font_color', array(
+		'label'             => 'Page Title Font Color',
+		'section'           => 'tk_page_title',
+		'settings'          => 'page_title_font_color',
+    'priority'		      => 12,
+	) ) );
+
+  $wp_customize->add_setting( 'page_title_font_weight', array(
+		'default'           => 'default',
+		'transport'         => 'postMessage',
+	) );
+
+	$wp_customize->add_control( 'page_title_font_weight', array(
+		'label'             => 'Page Title Font Weight',
+		'description'       => 'Auto = fallback to your current theme\'s CSS.',
+		'section'           => 'tk_page_title',
+		'type'              => 'radio',
+		'priority'		      => 14,
+		'choices'           => array(
+      'auto'     => 'auto',
+			'normal'   => 'normal',
+			'bold'     => 'bold',
+		),
+	) );
+
+  $wp_customize->add_setting( 'page_title_font_size_sm', array(
+		'default'           => 'default',
+		'transport'         => 'postMessage',
+	) );
+
+	$wp_customize->add_control( 'page_title_font_size_sm', array(
+		'label'             => 'Page Title Font Size - Mobile',
+		'description'       => 'on screens smaller than 768px. Write including unit, for example "14px" or "2em"',
+		'section'           => 'tk_page_title',
+		'type'              => 'text',
+		'priority'		      => 16,
+	) );
+
+	$wp_customize->add_setting( 'page_title_font_size_md', array(
+		'default'           => 'default',
+		'transport'         => 'postMessage',
+	) );
+
+	$wp_customize->add_control( 'page_title_font_size_md', array(
+		'label'             => 'Page Title Font Size - Pad Devices',
+		'description'       => 'on screens from 768px to 1199px. Write including unit, for example "14px" or "2em"',
+		'section'           => 'tk_page_title',
+		'type'              => 'text',
+		'priority'		      => 17,
+	) );
+
+	$wp_customize->add_setting( 'page_title_font_size_lg', array(
+		'default'           => 'default',
+		'transport'         => 'postMessage',
+	) );
+
+	$wp_customize->add_control( 'page_title_font_size_lg', array(
+		'label'             => 'Page Title Font Size - Large Screens',
+		'description'       => 'on screens from 1200px. Write including unit, for example "14px" or "2em"',
+		'section'           => 'tk_page_title',
+		'type'              => 'text',
+		'priority'		      => 18,
+	) );
 
 
 	// Headings
@@ -1032,6 +1313,122 @@ function tk_google_fonts_customize_css(){
 					echo 'font-weight: '. get_theme_mod('headings_font_weight') . '; ';
 			echo '} ';
 		endif;
+
+
+		// Site Title
+
+		if( get_theme_mod('site_title_font', '') || get_theme_mod('site_title_font_color', '') || get_theme_mod('site_title_font_weight', '') && get_theme_mod('site_title_font_weight', '') != 'auto' ):
+			echo '.site-title { ';
+				if( get_theme_mod('site_title_font', '') )
+					echo 'font-family: '. get_theme_mod('site_title_font') . '; ';
+				if( get_theme_mod('site_title_font_color', '') )
+					echo 'color: '. get_theme_mod('site_title_font_color') . '; ';
+				if( get_theme_mod('site_title_font_weight', '') && get_theme_mod('site_title_font_weight', '') != 'auto' )
+					echo 'font-weight: '. get_theme_mod('site_title_font_weight') . '; ';
+			echo '} ';
+		endif;
+
+		if( get_theme_mod('site_title_font_size_sm', '') )
+				echo '
+						@media (max-width: 767px) {
+							.site-title {
+								font-size: '. get_theme_mod('site_title_font_size_sm') . ';
+							}
+						} ';
+
+		if( get_theme_mod('site_title_font_size_md', '') )
+				echo '
+						@media (min-width: 768px) and (max-width: 1199px) {
+							.site-title {
+								font-size: '. get_theme_mod('site_title_font_size_md') . ';
+							}
+						} ';
+
+		if( get_theme_mod('site_title_font_size_lg', '') )
+				echo '
+						@media (min-width: 1200px) {
+							.site-title {
+								font-size: '. get_theme_mod('site_title_font_size_lg') . ';
+							}
+						} ';
+
+
+		// Post Title
+
+		if( get_theme_mod('post_title_font', '') || get_theme_mod('post_title_font_color', '') || get_theme_mod('post_title_font_weight', '') && get_theme_mod('post_title_font_weight', '') != 'auto' ):
+			echo '.post-title { ';
+				if( get_theme_mod('post_title_font', '') )
+					echo 'font-family: '. get_theme_mod('post_title_font') . '; ';
+				if( get_theme_mod('post_title_font_color', '') )
+					echo 'color: '. get_theme_mod('post_title_font_color') . '; ';
+				if( get_theme_mod('post_title_font_weight', '') && get_theme_mod('post_title_font_weight', '') != 'auto' )
+					echo 'font-weight: '. get_theme_mod('post_title_font_weight') . '; ';
+			echo '} ';
+		endif;
+
+		if( get_theme_mod('post_title_font_size_sm', '') )
+				echo '
+						@media (max-width: 767px) {
+							.post-title {
+								font-size: '. get_theme_mod('post_title_font_size_sm') . ';
+							}
+						} ';
+
+		if( get_theme_mod('post_title_font_size_md', '') )
+				echo '
+						@media (min-width: 768px) and (max-width: 1199px) {
+							.post-title {
+								font-size: '. get_theme_mod('post_title_font_size_md') . ';
+							}
+						} ';
+
+		if( get_theme_mod('post_title_font_size_lg', '') )
+				echo '
+						@media (min-width: 1200px) {
+							.post-title {
+								font-size: '. get_theme_mod('post_title_font_size_lg') . ';
+							}
+						} ';
+
+
+
+		// Page Title
+
+		if( get_theme_mod('page_title_font', '') || get_theme_mod('page_title_font_color', '') || get_theme_mod('page_title_font_weight', '') && get_theme_mod('page_title_font_weight', '') != 'auto' ):
+			echo '.page-title { ';
+				if( get_theme_mod('page_title_font', '') )
+					echo 'font-family: '. get_theme_mod('page_title_font') . '; ';
+				if( get_theme_mod('page_title_font_color', '') )
+					echo 'color: '. get_theme_mod('page_title_font_color') . '; ';
+				if( get_theme_mod('page_title_font_weight', '') && get_theme_mod('page_title_font_weight', '') != 'auto' )
+					echo 'font-weight: '. get_theme_mod('page_title_font_weight') . '; ';
+			echo '} ';
+		endif;
+
+		if( get_theme_mod('page_title_font_size_sm', '') )
+				echo '
+						@media (max-width: 767px) {
+							.page-title {
+								font-size: '. get_theme_mod('page_title_font_size_sm') . ';
+							}
+						} ';
+
+		if( get_theme_mod('page_title_font_size_md', '') )
+				echo '
+						@media (min-width: 768px) and (max-width: 1199px) {
+							.page-title {
+								font-size: '. get_theme_mod('page_title_font_size_md') . ';
+							}
+						} ';
+
+		if( get_theme_mod('page_title_font_size_lg', '') )
+				echo '
+						@media (min-width: 1200px) {
+							.page-title {
+								font-size: '. get_theme_mod('page_title_font_size_lg') . ';
+							}
+						} ';
+
 
 
 		// H1
