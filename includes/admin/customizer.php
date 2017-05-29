@@ -1274,6 +1274,31 @@ function tk_google_fonts_customize_css(){
 			echo '} ';
 		endif;
 
+		if( get_theme_mod('body_font_size_sm', '') )
+				echo '
+						@media (max-width: 767px) {
+							body, p {
+								font-size: '. get_theme_mod('body_font_size_sm') . ';
+							}
+						} ';
+
+		if( get_theme_mod('body_font_size_md', '') )
+				echo '
+						@media (min-width: 768px) and (max-width: 1199px) {
+							body, p {
+								font-size: '. get_theme_mod('body_font_size_md') . ';
+							}
+						} ';
+
+		if( get_theme_mod('body_font_size_lg', '') )
+				echo '
+						@media (min-width: 1200px) {
+							body, p {
+								font-size: '. get_theme_mod('body_font_size_lg') . ';
+							}
+						} ';
+
+
 
 		// Blockquotes
 
