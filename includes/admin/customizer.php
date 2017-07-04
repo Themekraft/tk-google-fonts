@@ -102,7 +102,7 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 	) );
 
   $wp_customize->add_section( 'tk_headings', array(
-		'title'             => 'Headings - General',
+		'title'             => 'All Headings (H1-H6)',
 		'priority'          => 20,
     'panel'             => 'tk_google_fonts_settings'
 	) );
@@ -179,7 +179,7 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 
 	$wp_customize->add_control( 'site_title_font', array(
 		'label'             => 'Site Title Font Family',
-    'description'       => 'Add the Google Fonts you would like to use <a href="#">in your settings</a> first.',
+    'description'       => 'This is the setting for your SITE TITLE, the name of your site, which only occurs once up the top usually. Add the Google Fonts you would like to use <a href="#">in your settings</a> first.',
 		'section'           => 'tk_site_title',
 		'type'              => 'select',
 		'priority'		      => 10,
@@ -260,21 +260,24 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 
 	}
 
-
-
 	if( ! $tk_google_pro ){
-        $wp_customize->add_setting( 'title_pro_options', array(
-            'default'           => array('test1', 'test2', 'test3'),
+        $wp_customize->add_setting( 'site_title_pro_options', array(
+            'default'           => array('Site Title Font Color', 'Site Title Font Weight', 'Site Title Font Size - Mobile', 'Site Title Font Size - Pad Devices', 'Site Title Font Size - Large Screens'),
             'transport'         => 'refresh',
         ) );
 
-        $wp_customize->add_control( new WP_Customize_TK_Google_GO_PRO_Control( $wp_customize, 'title_pro_options', array(
-            'label'             => 'Laver alter',
+        $wp_customize->add_control( new WP_Customize_TK_Google_GO_PRO_Control( $wp_customize, 'site_title_pro_options', array(
+            'label'             => 'More Site Title Options',
             'section'           => 'tk_site_title',
-            'settings'          => 'title_pro_options',
-            'priority'		      => 12,
+            'settings'          => 'site_title_pro_options',
+            'priority'		      => 120,
         ) ) );
 	}
+
+
+
+
+
 	// Post Title
 
   $wp_customize->add_setting( 'post_title_font', array(
@@ -284,12 +287,14 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 
 	$wp_customize->add_control( 'post_title_font', array(
 		'label'             => 'Post Title Font Family',
-    'description'       => 'Add the Google Fonts you would like to use <a href="#">in your settings</a> first.',
+    'description'       => 'This is the setting for your POST TITLE. Add the Google Fonts you would like to use <a href="#">in your settings</a> first.',
 		'section'           => 'tk_post_title',
 		'type'              => 'select',
 		'priority'		      => 10,
 		'choices'           => $tk_google_font_array
 	) );
+
+	if ( tk_gf_fs()->is_plan__premium_only('professional') ) {
 
   $wp_customize->add_setting( 'post_title_font_color', array(
     'sanitize_callback' => 'sanitize_hex_color',
@@ -361,6 +366,27 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 		'priority'		      => 18,
 	) );
 
+	}
+
+	if( ! $tk_google_pro ){
+				$wp_customize->add_setting( 'post_title_pro_options', array(
+						'default'           => array('Post Title Font Color', 'Post Title Font Weight', 'Post Title Font Size - Mobile', 'Post Title Font Size - Pad Devices', 'Post Title Font Size - Large Screens'),
+						'transport'         => 'refresh',
+				) );
+
+				$wp_customize->add_control( new WP_Customize_TK_Google_GO_PRO_Control( $wp_customize, 'post_title_pro_options', array(
+						'label'             => 'Get More Post Title Options:',
+						'section'           => 'tk_post_title',
+						'settings'          => 'post_title_pro_options',
+						'priority'		      => 120,
+				) ) );
+	}
+
+
+
+
+
+
 
 	// Page Title
 
@@ -371,12 +397,14 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 
 	$wp_customize->add_control( 'page_title_font', array(
 		'label'             => 'Page Title Font Family',
-    'description'       => 'Add the Google Fonts you would like to use <a href="#">in your settings</a> first.',
+    'description'       => 'This is the setting for your PAGE TITLE. Add the Google Fonts you would like to use <a href="#">in your settings</a> first.',
 		'section'           => 'tk_page_title',
 		'type'              => 'select',
 		'priority'		      => 10,
 		'choices'           => $tk_google_font_array
 	) );
+
+	if ( tk_gf_fs()->is_plan__premium_only('professional') ) {
 
   $wp_customize->add_setting( 'page_title_font_color', array(
     'sanitize_callback' => 'sanitize_hex_color',
@@ -448,6 +476,24 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 		'priority'		      => 18,
 	) );
 
+	}
+
+	if( ! $tk_google_pro ){
+				$wp_customize->add_setting( 'page_title_pro_options', array(
+						'default'           => array('Page Title Font Color', 'Page Title Font Weight', 'Page Title Font Size - Mobile', 'Page Title Font Size - Pad Devices', 'Page Title Font Size - Large Screens'),
+						'transport'         => 'refresh',
+				) );
+
+				$wp_customize->add_control( new WP_Customize_TK_Google_GO_PRO_Control( $wp_customize, 'page_title_pro_options', array(
+						'label'             => 'Get More Page Title Options:',
+						'section'           => 'tk_page_title',
+						'settings'          => 'page_title_pro_options',
+						'priority'		      => 120,
+				) ) );
+	}
+
+
+
 
 	// Headings
 
@@ -458,12 +504,14 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 
 	$wp_customize->add_control( 'headings_font', array(
 		'label'             => 'Headings Font Family',
-		'description'       => 'Add the Google Fonts you would like to use <a href="#">in your settings</a> first.',
+		'description'       => 'These are the settings for ALL your headings (H1-H6). Add the Google Fonts you would like to use <a href="#">in your settings</a> first.',
 		'section'           => 'tk_headings',
 		'type'              => 'select',
 		'priority'		      => 10,
 		'choices'           => $tk_google_font_array
 	) );
+
+	if ( tk_gf_fs()->is_plan__premium_only('professional') ) {
 
   $wp_customize->add_setting( 'headings_font_color', array(
     'sanitize_callback' => 'sanitize_hex_color',
@@ -496,6 +544,23 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 		),
 	) );
 
+	}
+
+	if( ! $tk_google_pro ){
+				$wp_customize->add_setting( 'headings_title_pro_options', array(
+						'default'           => array('Headings Font Color', 'Headings Font Weight', 'Headings Font Size - Mobile', 'Headings Font Size - Pad Devices', 'Headings Font Size - Large Screens'),
+						'transport'         => 'refresh',
+				) );
+
+				$wp_customize->add_control( new WP_Customize_TK_Google_GO_PRO_Control( $wp_customize, 'headings_title_pro_options', array(
+						'label'             => 'Get More Options For Headings:',
+						'section'           => 'tk_headings',
+						'settings'          => 'headings_title_pro_options',
+						'priority'		      => 120,
+				) ) );
+	}
+
+
 
 
 	// H1
@@ -507,12 +572,14 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 
 	$wp_customize->add_control( 'h1_font', array(
 		'label'             => 'H1 Font Family',
-    'description'       => 'Add the Google Fonts you would like to use <a href="#">in your settings</a> first.',
+    'description'       => 'This is the setting for your H1 headings only. Add the Google Fonts you would like to use <a href="#">in your settings</a> first.',
 		'section'           => 'tk_h1',
 		'type'              => 'select',
 		'priority'		      => 10,
 		'choices'           => $tk_google_font_array
 	) );
+
+	if ( tk_gf_fs()->is_plan__premium_only('professional') ) {
 
   $wp_customize->add_setting( 'h1_font_color', array(
     'sanitize_callback' => 'sanitize_hex_color',
@@ -585,6 +652,25 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 		'priority'		      => 18,
 	) );
 
+	}
+
+	if( ! $tk_google_pro ){
+				$wp_customize->add_setting( 'h1_title_pro_options', array(
+						'default'           => array('H1 Font Color', 'H1 Font Weight', 'H1 Font Size - Mobile', 'H1 Font Size - Pad Devices', 'H1 Font Size - Large Screens'),
+						'transport'         => 'refresh',
+				) );
+
+				$wp_customize->add_control( new WP_Customize_TK_Google_GO_PRO_Control( $wp_customize, 'h1_title_pro_options', array(
+						'label'             => 'Get More Options For H1 Headings:',
+						'section'           => 'tk_h1',
+						'settings'          => 'h1_title_pro_options',
+						'priority'		      => 120,
+				) ) );
+	}
+
+
+
+
 
 
 	// H2
@@ -596,12 +682,14 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 
 	$wp_customize->add_control( 'h2_font', array(
 		'label'             => 'H2 Font Family',
-    'description'       => 'Add the Google Fonts you would like to use <a href="#">in your settings</a> first.',
+    'description'       => 'This is the setting for your H2 headings only. Add the Google Fonts you would like to use <a href="#">in your settings</a> first.',
 		'section'           => 'tk_h2',
 		'type'              => 'select',
 		'priority'		      => 10,
 		'choices'           => $tk_google_font_array
 	) );
+
+	if ( tk_gf_fs()->is_plan__premium_only('professional') ) {
 
   $wp_customize->add_setting( 'h2_font_color', array(
     'sanitize_callback' => 'sanitize_hex_color',
@@ -674,6 +762,24 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 		'priority'		      => 18,
 	) );
 
+	}
+
+	if( ! $tk_google_pro ){
+				$wp_customize->add_setting( 'h2_title_pro_options', array(
+						'default'           => array('H2 Font Color', 'H2 Font Weight', 'H2 Font Size - Mobile', 'H2 Font Size - Pad Devices', 'H2 Font Size - Large Screens'),
+						'transport'         => 'refresh',
+				) );
+
+				$wp_customize->add_control( new WP_Customize_TK_Google_GO_PRO_Control( $wp_customize, 'h2_title_pro_options', array(
+						'label'             => 'Get More Options For H2 Headings:',
+						'section'           => 'tk_h2',
+						'settings'          => 'h2_title_pro_options',
+						'priority'		      => 120,
+				) ) );
+	}
+
+
+
 
 
 
@@ -686,12 +792,14 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 
 	$wp_customize->add_control( 'h3_font', array(
 		'label'             => 'H3 Font Family',
-    'description'       => 'Add the Google Fonts you would like to use <a href="#">in your settings</a> first.',
+    'description'       => 'This is the setting for your H3 headings only. Add the Google Fonts you would like to use <a href="#">in your settings</a> first.',
 		'section'           => 'tk_h3',
 		'type'              => 'select',
 		'priority'		      => 10,
 		'choices'           => $tk_google_font_array
 	) );
+
+	if ( tk_gf_fs()->is_plan__premium_only('professional') ) {
 
   $wp_customize->add_setting( 'h3_font_color', array(
     'sanitize_callback' => 'sanitize_hex_color',
@@ -764,6 +872,23 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 		'priority'		      => 18,
 	) );
 
+	}
+
+	if( ! $tk_google_pro ){
+				$wp_customize->add_setting( 'h3_title_pro_options', array(
+						'default'           => array('H3 Font Color', 'H3 Font Weight', 'H3 Font Size - Mobile', 'H3 Font Size - Pad Devices', 'H3 Font Size - Large Screens'),
+						'transport'         => 'refresh',
+				) );
+
+				$wp_customize->add_control( new WP_Customize_TK_Google_GO_PRO_Control( $wp_customize, 'h3_title_pro_options', array(
+						'label'             => 'Get More Options For H3 Headings:',
+						'section'           => 'tk_h3',
+						'settings'          => 'h3_title_pro_options',
+						'priority'		      => 120,
+				) ) );
+	}
+
+
 
 
 
@@ -776,12 +901,14 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 
 	$wp_customize->add_control( 'h4_font', array(
 		'label'             => 'H4 Font Family',
-    'description'       => 'Add the Google Fonts you would like to use <a href="#">in your settings</a> first.',
+    'description'       => 'This is the setting for your H4 headings only. Add the Google Fonts you would like to use <a href="#">in your settings</a> first.',
 		'section'           => 'tk_h4',
 		'type'              => 'select',
 		'priority'		      => 10,
 		'choices'           => $tk_google_font_array
 	) );
+
+	if ( tk_gf_fs()->is_plan__premium_only('professional') ) {
 
   $wp_customize->add_setting( 'h4_font_color', array(
     'sanitize_callback' => 'sanitize_hex_color',
@@ -854,6 +981,22 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 		'priority'		      => 18,
 	) );
 
+	}
+
+	if( ! $tk_google_pro ){
+				$wp_customize->add_setting( 'h4_title_pro_options', array(
+						'default'           => array('H4 Font Color', 'H4 Font Weight', 'H4 Font Size - Mobile', 'H4 Font Size - Pad Devices', 'H4 Font Size - Large Screens'),
+						'transport'         => 'refresh',
+				) );
+
+				$wp_customize->add_control( new WP_Customize_TK_Google_GO_PRO_Control( $wp_customize, 'h4_title_pro_options', array(
+						'label'             => 'Get More Options For H4 Headings:',
+						'section'           => 'tk_h4',
+						'settings'          => 'h4_title_pro_options',
+						'priority'		      => 120,
+				) ) );
+	}
+
 
 
 
@@ -867,12 +1010,14 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 
 	$wp_customize->add_control( 'h5_font', array(
 		'label'             => 'H5 Font Family',
-    'description'       => 'Add the Google Fonts you would like to use <a href="#">in your settings</a> first.',
+    'description'       => 'This is the setting for your H5 headings only. Add the Google Fonts you would like to use <a href="#">in your settings</a> first.',
 		'section'           => 'tk_h5',
 		'type'              => 'select',
 		'priority'		      => 10,
 		'choices'           => $tk_google_font_array
 	) );
+
+	if ( tk_gf_fs()->is_plan__premium_only('professional') ) {
 
   $wp_customize->add_setting( 'h5_font_color', array(
     'sanitize_callback' => 'sanitize_hex_color',
@@ -945,6 +1090,22 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 		'priority'		      => 18,
 	) );
 
+	}
+
+	if( ! $tk_google_pro ){
+				$wp_customize->add_setting( 'h5_title_pro_options', array(
+						'default'           => array('H5 Font Color', 'H5 Font Weight', 'H5 Font Size - Mobile', 'H5 Font Size - Pad Devices', 'H5 Font Size - Large Screens'),
+						'transport'         => 'refresh',
+				) );
+
+				$wp_customize->add_control( new WP_Customize_TK_Google_GO_PRO_Control( $wp_customize, 'h5_title_pro_options', array(
+						'label'             => 'Get More Options For H5 Headings:',
+						'section'           => 'tk_h5',
+						'settings'          => 'h5_title_pro_options',
+						'priority'		      => 120,
+				) ) );
+	}
+
 
 
 
@@ -957,12 +1118,14 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 
 	$wp_customize->add_control( 'h6_font', array(
 		'label'             => 'H6 Font Family',
-    'description'       => 'Add the Google Fonts you would like to use <a href="#">in your settings</a> first.',
+    'description'       => 'This is the setting for your H6 headings only. Add the Google Fonts you would like to use <a href="#">in your settings</a> first.',
 		'section'           => 'tk_h6',
 		'type'              => 'select',
 		'priority'		      => 10,
 		'choices'           => $tk_google_font_array
 	) );
+
+	if ( tk_gf_fs()->is_plan__premium_only('professional') ) {
 
   $wp_customize->add_setting( 'h6_font_color', array(
     'sanitize_callback' => 'sanitize_hex_color',
@@ -1035,6 +1198,21 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 		'priority'		      => 18,
 	) );
 
+}
+
+if( ! $tk_google_pro ){
+			$wp_customize->add_setting( 'h6_title_pro_options', array(
+					'default'           => array('H6 Font Color', 'H6 Font Weight', 'H6 Font Size - Mobile', 'H6 Font Size - Pad Devices', 'H6 Font Size - Large Screens'),
+					'transport'         => 'refresh',
+			) );
+
+			$wp_customize->add_control( new WP_Customize_TK_Google_GO_PRO_Control( $wp_customize, 'h6_title_pro_options', array(
+					'label'             => 'Get More Options For H6 Headings:',
+					'section'           => 'tk_h6',
+					'settings'          => 'h6_title_pro_options',
+					'priority'		      => 120,
+			) ) );
+}
 
 
 
@@ -1134,6 +1312,8 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 		'choices'           => $tk_google_font_array
 	) );
 
+	if ( tk_gf_fs()->is_plan__premium_only('professional') ) {
+
   $wp_customize->add_setting( 'body_font_color', array(
     'sanitize_callback' => 'sanitize_hex_color',
     'default'           => 'default',
@@ -1186,6 +1366,23 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 		'priority'		      => 140,
 	) );
 
+	}
+
+	if( ! $tk_google_pro ){
+				$wp_customize->add_setting( 'body_pro_options', array(
+						'default'           => array('Body Font Color', 'Body Font Size - Mobile', 'Body Font Size - Pad Devices', 'Body Font Size - Large Screens'),
+						'transport'         => 'refresh',
+				) );
+
+				$wp_customize->add_control( new WP_Customize_TK_Google_GO_PRO_Control( $wp_customize, 'body_pro_options', array(
+						'label'             => 'Get More Options For Body Text:',
+						'section'           => 'tk_body',
+						'settings'          => 'body_pro_options',
+						'priority'		      => 120,
+				) ) );
+	}
+
+
 
 
 
@@ -1204,6 +1401,8 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 		'priority'		      => 80,
 		'choices'           => $tk_google_font_array
 	) );
+
+	if ( tk_gf_fs()->is_plan__premium_only('professional') ) {
 
   $wp_customize->add_setting( 'blockquote_font_color', array(
     'sanitize_callback' => 'sanitize_hex_color',
@@ -1230,6 +1429,22 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 		'settings'          => 'blockquote_bg_color',
     'priority'		      => 84,
 	) ) );
+
+	}
+
+	if( ! $tk_google_pro ){
+				$wp_customize->add_setting( 'blockquote_pro_options', array(
+						'default'           => array('Blockquotes Font Color', 'Blockquotes Background Color'),
+						'transport'         => 'refresh',
+				) );
+
+				$wp_customize->add_control( new WP_Customize_TK_Google_GO_PRO_Control( $wp_customize, 'blockquote_pro_options', array(
+						'label'             => 'Get More Options For Blockquotes:',
+						'section'           => 'tk_blockquote',
+						'settings'          => 'blockquote_pro_options',
+						'priority'		      => 120,
+				) ) );
+	}
 
 
   // $wp_customize->add_setting( 'tk_post_title', array(
@@ -1787,7 +2002,7 @@ function tk_google_fonts_go_pro_customizer_control() {
                         </li>
                         <?php } ?>
                     <?php } ?>
-                    <li><a target="_blank" href="<?php echo admin_url() ?>themes.php?page=tk-google-fonts-options-pricing">Go Pro Now</a></li>
+                    <li><a class="button button-primary" target="_blank" href="<?php echo admin_url() ?>themes.php?page=tk-google-fonts-options-pricing">Go Pro Now</a></li>
                 </ul>
             </label>
 			<?php

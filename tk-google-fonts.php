@@ -76,7 +76,7 @@ function tk_gf_fs() {
 			'slug'                => 'tk-google-fonts',
 			'type'                => 'plugin',
 			'public_key'          => 'pk_27b7a20f60176ff52e48568808a9e',
-			'is_premium'          => true,
+			'is_premium'          => false,
 			// If your plugin is a serviceware, set this option to false.
 			'has_premium_version' => true,
 			'has_addons'          => false,
