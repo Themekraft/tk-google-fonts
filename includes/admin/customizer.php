@@ -179,7 +179,7 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 
 	$wp_customize->add_control( 'site_title_font', array(
 		'label'             => 'Site Title Font Family',
-    'description'       => 'This is the setting for your SITE TITLE, the name of your site, which only occurs once up the top usually. Add the Google Fonts you would like to use <a href="#">in your settings</a> first.',
+    'description'       => 'This is the setting for your SITE TITLE, the name of your site, which only occurs once up the top usually. Add the Google Fonts you would like to use <a href="' . admin_url() . 'themes.php?page=tk-google-fonts-options">in your settings</a> first.',
 		'section'           => 'tk_site_title',
 		'type'              => 'select',
 		'priority'		      => 10,
@@ -287,7 +287,7 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 
 	$wp_customize->add_control( 'post_title_font', array(
 		'label'             => 'Post Title Font Family',
-    'description'       => 'This is the setting for your POST TITLE. Add the Google Fonts you would like to use <a href="#">in your settings</a> first.',
+    'description'       => 'This is the setting for your POST TITLE. Add the Google Fonts you would like to use <a href="' . admin_url() . 'themes.php?page=tk-google-fonts-options">in your settings</a> first.',
 		'section'           => 'tk_post_title',
 		'type'              => 'select',
 		'priority'		      => 10,
@@ -397,7 +397,7 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 
 	$wp_customize->add_control( 'page_title_font', array(
 		'label'             => 'Page Title Font Family',
-    'description'       => 'This is the setting for your PAGE TITLE. Add the Google Fonts you would like to use <a href="#">in your settings</a> first.',
+    'description'       => 'This is the setting for your PAGE TITLE. Add the Google Fonts you would like to use <a href="' . admin_url() . 'themes.php?page=tk-google-fonts-options">in your settings</a> first.',
 		'section'           => 'tk_page_title',
 		'type'              => 'select',
 		'priority'		      => 10,
@@ -504,7 +504,7 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 
 	$wp_customize->add_control( 'headings_font', array(
 		'label'             => 'Headings Font Family',
-		'description'       => 'These are the settings for ALL your headings (H1-H6). Add the Google Fonts you would like to use <a href="#">in your settings</a> first.',
+		'description'       => 'These are the settings for ALL your headings (H1-H6). Add the Google Fonts you would like to use <a href="' . admin_url() . 'themes.php?page=tk-google-fonts-options">in your settings</a> first.',
 		'section'           => 'tk_headings',
 		'type'              => 'select',
 		'priority'		      => 10,
@@ -572,7 +572,7 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 
 	$wp_customize->add_control( 'h1_font', array(
 		'label'             => 'H1 Font Family',
-    'description'       => 'This is the setting for your H1 headings only. Add the Google Fonts you would like to use <a href="#">in your settings</a> first.',
+    'description'       => 'This is the setting for your H1 headings only. Add the Google Fonts you would like to use <a href="' . admin_url() . 'themes.php?page=tk-google-fonts-options">in your settings</a> first.',
 		'section'           => 'tk_h1',
 		'type'              => 'select',
 		'priority'		      => 10,
@@ -682,7 +682,7 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 
 	$wp_customize->add_control( 'h2_font', array(
 		'label'             => 'H2 Font Family',
-    'description'       => 'This is the setting for your H2 headings only. Add the Google Fonts you would like to use <a href="#">in your settings</a> first.',
+    'description'       => 'This is the setting for your H2 headings only. Add the Google Fonts you would like to use <a href="' . admin_url() . 'themes.php?page=tk-google-fonts-options">in your settings</a> first.',
 		'section'           => 'tk_h2',
 		'type'              => 'select',
 		'priority'		      => 10,
@@ -792,7 +792,7 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 
 	$wp_customize->add_control( 'h3_font', array(
 		'label'             => 'H3 Font Family',
-    'description'       => 'This is the setting for your H3 headings only. Add the Google Fonts you would like to use <a href="#">in your settings</a> first.',
+    'description'       => 'This is the setting for your H3 headings only. Add the Google Fonts you would like to use <a href="' . admin_url() . 'themes.php?page=tk-google-fonts-options">in your settings</a> first.',
 		'section'           => 'tk_h3',
 		'type'              => 'select',
 		'priority'		      => 10,
@@ -901,7 +901,7 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 
 	$wp_customize->add_control( 'h4_font', array(
 		'label'             => 'H4 Font Family',
-    'description'       => 'This is the setting for your H4 headings only. Add the Google Fonts you would like to use <a href="#">in your settings</a> first.',
+    'description'       => 'This is the setting for your H4 headings only. Add the Google Fonts you would like to use <a href="' . admin_url() . 'themes.php?page=tk-google-fonts-options">in your settings</a> first.',
 		'section'           => 'tk_h4',
 		'type'              => 'select',
 		'priority'		      => 10,
@@ -1010,7 +1010,7 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 
 	$wp_customize->add_control( 'h5_font', array(
 		'label'             => 'H5 Font Family',
-    'description'       => 'This is the setting for your H5 headings only. Add the Google Fonts you would like to use <a href="#">in your settings</a> first.',
+    'description'       => 'This is the setting for your H5 headings only. Add the Google Fonts you would like to use <a href="' . admin_url() . 'themes.php?page=tk-google-fonts-options">in your settings</a> first.',
 		'section'           => 'tk_h5',
 		'type'              => 'select',
 		'priority'		      => 10,
@@ -1118,7 +1118,7 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 
 	$wp_customize->add_control( 'h6_font', array(
 		'label'             => 'H6 Font Family',
-    'description'       => 'This is the setting for your H6 headings only. Add the Google Fonts you would like to use <a href="#">in your settings</a> first.',
+    'description'       => 'This is the setting for your H6 headings only. Add the Google Fonts you would like to use <a href="' . admin_url() . 'themes.php?page=tk-google-fonts-options">in your settings</a> first.',
 		'section'           => 'tk_h6',
 		'type'              => 'select',
 		'priority'		      => 10,
@@ -1305,7 +1305,7 @@ if( ! $tk_google_pro ){
 
 	$wp_customize->add_control( 'body_text', array(
 		'label'             => 'Body Font (text, paragraph)',
-		'description'       => 'Add the Google Fonts you would like to use <a href="#">in your settings</a> first.',
+		'description'       => 'Add the Google Fonts you would like to use <a href="' . admin_url() . 'themes.php?page=tk-google-fonts-options">in your settings</a> first.',
 		'section'           => 'tk_body',
 		'type'              => 'select',
 		'priority'		      => 70,
@@ -1395,7 +1395,7 @@ if( ! $tk_google_pro ){
 
 	$wp_customize->add_control( 'blockquotes', array(
 		'label'             => 'Blockquotes',
-		'description'       => 'Add the Google Fonts you would like to use <a href="#">in your settings</a> first.',
+		'description'       => 'Add the Google Fonts you would like to use <a href="' . admin_url() . 'themes.php?page=tk-google-fonts-options">in your settings</a> first.',
 		'section'           => 'tk_blockquote',
 		'type'              => 'select',
 		'priority'		      => 80,
