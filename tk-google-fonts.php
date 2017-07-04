@@ -4,7 +4,7 @@
  * Plugin Name: TK Google Fonts
  * Plugin URI:  http://themekraft.com/shop/product-category/themes/extentions/
  * Description: Google Fonts UI for WordPress Themes
- * Version: 1.3.2
+ * Version: 2.0
  * Author: ThemeKraft
  * Author URI: http://themekraft.com/
  * Licence: GPLv3
@@ -32,7 +32,7 @@ class TK_Google_Fonts {
 	/**
 	 * @var string
 	 */
-	public $version = '1.3.2';
+	public $version = '2.0';
 
 
 	public function __construct() {
@@ -114,3 +114,42 @@ function tk_gf_fs_settings_url() {
 tk_gf_fs()->add_filter( 'connect_url', 'tk_gf_fs_settings_url' );
 tk_gf_fs()->add_filter( 'after_skip_url', 'tk_gf_fs_settings_url' );
 tk_gf_fs()->add_filter( 'after_connect_url', 'tk_gf_fs_settings_url' );
+
+
+function tk_google_fonts_special_admin_notice() {
+	$user_id = get_current_user_id();
+	if ( ! get_user_meta( $user_id, 'tk_google_fonts_special_admin_notice_dismissed' ) ) {
+		?>
+		<div class="notice notice-success is-dismissible">
+			<h4 style="margin-top: 20px;">TK GOOGLE FONTS</h4>
+			<p style="line-height: 2.2; font-size: 13px;"><b>GO PRO NOW – AND SAVE BIG – 50% OFF - THIS MONTH ONLY</b><br>
+				Get 50% discount if you order within the next month – only until 06 Jul 2017.
+				<br>
+				Coupon Code: <span
+					style="line-height: 1; margin: 0 4px; padding: 4px 10px; border-radius: 6px; font-size: 12px; background: #fff; border: 1px solid rgba(0,0,0,0.1);">TKGOOGLE50</span>
+			</p>
+			<p style="margin: 20px 0;">
+				<a class="button xbutton-primary"
+				   style="font-size: 15px; padding: 8px 20px; height: auto; line-height: 1;"
+				   href="https://themekraft.com/final-beta-buddypress-wc-vendors/" target="_blank">READ MORE</a>
+				<a class="button button-primary"
+				   style="font-size: 15px; padding: 8px 20px; height: auto; line-height: 1; box-shadow: none; text-shadow: none; background: #46b450; color: #fff; border: 1px solid rgba(0,0,0,0.1);"
+				   href="https://themekraft.com/lifetime-deal-99-instead-299-06-july/"
+				   target="_blank"><s>&dollar;299</s> &dollar;99 LIFETIME DEAL</a>
+				<a class="button xbutton-primary"
+				   style="font-size: 15px; padding: 8px 20px; height: auto; line-height: 1;"
+				   href="?tk_google_fonts_special_admin_notice_dismissed">Dismiss</a>
+			</p>
+		</div>
+		<?php
+	}
+}
+add_action( 'admin_notices', 'tk_google_fonts_special_admin_notice' );
+
+function tk_google_fonts_special_admin_notice_dismissed() {
+	$user_id = get_current_user_id();
+	if ( isset( $_GET['tk_google_fonts_special_admin_notice_dismissed'] ) ){
+		add_user_meta( $user_id, 'tk_google_fonts_special_admin_notice_dismissed', 'true', true );
+	}
+}
+add_action( 'admin_init', 'tk_google_fonts_special_admin_notice_dismissed' );

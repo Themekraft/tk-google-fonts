@@ -3,7 +3,7 @@ Contributors: svenl77, konradS, themekraft
 Tags: google fonts, fonts, webfonts
 Requires at least: 3.5
 Tested up to: 4.7.3
-Stable tag: 1.3.2
+Stable tag: 2.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -104,12 +104,16 @@ Checkout the related Google Page of the font to see how to write the CSS to call
 6. The TK Google Fonts Admin Settings Panel - Select a Font with preview
 == Changelog ==
 
+= 2.0 =
+* Created a new free and pro version with tons of new options to layout your fonts.
+* Please read the blog post for a complete list of new options:
+
 = 1.3.2 =
-Freemius Integration
-Smaller changes
+* Freemius Integration
+* Smaller changes
 
 = 1.3.1 =
-Add https is_ssl support
+* Add https is_ssl support
 
 = 1.3 =
 * Initial Release.
