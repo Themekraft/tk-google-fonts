@@ -76,19 +76,26 @@ function tk_gf_fs() {
 			'slug'                => 'tk-google-fonts',
 			'type'                => 'plugin',
 			'public_key'          => 'pk_27b7a20f60176ff52e48568808a9e',
-			'is_premium'          => false,
+			'is_premium'          => true,
+			// If your plugin is a serviceware, set this option to false.
+			'has_premium_version' => true,
 			'has_addons'          => false,
-			'has_paid_plans'      => false,
+			'has_paid_plans'      => true,
+			'trial'               => array(
+				'days'               => 7,
+				'is_require_payment' => false,
+			),
 			'menu'                => array(
 				'slug'           => 'tk-google-fonts-options',
 				'override_exact' => true,
-				'account'        => false,
-				'contact'        => false,
 				'support'        => false,
 				'parent'         => array(
 					'slug' => 'themes.php',
 				),
 			),
+			// Set the SDK to work in a sandbox mode (for development & testing).
+			// IMPORTANT: MAKE SURE TO REMOVE SECRET KEY BEFORE DEPLOYMENT.
+			'secret_key'          => 'sk_Ss)kqAn~sJ7Sqj[QX3AvLRz_V^dI+',
 		) );
 	}
 
