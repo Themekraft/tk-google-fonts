@@ -106,7 +106,7 @@ Checkout the related Google Page of the font to see how to write the CSS to call
 
 = 2.0 =
 * Created a new free and pro version with tons of new options to layout your fonts.
-* Please read the blog post for a complete list of new options:
+* Please read the blog post for a complete list of new options: https://themekraft.com/easy-google-fonts-wordpress-forever/
 
 = 1.3.2 =
 * Freemius Integration

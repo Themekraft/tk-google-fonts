@@ -83,7 +83,7 @@ function tk_gf_fs() {
 			'has_paid_plans'      => true,
 			'trial'               => array(
 				'days'               => 7,
-				'is_require_payment' => false,
+				'is_require_payment' => true,
 			),
 			'menu'                => array(
 				'slug'           => 'tk-google-fonts-options',
