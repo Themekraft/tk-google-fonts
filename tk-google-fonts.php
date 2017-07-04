@@ -129,7 +129,7 @@ function tk_google_fonts_special_admin_notice() {
 				<a class="button button-primary"
 				   style="font-size: 15px; padding: 8px 20px; height: auto; line-height: 1; box-shadow: none; text-shadow: none; background: #46b450; color: #fff; border: 1px solid rgba(0,0,0,0.1);"
 				   href="https://themekraft.com/easy-google-fonts-wordpress-forever/"
-				   target="_blank"><s>&dollar;299</s> &dollar;99 LIFETIME DEAL</a>
+				   target="_blank"><s>&dollar;179</s> &dollar;59 LIFETIME DEAL</a>
 				<a class="button xbutton-primary"
 				   style="font-size: 15px; padding: 8px 20px; height: auto; line-height: 1;"
 				   href="?tk_google_fonts_special_admin_notice_dismissed">Dismiss</a>
