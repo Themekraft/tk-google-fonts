@@ -1,8 +1,13 @@
 <?php
 	/**
+	 * IMPORTANT:
+	 *      This file will be loaded based on the order of the plugins/themes load.
+	 *      If there's a theme and a plugin using Freemius, the plugin's essential
+	 *      file will always load first.
+	 *
 	 * @package     Freemius
 	 * @copyright   Copyright (c) 2015, Freemius, Inc.
-	 * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+	 * @license     https://www.gnu.org/licenses/gpl-3.0.html GNU General Public License Version 3
 	 * @since       1.1.5
 	 */
 
@@ -152,15 +157,18 @@
 		/**
 		 * Retrieve a translated text by key.
 		 *
-		 * @author Vova Feldman (@svovaf)
-		 * @since  1.1.4
+		 * @deprecated Use `fs_text()` instead since methods starting with `__` trigger warnings in Php 7.
+         * @todo Remove this method in the future.
+		 *
+		 * @author     Vova Feldman (@svovaf)
+		 * @since      1.1.4
 		 *
 		 * @param string $key
 		 * @param string $slug
 		 *
 		 * @return string
 		 *
-		 * @global       $fs_text , $fs_text_overrides
+		 * @global       $fs_text, $fs_text_overrides
 		 */
 		function __fs( $key, $slug = 'freemius' ) {
 			global $fs_text,
@@ -198,18 +206,24 @@
 		}
 
 		/**
-		 * Display a translated text by key.
+		 * Output a translated text by key.
 		 *
-		 * @author Vova Feldman (@svovaf)
-		 * @since  1.1.4
+		 * @deprecated Use `fs_echo()` instead for consistency with `fs_text()`.
+		 *
+         * @todo Remove this method in the future.
+         *
+		 * @author     Vova Feldman (@svovaf)
+		 * @since      1.1.4
 		 *
 		 * @param string $key
 		 * @param string $slug
 		 */
 		function _efs( $key, $slug = 'freemius' ) {
-			echo __fs( $key, $slug );
+			fs_echo( $key, $slug );
 		}
+	}
 
+	if ( ! function_exists( 'fs_override_i18n' ) ) {
 		/**
 		 * Override default i18n text phrases.
 		 *
@@ -292,6 +306,10 @@
 
 		$plugin_file = null;
 		for ( $i = 1, $bt = debug_backtrace(), $len = count( $bt ); $i < $len; $i ++ ) {
+			if ( empty( $bt[ $i ]['file'] ) ) {
+				continue;
+			}
+
 			if ( in_array( fs_normalize_path( $bt[ $i ]['file'] ), $all_plugins_paths ) ) {
 				$plugin_file = $bt[ $i ]['file'];
 				break;
@@ -300,7 +318,11 @@
 
 		if ( is_null( $plugin_file ) ) {
 			// Throw an error to the developer in case of some edge case dev environment.
-			wp_die( __fs( 'failed-finding-main-path' ), __fs( 'error' ), array( 'back_link' => true ) );
+			wp_die(
+				'Freemius SDK couldn\'t find the plugin\'s main file. Please contact sdk@freemius.com with the current error.',
+				'Error',
+				array( 'back_link' => true )
+			);
 		}
 
 		return $plugin_file;
@@ -320,17 +342,40 @@
 	 * @global            $fs_active_plugins
 	 */
 	function fs_update_sdk_newest_version( $sdk_relative_path, $plugin_file = false ) {
+		/**
+		 * If there is a plugin running an older version of FS (1.2.1 or below), the `fs_update_sdk_newest_version()`
+		 * function in the older version will be used instead of this one. But since the older version is using
+		 * the `is_plugin_active` function to check if a plugin is active, passing the theme's `plugin_path` to the
+		 * `is_plugin_active` function will return false since the path is not a plugin path, so `in_activation` will be
+		 * `true` for theme modules and the upgrading of the SDK version to 1.2.2 or newer version will work fine.
+		 *
+		 * Future versions that will call this function will use the proper logic here instead of just relying on the
+		 * `is_plugin_active` function to fail for themes.
+		 *
+		 * @author Leo Fajardo (@leorw)
+		 * @since  1.2.2
+		 */
+
 		global $fs_active_plugins;
+
+		$newest_sdk = $fs_active_plugins->plugins[ $sdk_relative_path ];
 
 		if ( ! is_string( $plugin_file ) ) {
 			$plugin_file = plugin_basename( fs_find_caller_plugin_file() );
 		}
 
+		if ( ! isset( $newest_sdk->type ) || 'theme' !== $newest_sdk->type ) {
+			$in_activation = ( ! is_plugin_active( $plugin_file ) );
+		} else {
+			$theme         = wp_get_theme();
+			$in_activation = ( $newest_sdk->plugin_path == $theme->stylesheet );
+		}
+
 		$fs_active_plugins->newest = (object) array(
 			'plugin_path'   => $plugin_file,
 			'sdk_path'      => $sdk_relative_path,
-			'version'       => $fs_active_plugins->plugins[ $sdk_relative_path ]->version,
-			'in_activation' => ! is_plugin_active( $plugin_file ),
+			'version'       => $newest_sdk->version,
+			'in_activation' => $in_activation,
 			'timestamp'     => time(),
 		);
 
@@ -394,9 +439,16 @@
 			if ( is_null( $newest_sdk_data ) || version_compare( $data->version, $newest_sdk_data->version, '>' )
 			) {
 				// If plugin inactive or SDK starter file doesn't exist, remove SDK reference.
-				if ( ! is_plugin_active( $data->plugin_path ) ||
-				     ! file_exists( fs_normalize_path( WP_PLUGIN_DIR . '/' . $sdk_relative_path . '/start.php' ) )
-				) {
+				if ( 'plugin' === $data->type ) {
+					$is_module_active = is_plugin_active( $data->plugin_path );
+				} else {
+					$active_theme     = wp_get_theme();
+					$is_module_active = ( $data->plugin_path === $active_theme->get_template() );
+				}
+
+				$is_sdk_exists = file_exists( fs_normalize_path( WP_PLUGIN_DIR . '/' . $sdk_relative_path . '/start.php' ) );
+
+				if ( ! $is_module_active || ! $is_sdk_exists ) {
 					unset( $fs_active_plugins->plugins[ $sdk_relative_path ] );
 
 					// No need to store the data since it will be stored in fs_update_sdk_newest_version()
@@ -425,19 +477,19 @@
 	 * @author Vova Feldman (@svovaf)
 	 * @since  1.0.9
 	 *
-	 * @param string $slug  Plugin slug
-	 * @param string $tag   The name of the filter hook.
-	 * @param mixed  $value The value on which the filters hooked to `$tag` are applied on.
+	 * @param string $module_unique_affix Module's unique affix.
+	 * @param string $tag                 The name of the filter hook.
+	 * @param mixed  $value               The value on which the filters hooked to `$tag` are applied on.
 	 *
 	 * @return mixed The filtered value after all hooked functions are applied to it.
 	 *
 	 * @uses   apply_filters()
 	 */
-	function fs_apply_filter( $slug, $tag, $value ) {
+	function fs_apply_filter( $module_unique_affix, $tag, $value ) {
 		$args = func_get_args();
 
 		return call_user_func_array( 'apply_filters', array_merge(
-				array( "fs_{$tag}_{$slug}" ),
+				array( "fs_{$tag}_{$module_unique_affix}" ),
 				array_slice( $args, 2 ) )
 		);
 	}

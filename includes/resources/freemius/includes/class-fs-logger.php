@@ -2,7 +2,7 @@
 	/**
 	 * @package     Freemius
 	 * @copyright   Copyright (c) 2015, Freemius, Inc.
-	 * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+	 * @license     https://www.gnu.org/licenses/gpl-3.0.html GNU General Public License Version 3
 	 * @since       1.0.3
 	 */
 
@@ -85,10 +85,12 @@
 		 * @since  1.2.1.6
 		 */
 		private static function init() {
-			self::$_ownerName          = get_current_user();
+			self::$_ownerName          = function_exists( 'get_current_user' ) ?
+				get_current_user() :
+				'unknown';
 			self::$_isStorageLoggingOn = ( 1 == get_option( 'fs_storage_logger', 0 ) );
 			self::$_abspathLength      = strlen( ABSPATH );
-			self::$_processID          = mt_rand(0, 32000);
+			self::$_processID          = mt_rand( 0, 32000 );
 
 			// Process ID may be `false` on errors.
 			if ( ! is_numeric( self::$_processID ) ) {
@@ -186,7 +188,7 @@
 
 			self::$LOG[] = $log;
 
-			if ( $this->is_echo_on() ) {
+			if ( $this->is_echo_on() && ! Freemius::is_ajax() ) {
 				echo self::format_html( $log ) . "\n";
 			}
 		}
