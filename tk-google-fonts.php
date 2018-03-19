@@ -32,7 +32,7 @@ class TK_Google_Fonts {
 	/**
 	 * @var string
 	 */
-	public $version = '2.0.1';
+	public $version = '2.0.2';
 
 
 	public function __construct() {
@@ -76,9 +76,7 @@ function tk_gf_fs() {
 			'slug'                => 'tk-google-fonts',
 			'type'                => 'plugin',
 			'public_key'          => 'pk_27b7a20f60176ff52e48568808a9e',
-			'is_premium'          => false,
-			// If your plugin is a serviceware, set this option to false.
-			'has_premium_version' => true,
+			'is_premium'          => true,
 			'has_addons'          => false,
 			'has_paid_plans'      => true,
 			'trial'               => array(
@@ -92,7 +90,10 @@ function tk_gf_fs() {
 				'parent'         => array(
 					'slug' => 'themes.php',
 				),
-			)
+			),
+			// Set the SDK to work in a sandbox mode (for development & testing).
+			// IMPORTANT: MAKE SURE TO REMOVE SECRET KEY BEFORE DEPLOYMENT.
+			'secret_key'          => 'sk_Ss)kqAn~sJ7Sqj[QX3AvLRz_V^dI+',
 		) );
 	}
 
@@ -111,6 +112,7 @@ function tk_gf_fs_settings_url() {
 tk_gf_fs()->add_filter( 'connect_url', 'tk_gf_fs_settings_url' );
 tk_gf_fs()->add_filter( 'after_skip_url', 'tk_gf_fs_settings_url' );
 tk_gf_fs()->add_filter( 'after_connect_url', 'tk_gf_fs_settings_url' );
+tk_gf_fs()->add_filter( 'after_pending_connect_url', 'tk_gf_fs_settings_url' );
 
 
 function tk_google_fonts_special_admin_notice() {
