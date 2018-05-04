@@ -33,6 +33,12 @@ to apply the Google Fonts to your titles, body text or blockquotes.
 You can then use the fonts in your CSS without any extra step needed.
 Follow the instructions on the Google Page how to integrate your font.
 
+= HTTP and HTTPS Supported =
+The Plugin auto detects your site security and use https to load the google fonts if SSL is enabled.
+
+= Great for SEO =
+Fonts get loaded so that they not harm your page speed and take care of your ranking
+
 = Use within theme options =
 
 If your theme supports TK Google Fonts in its theme options,
