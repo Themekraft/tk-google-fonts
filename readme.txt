@@ -2,8 +2,8 @@
 Contributors: svenl77, konradS, themekraft
 Tags: google fonts, fonts, webfonts
 Requires at least: 3.5
-Tested up to: 4.9.4
-Stable tag: 2.0.2
+Tested up to: 5.0
+Stable tag: 2.0.3
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -109,6 +109,10 @@ Checkout the related Google Page of the font to see how to write the CSS to call
 5. The TK Google Fonts - Customizer options
 6. The TK Google Fonts Admin Settings Panel - Select a Font with preview
 == Changelog ==
+
+= 2.0.3 =
+Smaller changes
+Freemius Update
 
 = 2.0.2 =
 Freemius integration script update.
