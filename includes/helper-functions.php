@@ -13,8 +13,13 @@ function tk_google_fonts_js() {
 
 	wp_enqueue_script( 'google_fonts_admin_js', plugins_url( '/admin/js/admin.js', __FILE__ ) );
 
-	wp_register_script( 'jquery-fontselect', plugins_url( '/resources/font-select/jquery.fontselect.min.js', __FILE__ ), false, '1.6' );
-	wp_enqueue_script( 'jquery-fontselect' );
+	if ( defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ) {
+		wp_register_script( 'jquery-fontselect', plugins_url( '/resources/font-select/jquery.fontselect.js', __FILE__ ), false, '1.0' );
+		wp_enqueue_script( 'jquery-fontselect' );
+	} else{
+		wp_register_script( 'jquery-fontselect', plugins_url( '/resources/font-select/jquery.fontselect.min.js', __FILE__ ), false, '1.0' );
+		wp_enqueue_script( 'jquery-fontselect' );
+	}
 
 	wp_enqueue_style( 'jquery-fontselect-css', plugins_url( '/resources/font-select/fontselect.css', __FILE__ ) );
 
