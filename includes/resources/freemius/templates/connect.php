@@ -40,8 +40,8 @@
 
 	$freemius_site_www = 'https://freemius.com';
 
-	$freemius_usage_tracking_url = $freemius_site_www . '/wordpress/usage-tracking/' . $fs->get_id() . "/{$slug}/";
-	$freemius_plugin_terms_url   = $freemius_site_www . '/terms/' . $fs->get_id() . "/{$slug}/";
+	$freemius_usage_tracking_url = $fs->get_usage_tracking_terms_url();
+	$freemius_plugin_terms_url   = $fs->get_eula_url();
 
 	$freemius_site_url = $fs->is_premium() ?
 		$freemius_site_www :
@@ -54,7 +54,7 @@
 			) );
 	}
 
-	$freemius_link = '<a href="' . $freemius_site_url . '" target="_blank" tabindex="1">freemius.com</a>';
+	$freemius_link = '<a href="' . $freemius_site_url . '" target="_blank" rel="noopener" tabindex="1">freemius.com</a>';
 
 	$error = fs_request_get( 'error' );
 
@@ -72,7 +72,7 @@
 	$is_optin_dialog = (
 		$fs->is_theme() &&
 		$fs->is_themes_page() &&
-		( ! $fs->has_settings_menu() || $fs->is_free_wp_org_theme() )
+		$fs->show_opt_in_on_themes_page()
 	);
 
 	if ( $is_optin_dialog ) {
@@ -131,6 +131,14 @@
 	?>
 	<?php
 		}
+
+		/**
+		 * Allows developers to include custom HTML before the opt-in content.
+		 *
+		 * @author Vova Feldman
+		 * @since 2.3.2
+		 */
+		$fs->do_action( 'connect/before' );
 	?>
 	<div id="fs_connect"
 	     class="wrap<?php if ( ! fs_is_network_admin() && ( ! $fs->is_enable_anonymous() || $is_pending_activation || $require_license_key ) ) {
@@ -173,12 +181,7 @@
 
 						$message = $fs->apply_filters(
 						    'connect-message_on-premium',
-                            ($is_network_upgrade_mode ?
-                                '' :
-                                /* translators: %s: name (e.g. Hey John,) */
-                                $hey_x_text . '<br>'
-                            ) .
-							sprintf( fs_text_inline( 'Thanks for purchasing %s! To get started, please enter your license key:', 'thanks-for-purchasing', $slug ), '<b>' . $fs->get_plugin_name() . '</b>' ),
+							sprintf( fs_text_inline( 'Welcome to %s! To get started, please enter your license key:', 'thanks-for-purchasing', $slug ), '<b>' . $fs->get_plugin_name() . '</b>' ),
 							$first_name,
 							$fs->get_plugin_name()
 						);
@@ -214,13 +217,13 @@
 								esc_html( $default_optin_message ),
 								'<b>' . esc_html( $fs->get_plugin_name() ) . '</b>',
 								'<b>' . $current_user->user_login . '</b>',
-								'<a href="' . $site_url . '" target="_blank">' . $site_url . '</a>',
+								'<a href="' . $site_url . '" target="_blank" rel="noopener noreferrer">' . $site_url . '</a>',
 								$freemius_link
 							),
 							$first_name,
 							$fs->get_plugin_name(),
 							$current_user->user_login,
-							'<a href="' . $site_url . '" target="_blank">' . $site_url . '</a>',
+							'<a href="' . $site_url . '" target="_blank" rel="noopener noreferrer">' . $site_url . '</a>',
 							$freemius_link,
 							$is_gdpr_required
 						);
@@ -314,7 +317,7 @@
 				<a id="skip_activation" href="<?php echo fs_nonce_url( $fs->_get_admin_page_url( '', array( 'fs_action' => $fs->get_unique_affix() . '_skip_activation' ), $is_network_level_activation ), $fs->get_unique_affix() . '_skip_activation' ) ?>"
 				   class="button button-secondary" tabindex="2"><?php fs_esc_html_echo_x_inline( 'Skip', 'verb', 'skip', $slug ) ?></a>
 			<?php endif ?>
-			<?php if ( $is_network_level_activation ) : ?>
+			<?php if ( $is_network_level_activation && $fs->apply_filters( 'show_delegation_option', true ) ) : ?>
 				<a id="delegate_to_site_admins" class="fs-tooltip-trigger <?php echo is_rtl() ? ' rtl' : '' ?>" href="<?php echo fs_nonce_url( $fs->_get_admin_page_url( '', array( 'fs_action' => $fs->get_unique_affix() . '_delegate_activation' ) ), $fs->get_unique_affix() . '_delegate_activation' ) ?>"><?php fs_esc_html_echo_inline( 'Delegate to Site Admins', 'delegate-to-site-admins', $slug ) ?><span class="fs-tooltip"><?php fs_esc_html_echo_inline( 'If you click it, this decision will be delegated to the sites administrators.', 'delegate-sites-tooltip', $slug ) ?></span></a>
 			<?php endif ?>
 			<?php if ( $activate_with_current_user ) : ?>
@@ -322,6 +325,7 @@
 					<input type="hidden" name="fs_action"
 					       value="<?php echo $fs->get_unique_affix() ?>_activate_existing">
 					<?php wp_nonce_field( 'activate_existing_' . $fs->get_public_key() ) ?>
+					<input type="hidden" name="is_extensions_tracking_allowed" value="1">
 					<button class="button button-primary" tabindex="1"
 					        type="submit"><?php echo esc_html( $button_label ) ?></button>
 				</form>
@@ -331,41 +335,60 @@
 					<?php foreach ( $optin_params as $name => $value ) : ?>
 						<input type="hidden" name="<?php echo $name ?>" value="<?php echo esc_attr( $value ) ?>">
 					<?php endforeach ?>
+					<input type="hidden" name="is_extensions_tracking_allowed" value="1">
 					<button class="button button-primary" tabindex="1"
 					        type="submit"<?php if ( $require_license_key ) {
 						echo ' disabled="disabled"';
 					} ?>><?php echo esc_html( $button_label ) ?></button>
 				</form>
 			<?php endif ?>
+            <?php if ( $require_license_key ) : ?>
+                <a id="license_issues_link" href="<?php echo $fs->apply_filters( 'known_license_issues_url', 'https://freemius.com/help/documentation/wordpress-sdk/license-activation-issues/' ) ?>" target="_blank"><?php fs_esc_html_echo_inline( 'License issues?', 'license-issues', $slug ) ?></a>
+            <?php endif ?>
 		</div><?php
 
 			// Set core permission list items.
-			$permissions = array(
-				'profile' => array(
+			$permissions = array();
+
+			/**
+			 * When activating a license key the information of the admin is not collected, we gather the user info from the license.
+			 *
+			 * @since 2.3.2
+			 * @author Vova Feldman
+			 */
+			if ( ! $require_license_key ) {
+				$permissions['profile'] = array(
 					'icon-class' => 'dashicons dashicons-admin-users',
 					'label'      => $fs->get_text_inline( 'Your Profile Overview', 'permissions-profile' ),
 					'desc'       => $fs->get_text_inline( 'Name and email address', 'permissions-profile_desc' ),
 					'priority'   => 5,
-				),
-				'site'    => array(
-					'icon-class' => 'dashicons dashicons-admin-settings',
-					'label'      => $fs->get_text_inline( 'Your Site Overview', 'permissions-site' ),
-					'desc'       => $fs->get_text_inline( 'Site URL, WP version, PHP info, plugins & themes', 'permissions-site_desc' ),
-					'priority'   => 10,
-				),
-				'notices' => array(
-					'icon-class' => 'dashicons dashicons-testimonial',
-					'label'      => $fs->get_text_inline( 'Admin Notices', 'permissions-admin-notices' ),
-					'desc'       => $fs->get_text_inline( 'Updates, announcements, marketing, no spam', 'permissions-newsletter_desc' ),
-					'priority'   => 13,
-				),
-				'events'  => array(
-					'icon-class' => 'dashicons dashicons-admin-plugins',
-					'label'      => sprintf( $fs->get_text_inline( 'Current %s Events', 'permissions-events' ), ucfirst( $fs->get_module_type() ) ),
-					'desc'       => $fs->get_text_inline( 'Activation, deactivation and uninstall', 'permissions-events_desc' ),
-					'priority'   => 20,
-				),
-			);
+				);
+			}
+
+            $permissions['site'] = array(
+                'icon-class' => 'dashicons dashicons-admin-settings',
+                'tooltip'    => ( $require_license_key ? sprintf( $fs->get_text_inline( 'So you can manage and control your license remotely from the User Dashboard.', 'permissions-site_tooltip' ), $fs->get_module_type() ) : '' ),
+                'label'      => $fs->get_text_inline( 'Your Site Overview', 'permissions-site' ),
+                'desc'       => $fs->get_text_inline( 'Site URL, WP version, PHP info', 'permissions-site_desc' ),
+                'priority'   => 10,
+            );
+
+            if ( ! $require_license_key ) {
+                $permissions['notices'] = array(
+                    'icon-class' => 'dashicons dashicons-testimonial',
+                    'label'      => $fs->get_text_inline( 'Admin Notices', 'permissions-admin-notices' ),
+                    'desc'       => $fs->get_text_inline( 'Updates, announcements, marketing, no spam', 'permissions-newsletter_desc' ),
+                    'priority'   => 13,
+                );
+            }
+
+            $permissions['events'] = array(
+                'icon-class' => 'dashicons dashicons-admin-' . ( $fs->is_plugin() ? 'plugins' : 'appearance' ),
+                'tooltip'    => ( $require_license_key ? sprintf( $fs->get_text_inline( 'So you can reuse the license when the %s is no longer active.', 'permissions-events_tooltip' ), $fs->get_module_type() ) : '' ),
+                'label'      => sprintf( $fs->get_text_inline( 'Current %s Status', 'permissions-events' ), ucfirst( $fs->get_module_type() ) ),
+                'desc'       => $fs->get_text_inline( 'Active, deactivated, or uninstalled', 'permissions-events_desc' ),
+                'priority'   => 20,
+            );
 
 			// Add newsletter permissions if enabled.
 			if ( $is_gdpr_required || $fs->is_permission_requested( 'newsletter' ) ) {
@@ -377,6 +400,16 @@
 				);
 			}
 
+            $permissions['extensions'] = array(
+                'icon-class' => 'dashicons dashicons-menu',
+                'label'      => $fs->get_text_inline( 'Plugins & Themes', 'permissions-extensions' ) . ( $require_license_key ? ' (' . $fs->get_text_inline( 'optional' ) . ')' : '' ),
+                'tooltip'    => $fs->get_text_inline( 'To help us troubleshoot any potential issues that may arise from other plugin or theme conflicts.', 'permissions-events_tooltip' ),
+                'desc'       => $fs->get_text_inline( 'Title, slug, version, and is active', 'permissions-extensions_desc' ),
+                'priority'   => 25,
+                'optional'   => true,
+                'default'    => $fs->apply_filters( 'permission_extensions_default', ! $require_license_key )
+            );
+
 			// Allow filtering of the permissions list.
 			$permissions = $fs->apply_filters( 'permission_list', $permissions );
 
@@ -387,21 +420,28 @@
 				<div class="fs-permissions">
 					<?php if ( $require_license_key ) : ?>
 						<p class="fs-license-sync-disclaimer"><?php
-								echo sprintf(
-									fs_esc_html_inline( 'The %1$s will be periodically sending data to %2$s to check for security and feature updates, and verify the validity of your license.', 'license-sync-disclaimer', $slug ),
+                                echo sprintf(
+									fs_esc_html_inline( 'The %1$s will periodically send %2$s to %3$s for security & feature updates delivery, and license management.', 'license-sync-disclaimer', $slug ),
 									$fs->get_module_label( true ),
-									$freemius_link
+									sprintf('<a class="fs-trigger" href="#" tabindex="1">%s</a>', fs_esc_html_inline('diagnostic data', 'send-data')),
+									'<a class="fs-tooltip-trigger' . (is_rtl() ? ' rtl' : '') . '" href="' . $freemius_site_url . '" target="_blank" rel="noopener" tabindex="1">freemius.com <i class="dashicons dashicons-editor-help" style="text-decoration: none;"><span class="fs-tooltip" style="width: 170px">' . $fs->get_text_inline( 'Freemius is our licensing and software updates engine', 'permissions-extensions_desc' ) . '</span></i></a>'
 								) ?></p>
-					<?php endif ?>
+					<?php else : ?>
 					<a class="fs-trigger" href="#" tabindex="1"><?php fs_esc_html_echo_inline( 'What permissions are being granted?', 'what-permissions', $slug ) ?></a>
+                    <?php endif ?>
 					<ul><?php
 							foreach ( $permissions as $id => $permission ) : ?>
 								<li id="fs-permission-<?php echo esc_attr( $id ); ?>"
 								    class="fs-permission fs-<?php echo esc_attr( $id ); ?>">
 									<i class="<?php echo esc_attr( $permission['icon-class'] ); ?>"></i>
+									<?php if ( isset( $permission['optional'] ) && true === $permission['optional'] ) : ?>
+										<div class="fs-switch fs-small fs-round fs-<?php echo (! isset( $permission['default'] ) || true === $permission['default'] ) ?  'on' : 'off' ?>">
+											<div class="fs-toggle"></div>
+										</div>
+									<?php endif ?>
 
-									<div>
-										<span><?php echo esc_html( $permission['label'] ); ?></span>
+									<div class="fs-permission-description">
+										<span<?php if ( ! empty($permission['tooltip']) ) : ?> class="fs-tooltip-trigger"<?php endif ?>><?php echo esc_html( $permission['label'] ); ?><?php if ( ! empty($permission['tooltip']) ) : ?><i class="dashicons dashicons-editor-help"><span class="fs-tooltip" style="width: 200px"><?php echo $permission['tooltip'] ?></span></i><?php endif ?></span>
 
 										<p><?php echo esc_html( $permission['desc'] ); ?></p>
 									</div>
@@ -424,13 +464,21 @@
 			</div>
 		<?php endif ?>
 		<div class="fs-terms">
-			<a href="https://freemius.com/privacy/" target="_blank"
+			<a href="https://freemius.com/privacy/" target="_blank" rel="noopener"
 			   tabindex="1"><?php fs_esc_html_echo_inline( 'Privacy Policy', 'privacy-policy', $slug ) ?></a>
 			&nbsp;&nbsp;-&nbsp;&nbsp;
-			<a href="<?php echo $require_license_key ? $freemius_plugin_terms_url : $freemius_usage_tracking_url ?>" target="_blank" tabindex="1"><?php $require_license_key ? fs_echo_inline( 'License Agreement', 'license-agreement', $slug ) : fs_echo_inline( 'Terms of Service', 'tos', $slug ) ?></a>
+			<a href="<?php echo $require_license_key ? $freemius_plugin_terms_url : $freemius_usage_tracking_url ?>" target="_blank" rel="noopener" tabindex="1"><?php $require_license_key ? fs_echo_inline( 'License Agreement', 'license-agreement', $slug ) : fs_echo_inline( 'Terms of Service', 'tos', $slug ) ?></a>
 		</div>
 	</div>
 	<?php
+		/**
+		 * Allows developers to include custom HTML after the opt-in content.
+		 *
+		 * @author Vova Feldman
+		 * @since 2.3.2
+		 */
+		$fs->do_action( 'connect/after' );
+
 		if ( $is_optin_dialog ) { ?>
 </div>
 <?php
@@ -474,6 +522,7 @@
 		    $licenseSecret,
 		    $licenseKeyInput     = $('#fs_license_key'),
             pauseCtaLabelUpdate  = false,
+            isNetworkDelegating  = false,
             /**
              * @author Leo Fajardo (@leorw)
              * @since 2.1.0
@@ -505,14 +554,15 @@
 
 		if ( isNetworkActive ) {
 			var
-				$multisiteOptionsContainer  = $( '#multisite_options_container' ),
-				$allSitesOptions            = $( '#all_sites_options' ),
-				$applyOnAllSites            = $( '#apply_on_all_sites' ),
-				$sitesListContainer         = $( '#sites_list_container' ),
+				$multisiteOptionsContainer  = $( '.fs-multisite-options-container' ),
+				$allSitesOptions            = $( '.fs-all-sites-options' ),
+				$applyOnAllSites            = $( '.fs-apply-on-all-sites-checkbox' ),
+				$sitesListContainer         = $( '.fs-sites-list-container' ),
 				totalSites                  = <?php echo count( $sites ) ?>,
 				maxSitesListHeight          = null,
 				$skipActivationButton       = $( '#skip_activation' ),
-				$delegateToSiteAdminsButton = $( '#delegate_to_site_admins' );
+				$delegateToSiteAdminsButton = $( '#delegate_to_site_admins' ),
+                hasAnyInstall               = <?php echo ! is_null( $fs->find_first_install() ) ? 'true' : 'false' ?>;
 
 			$applyOnAllSites.click(function() {
 				var isChecked = $( this ).is( ':checked' );
@@ -528,7 +578,7 @@
 
 				$delegateToSiteAdminsButton.toggle();
 
-				$multisiteOptionsContainer.toggleClass( 'apply-on-all-sites', isChecked );
+				$multisiteOptionsContainer.toggleClass( 'fs-apply-on-all-sites', isChecked );
 
 				$sitesListContainer.toggle( ! isChecked );
 				if ( ! isChecked && null === maxSitesListHeight ) {
@@ -575,7 +625,7 @@
 				}
 			});
 
-            if (isNetworkUpgradeMode) {
+            if ( isNetworkUpgradeMode || hasAnyInstall ) {
                 $skipActivationButton.click(function(){
                     $delegateToSiteAdminsButton.hide();
 
@@ -598,12 +648,32 @@
 
                     pauseCtaLabelUpdate = true;
 
+                    /**
+                     * Set to true so that the form submission handler can differentiate delegation from license
+                     * activation and the proper AJAX action will be used (when delegating, the action should be
+                     * `network_activate` and not `activate_license`).
+                     *
+                     * @author Leo Fajardo (@leorw)
+                     * @since 2.3.0
+                     */
+                    isNetworkDelegating = true;
+
                     // Check all sites to be skipped.
                     $allSitesOptions.find('.action.action-delegate').click();
 
                     $form.submit();
 
                     pauseCtaLabelUpdate = false;
+
+                    /**
+                     * Set to false so that in case the previous AJAX request has failed, the form submission handler
+                     * can differentiate license activation from delegation and the proper AJAX action will be used
+                     * (when activating a license, the action should be `activate_license` and not `network_activate`).
+                     *
+                     * @author Leo Fajardo (@leorw)
+                     * @since 2.3.0
+                     */
+                    isNetworkDelegating = false;
 
                     return false;
                 });
@@ -637,26 +707,48 @@
 		var ajaxOptin = ( requireLicenseKey || isNetworkActive );
 
 		$form.on('submit', function () {
+            var $extensionsPermission = $('#fs-permission-extensions .fs-switch'),
+                isExtensionsTrackingAllowed = ($extensionsPermission.length > 0) ?
+                    $extensionsPermission.hasClass('fs-on') :
+                    null;
+
+            if (null === isExtensionsTrackingAllowed) {
+                $('input[name=is_extensions_tracking_allowed]').remove();
+            } else {
+                $('input[name=is_extensions_tracking_allowed]').val(isExtensionsTrackingAllowed ? 1 : 0);
+            }
+
 			/**
 			 * @author Vova Feldman (@svovaf)
 			 * @since 1.1.9
 			 */
 			if ( ajaxOptin ) {
 				if (!hasContextUser || isNetworkUpgradeMode) {
-					<?php $action = $require_license_key ? 'activate_license' : 'network_activate' ?>
+				    var action   = null,
+                        security = null;
+
+				    if ( requireLicenseKey && ! isNetworkDelegating ) {
+                        action   = '<?php echo $fs->get_ajax_action( 'activate_license' ) ?>';
+                        security = '<?php echo $fs->get_ajax_security( 'activate_license' ) ?>';
+                    } else {
+                        action   = '<?php echo $fs->get_ajax_action( 'network_activate' ) ?>';
+                        security = '<?php echo $fs->get_ajax_security( 'network_activate' ) ?>';
+                    }
 
 					$('.fs-error').remove();
 
 					var
                         licenseKey = $licenseKeyInput.val(),
                         data       = {
-                            action     : '<?php echo $fs->get_ajax_action( $action ) ?>',
-                            security   : '<?php echo $fs->get_ajax_security( $action ) ?>',
+                            action     : action,
+                            security   : security,
                             license_key: licenseKey,
                             module_id  : '<?php echo $fs->get_id() ?>'
                         };
 
-					if (requireLicenseKey &&
+					if (
+                        requireLicenseKey &&
+                        ! isNetworkDelegating &&
                         isMarketingAllowedByLicense.hasOwnProperty(licenseKey)
                     ) {
                         var
@@ -678,6 +770,8 @@
                         }
 
                         data.is_marketing_allowed = isMarketingAllowed;
+
+						data.is_extensions_tracking_allowed = isExtensionsTrackingAllowed;
                     }
 
                     $marketingOptin.removeClass( 'error' );
@@ -706,12 +800,18 @@
 
 							if ( ! requireLicenseKey) {
                                 site.action = $this.find('.action.selected').data('action-type');
+                            } else if ( isNetworkDelegating ) {
+							    site.action = 'delegate';
                             }
 
 							sites.push( site );
 						});
 
 						data.sites = sites;
+
+						if ( hasAnyInstall ) {
+						    data.has_any_install = hasAnyInstall;
+                        }
 					}
 
 					/**
@@ -772,6 +872,12 @@
 			$('.fs-permissions').toggleClass('fs-open');
 
 			return false;
+		});
+
+		$( '.fs-switch' ).click( function () {
+			$(this)
+				.toggleClass( 'fs-on' )
+				.toggleClass( 'fs-off' );
 		});
 
 		if (requireLicenseKey) {

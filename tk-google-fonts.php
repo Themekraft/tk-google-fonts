@@ -77,16 +77,20 @@ function tk_gf_fs() {
 			'type'                => 'plugin',
 			'public_key'          => 'pk_27b7a20f60176ff52e48568808a9e',
 			'is_premium'          => true,
+			'premium_suffix'      => 'Premium',
+			'has_premium_version' => true,
 			'has_addons'          => false,
 			'has_paid_plans'      => true,
 			'trial'               => array(
 				'days'               => 7,
 				'is_require_payment' => true,
 			),
+			'has_affiliation'     => 'all',
 			'menu'                => array(
 				'slug'           => 'tk-google-fonts-options',
 				'override_exact' => true,
 				'support'        => false,
+				'affiliation'    => false,
 				'parent'         => array(
 					'slug' => 'themes.php',
 				),
