@@ -1675,11 +1675,11 @@ function tk_google_fonts_customize_css(){
 		if( get_theme_mod('h1_font', '') || get_theme_mod('h1_font_color', '') || get_theme_mod('h1_font_weight', '') && get_theme_mod('h1_font_weight', '') != 'auto' ):
 			echo 'h1 { ';
 				if( get_theme_mod('h1_font', '') )
-					echo 'font-family: '. get_theme_mod('h1_font') . '; ';
+					echo 'font-family: '. get_theme_mod('h1_font') . '!important; ';
 				if( get_theme_mod('h1_font_color', '') )
-					echo 'color: '. get_theme_mod('h1_font_color') . '; ';
+					echo 'color: '. get_theme_mod('h1_font_color') . '!important; ';
 				if( get_theme_mod('h1_font_weight', '') && get_theme_mod('h1_font_weight', '') != 'auto' )
-					echo 'font-weight: '. get_theme_mod('h1_font_weight') . '; ';
+					echo 'font-weight: '. get_theme_mod('h1_font_weight') . '!important; ';
 			echo '} ';
 		endif;
 
@@ -1713,11 +1713,11 @@ function tk_google_fonts_customize_css(){
 		if( get_theme_mod('h2_font', '') || get_theme_mod('h2_font_color', '') || get_theme_mod('h2_font_weight', '') && get_theme_mod('h2_font_weight', '') != 'auto' ):
 			echo 'h2 { ';
 				if( get_theme_mod('h2_font', '') )
-					echo 'font-family: '. get_theme_mod('h2_font') . '; ';
+					echo 'font-family: '. get_theme_mod('h2_font') . '!important; ';
 				if( get_theme_mod('h2_font_color', '') )
-					echo 'color: '. get_theme_mod('h2_font_color') . '; ';
+					echo 'color: '. get_theme_mod('h2_font_color') . '!important; ';
 				if( get_theme_mod('h2_font_weight', '') && get_theme_mod('h2_font_weight', '') != 'auto' )
-					echo 'font-weight: '. get_theme_mod('h2_font_weight') . '; ';
+					echo 'font-weight: '. get_theme_mod('h2_font_weight') . '!important; ';
 			echo '} ';
 		endif;
 
@@ -1751,11 +1751,11 @@ function tk_google_fonts_customize_css(){
 		if( get_theme_mod('h3_font', '') || get_theme_mod('h3_font_color', '') || get_theme_mod('h3_font_weight', '') && get_theme_mod('h3_font_weight', '') != 'auto' ):
 			echo 'h3 { ';
 				if( get_theme_mod('h3_font', '') )
-					echo 'font-family: '. get_theme_mod('h3_font') . '; ';
+					echo 'font-family: '. get_theme_mod('h3_font') . '!important; ';
 				if( get_theme_mod('h3_font_color', '') )
-					echo 'color: '. get_theme_mod('h3_font_color') . '; ';
+					echo 'color: '. get_theme_mod('h3_font_color') . '!important; ';
 				if( get_theme_mod('h3_font_weight', '') && get_theme_mod('h3_font_weight', '') != 'auto' )
-					echo 'font-weight: '. get_theme_mod('h3_font_weight') . '; ';
+					echo 'font-weight: '. get_theme_mod('h3_font_weight') . '!important; ';
 			echo '} ';
 		endif;
 
@@ -1789,11 +1789,11 @@ function tk_google_fonts_customize_css(){
 		if( get_theme_mod('h4_font', '') || get_theme_mod('h4_font_color', '') || get_theme_mod('h4_font_weight', '') && get_theme_mod('h4_font_weight', '') != 'auto' ):
 			echo 'h4 { ';
 				if( get_theme_mod('h4_font', '') )
-					echo 'font-family: '. get_theme_mod('h4_font') . '; ';
+					echo 'font-family: '. get_theme_mod('h4_font') . '!important; ';
 				if( get_theme_mod('h4_font_color', '') )
-					echo 'color: '. get_theme_mod('h4_font_color') . '; ';
+					echo 'color: '. get_theme_mod('h4_font_color') . '!important; ';
 				if( get_theme_mod('h4_font_weight', '') && get_theme_mod('h4_font_weight', '') != 'auto' )
-					echo 'font-weight: '. get_theme_mod('h4_font_weight') . '; ';
+					echo 'font-weight: '. get_theme_mod('h4_font_weight') . '!important; ';
 			echo '} ';
 		endif;
 
@@ -1828,11 +1828,11 @@ function tk_google_fonts_customize_css(){
 		if( get_theme_mod('h5_font', '') || get_theme_mod('h5_font_color', '') || get_theme_mod('h5_font_weight', '') && get_theme_mod('h5_font_weight', '') != 'auto' ):
 			echo 'h5 { ';
 				if( get_theme_mod('h5_font', '') )
-					echo 'font-family: '. get_theme_mod('h5_font') . '; ';
+					echo 'font-family: '. get_theme_mod('h5_font') . '!important; ';
 				if( get_theme_mod('h5_font_color', '') )
-					echo 'color: '. get_theme_mod('h5_font_color') . '; ';
+					echo 'color: '. get_theme_mod('h5_font_color') . '!important; ';
 				if( get_theme_mod('h5_font_weight', '') && get_theme_mod('h5_font_weight', '') != 'auto' )
-					echo 'font-weight: '. get_theme_mod('h5_font_weight') . '; ';
+					echo 'font-weight: '. get_theme_mod('h5_font_weight') . '!important; ';
 			echo '} ';
 		endif;
 
@@ -1866,11 +1866,11 @@ function tk_google_fonts_customize_css(){
 		if( get_theme_mod('h6_font', '') || get_theme_mod('h6_font_color', '') || get_theme_mod('h6_font_weight', '') && get_theme_mod('h6_font_weight', '') != 'auto' ):
 			echo 'h6 { ';
 				if( get_theme_mod('h6_font', '') )
-					echo 'font-family: '. get_theme_mod('h6_font') . '; ';
+					echo 'font-family: '. get_theme_mod('h6_font') . '!important; ';
 				if( get_theme_mod('h6_font_color', '') )
-					echo 'color: '. get_theme_mod('h6_font_color') . '; ';
+					echo 'color: '. get_theme_mod('h6_font_color') . '!important; ';
 				if( get_theme_mod('h6_font_weight', '') && get_theme_mod('h6_font_weight', '') != 'auto' )
-					echo 'font-weight: '. get_theme_mod('h6_font_weight') . '; ';
+					echo 'font-weight: '. get_theme_mod('h6_font_weight') . '!important; ';
 			echo '} ';
 		endif;
 
@@ -1904,9 +1904,9 @@ function tk_google_fonts_customize_css(){
 		if( get_theme_mod('body_text', '') || get_theme_mod('body_font_color', '') ):
 			echo 'body, p { ';
 				if( get_theme_mod('body_text', '') )
-					echo 'font-family: '. get_theme_mod('body_text') . '; ';
+					echo 'font-family: '. get_theme_mod('body_text') . '!important; ';
 				if( get_theme_mod('body_font_color', '') )
-					echo 'color: '. get_theme_mod('body_font_color') . '; ';
+					echo 'color: '. get_theme_mod('body_font_color') . '!important; ';
 			echo '} ';
 		endif;
 
@@ -1941,11 +1941,11 @@ function tk_google_fonts_customize_css(){
 		if( get_theme_mod('blockquotes', '') || get_theme_mod('blockquote_font_color', '') || get_theme_mod('blockquote_bg_color', '') ):
 			echo 'blockquote, blockquote p { ';
 			if( get_theme_mod('blockquotes', '') )
-				echo 'font-family: '. get_theme_mod('blockquotes') . '; ';
+				echo 'font-family: '. get_theme_mod('blockquotes') . '!important; ';
 			if( get_theme_mod('blockquote_font_color', '') )
-				echo 'color: '. get_theme_mod('blockquote_font_color') . '; ';
+				echo 'color: '. get_theme_mod('blockquote_font_color') . '!important; ';
 			if( get_theme_mod('blockquote_bg_color', '') )
-				echo 'background-color: '. get_theme_mod('blockquote_bg_color') . '; ';
+				echo 'background-color: '. get_theme_mod('blockquote_bg_color') . '!important; ';
 			echo '} ';
 		endif;
 
