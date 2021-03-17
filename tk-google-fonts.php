@@ -8,7 +8,7 @@
  * Author: ThemeKraft
  * Author URI: http://themekraft.com/
  * Licence: GPLv3
- *
+ * Svn: tk-google-fonts
  */
 
 /** This is the ThemeKraft Google Fonts WordPress Plugin
