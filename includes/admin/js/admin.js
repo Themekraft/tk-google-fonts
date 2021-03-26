@@ -32,6 +32,7 @@ jQuery(document).ready(function(){
 			}
 		});
 	});
+	
  	jQuery('.dele_form').click(function(){
  		var google_font_name = jQuery(this).attr('id');
 		var action = jQuery(this); 

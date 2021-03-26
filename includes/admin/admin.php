@@ -1,4 +1,7 @@
 <?php
+
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
 /**
  * Adding the Admin Page
  *
@@ -178,6 +181,49 @@ function tk_google_fonts_add_font($google_font_name){
 
 	update_option("tk_google_fonts_options", $tk_google_fonts_options);
 
+	
+	if ( ! is_dir( WP_PLUGIN_DIR . '/tk-google-fonts-premium/includes/resources/my-fonts/' . $google_font_name ) ) {
+		wp_mkdir_p( WP_PLUGIN_DIR . '/tk-google-fonts-premium/includes/resources/my-fonts/' . $google_font_name );
+	}
+
+	$fp = fopen ( WP_PLUGIN_DIR . '/tk-google-fonts-premium/includes/resources/my-fonts/' . $google_font_name . '/' . $google_font_name . '.css', 'w+' );
+	$tk_userAgent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36';
+    $tk_family_url = 'https://fonts.googleapis.com/css2?family=' . $google_font_name;
+    $ch = curl_init();
+	$timeout = 5;
+    curl_setopt( $ch, CURLOPT_USERAGENT, $tk_userAgent );
+    curl_setopt( $ch, CURLOPT_URL, $tk_family_url );
+    curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
+    curl_setopt( $ch, CURLOPT_CONNECTTIMEOUT, $timeout );
+	$tk_font_data = curl_exec( $ch );
+	$tk_search_url = "/(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z0-9]{3,4}(\/\S[^)]*)?/";
+
+	if( preg_match_all( $tk_search_url, $tk_font_data, $tk_font_fileinfo ) ) {
+        $tk_font_urls = $tk_font_fileinfo[0];
+        $tk_hosted_fonts = $tk_font_data;
+		$tk_main_url = home_url( '/' );
+        $i = 0;
+        foreach( $tk_font_urls as $googlefonts_urls ){
+          $tk_google_urls = $tk_font_urls[$i];
+          $ff = fopen ( WP_PLUGIN_DIR . '/tk-google-fonts-premium/includes/resources/my-fonts/' . $google_font_name . '/' . $google_font_name . '-' . $i . '.woff2', 'w+' );
+          $ci = curl_init();
+          curl_setopt( $ci, CURLOPT_USERAGENT, $tk_userAgent );
+          curl_setopt( $ci, CURLOPT_URL, $tk_font_urls[ $i ] );
+          curl_setopt( $ci, CURLOPT_RETURNTRANSFER, 1 );
+          curl_setopt( $ci, CURLOPT_CONNECTTIMEOUT, 5 );
+          $tk_new_fontfamily_urls = curl_exec( $ci );
+          fwrite( $ff, $tk_new_fontfamily_urls );
+    	  curl_close( $ci );
+          fclose( $ff ); 
+          $tk_hosted_fonts = str_replace( $tk_google_urls, $tk_main_url . 'wp-content/plugins/tk-google-fonts-premium/includes/resources/my-fonts/' . $google_font_name . '/' . $google_font_name . '-' . $i .'.woff2', $tk_hosted_fonts);
+          $i++;
+          
+        }
+		fwrite( $fp, $tk_hosted_fonts );
+		curl_close( $ch );
+		fclose( $fp ); 
+    }
+
 	die();
 
 }
@@ -190,15 +236,39 @@ function tk_google_fonts_add_font($google_font_name){
  * @since 1.0
  */
 
-add_action('wp_ajax_tk_google_fonts_delete_font', 'tk_google_fonts_delete_font');
-add_action('wp_ajax_nopriv_tk_google_fonts_delete_font', 'tk_google_fonts_delete_font');
+add_action( 'wp_ajax_tk_google_fonts_delete_font', 'tk_google_fonts_delete_font' );
+add_action( 'wp_ajax_nopriv_tk_google_fonts_delete_font', 'tk_google_fonts_delete_font' );
 
 function tk_google_fonts_delete_font(){
-
+	$google_font_name = $_POST['google_font_name'];
 	$tk_google_fonts_options = get_option('tk_google_fonts_options');
 	unset( $tk_google_fonts_options['selected_fonts'][$_POST['google_font_name']] );
+	$direc= WP_PLUGIN_DIR . '/tk-google-fonts-premium/includes/resources/my-fonts/' . $google_font_name;
+	
+	if( is_dir( $direc ) ) {
+        WP_Filesystem();
+		global $wp_filesystem;
+		$wp_filesystem->rmdir( $direc, true );
+    }
+	
 
-	update_option("tk_google_fonts_options", $tk_google_fonts_options);
+	update_option( "tk_google_fonts_options", $tk_google_fonts_options );
     die();
 
 }
+
+/* Adding the admin notice */
+
+if( get_option( 'tk_dismiss_notice' ) != true ) {
+    add_action( 'admin_notices', 'add_dismissible' );
+}
+
+function add_dismissible() {
+    
+    echo '<div class="notice notice-error tk-dismiss-notice is-dismissible">
+          <p><strong>GOOGLE FONTS ARE AGAINST THE EUROPE LOW.</strong></p>
+		  <p>Get our <a href="themes.php?page=tk-google-fonts-options-pricing" class="current" aria-current="page">latest pro version with GDPR Compliance</a> to stay save and avoid paying costly warning letter.</p>
+      	  </div>';
+}
+
+

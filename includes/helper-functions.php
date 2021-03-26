@@ -1,4 +1,7 @@
 <?php
+
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
 /**
  * Enqueue admin JS and CSS
  *
@@ -55,16 +58,46 @@ function tk_google_fonts_enqueue_fonts() {
 
 	// Google api url
 	$googleapis_url = 'http://fonts.googleapis.com/css2?family=';
+	$selfhosting_url = home_url() . '/wp-content/plugins/tk-google-fonts-premium/includes/resources/my-fonts/';
 
 	// Check if ssl is activated and switch to https
 	if ( is_ssl() ) {
 		$googleapis_url = str_replace( 'http:', 'https:', $googleapis_url );
+		$selfhosting_url = str_replace( 'http:', 'https:', $selfhosting_url );
 	}
 
-	// Enquire only the selected fonts
-	foreach ( $tk_google_fonts_options['selected_fonts'] as $key => $tk_google_font ) {
-		wp_register_style( 'font-style-' . $tk_google_font,  $googleapis_url . $tk_google_font );
-		wp_enqueue_style( 'font-style-' . $tk_google_font );
+		
+	if ( tk_gf_fs()->is_plan__premium_only( 'professional' ) ){
+		// Enquire only the selected fonts
+		foreach ( $tk_google_fonts_options['selected_fonts'] as $key => $tk_google_font ) {
+			wp_register_style( 'font-style-' . $tk_google_font,  $selfhosting_url . $tk_google_font .'/' . $tk_google_font . '.css');
+			wp_enqueue_style( 'font-style-' . $tk_google_font );
 	}
 
+	}
+
+ 	if( ! tk_gf_fs()->is_plan__premium_only( 'professional' ) ){
+		 // Enquire only the selected fonts
+		foreach ( $tk_google_fonts_options['selected_fonts'] as $key => $tk_google_font ) {
+			wp_register_style( 'font-style-' . $tk_google_font,  $googleapis_url . $tk_google_font );
+			wp_enqueue_style( 'font-style-' . $tk_google_font );
+		}
+	} 
+	
+
+
+}
+
+add_action( 'admin_enqueue_scripts', 'add_script' );
+
+function add_script() {
+        wp_register_script( 'notice-update', plugins_url( '/resources/font-select/update-notice.js', __FILE__ ), false, '1.0' );
+        
+        wp_enqueue_script(  'notice-update' );
+}
+
+add_action( 'wp_ajax_tk_dismiss_notice', 'tk_dismiss_notice' );
+
+function tk_dismiss_notice() {
+      update_option( 'tk_dismiss_notice', true );
 }
