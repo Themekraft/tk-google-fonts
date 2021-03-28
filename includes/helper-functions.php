@@ -58,7 +58,7 @@ function tk_google_fonts_enqueue_fonts() {
 
 	// Google api url
 	$googleapis_url = 'http://fonts.googleapis.com/css2?family=';
-	$selfhosting_url = home_url() . '/wp-content/plugins/tk-google-fonts-premium/includes/resources/my-fonts/';
+	$selfhosting_url = plugin_dir_url(__FILE__) . '/resources/my-fonts/';
 
 	// Check if ssl is activated and switch to https
 	if ( is_ssl() ) {
@@ -88,16 +88,3 @@ function tk_google_fonts_enqueue_fonts() {
 
 }
 
-add_action( 'admin_enqueue_scripts', 'add_script' );
-
-function add_script() {
-        wp_register_script( 'notice-update', plugins_url( '/resources/font-select/update-notice.js', __FILE__ ), false, '1.0' );
-        
-        wp_enqueue_script(  'notice-update' );
-}
-
-add_action( 'wp_ajax_tk_dismiss_notice', 'tk_dismiss_notice' );
-
-function tk_dismiss_notice() {
-      update_option( 'tk_dismiss_notice', true );
-}
