@@ -88,3 +88,18 @@ function tk_google_fonts_enqueue_fonts() {
 
 }
 
+// Admin notice script enqueue
+
+add_action( 'admin_enqueue_scripts', 'tk_gdpr_advise' );
+
+function tk_gdpr_advise() {
+    wp_register_script( 'notice-update', plugins_url( '/resources/font-select/update-notice.js', __FILE__ ), false, '1.0' );
+        
+    wp_enqueue_script(  'notice-update' );
+}
+
+add_action( 'wp_ajax_tk_dismiss_notice', 'tk_dismiss_notice' );
+
+function tk_dismiss_notice() {
+    update_option( 'tk_dismiss_notice', true );
+}

@@ -259,6 +259,18 @@ function tk_google_fonts_delete_font(){
 
 }
 
+// Adding the admin notice
 
+if( get_option( 'tk_dismiss_notice' ) != true ) {
+    add_action( 'admin_notices', 'add_dismissible' );
+}
+
+function add_dismissible() {
+    
+    echo '<div class="notice notice-error tk-dismiss-notice is-dismissible">
+        <p><strong>GOOGLE FONTS ARE AGAINST THE EUROPE LOW.</strong></p>
+		<p>Get our <a href="themes.php?page=tk-google-fonts-options-pricing" class="current" aria-current="page">latest pro version with GDPR Compliance</a> to stay save and avoid paying costly warning letter.</p>
+      	</div>';
+}
 
 
