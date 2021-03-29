@@ -57,7 +57,7 @@ function tk_google_fonts_enqueue_fonts() {
 	// Enquire only the selected fonts
 	foreach ( $tk_google_fonts_options['selected_fonts'] as $key => $tk_google_font ) {
 		$tk_font_base_url = 'http://fonts.googleapis.com/css2?family=' . $tk_google_font;
-		
+
 		if ( tk_gf_fs()->is_plan__premium_only( 'professional' ) ){
 			$tk_font_base_url = plugin_dir_url(__FILE__) . '/resources/my-fonts/' . $tk_google_font .'/' . $tk_google_font . '.css';
 		}
@@ -69,5 +69,21 @@ function tk_google_fonts_enqueue_fonts() {
 		wp_register_style( 'font-style-' . $tk_google_font,  $tk_font_base_url );
 		wp_enqueue_style( 'font-style-' . $tk_google_font );
 	}
+	
 }
 
+// Admin notice script enqueue
+
+add_action( 'admin_enqueue_scripts', 'tk_gdpr_advise' );
+
+function tk_gdpr_advise() {
+    wp_register_script( 'notice-update', plugins_url( '/resources/font-select/update-notice.js', __FILE__ ), false, '1.0' );
+        
+    wp_enqueue_script(  'notice-update' );
+}
+
+add_action( 'wp_ajax_tk_dismiss_notice', 'tk_dismiss_notice' );
+
+function tk_dismiss_notice() {
+    update_option( 'tk_dismiss_notice', true );
+}
