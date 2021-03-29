@@ -57,6 +57,7 @@ function tk_google_fonts_enqueue_fonts() {
 	// Enquire only the selected fonts
 	foreach ( $tk_google_fonts_options['selected_fonts'] as $key => $tk_google_font ) {
 		$tk_font_base_url = 'http://fonts.googleapis.com/css2?family=' . $tk_google_font;
+
 		if ( tk_gf_fs()->is_plan__premium_only( 'professional' ) ){
 			$tk_font_base_url = plugin_dir_url(__FILE__) . '/resources/my-fonts/' . $tk_google_font .'/' . $tk_google_font . '.css';
 		}
