@@ -1,7 +1,5 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 /**
  * Adding the Admin Page
  *
