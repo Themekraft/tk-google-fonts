@@ -26,14 +26,7 @@ function tk_google_fonts_js() {
 
 	wp_enqueue_style( 'tk-google-fonts-css', plugins_url( '/admin/css/tk-google-fonts.css', __FILE__ ) );
 
-	$tk_google_fonts_options = get_option( 'tk_google_fonts_options' );
-
-	if ( isset( $tk_google_fonts_options['selected_fonts'] ) ) {
-		foreach ( $tk_google_fonts_options['selected_fonts'] as $key => $tk_google_font ) {
-			wp_register_style( 'font-style-' . $tk_google_font, '//fonts.googleapis.com/css2?family=' . $tk_google_font );
-			wp_enqueue_style( 'font-style-' . $tk_google_font );
-		}
-	}
+	tk_google_fonts_enqueue_fonts();
 }
 
 /**
