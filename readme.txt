@@ -7,7 +7,7 @@ Stable tag: 2.0.4
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-TK Google Fonts is a powerful, extendable Google webfonts plugin that helps you to use Google Fonts in your theme.
+TK Google Fonts is a powerful, extendable Google webfonts plugin that helps you to use Google Fonts in your theme. Pro version: GDPR Compliance.
 
 == Description ==
 
