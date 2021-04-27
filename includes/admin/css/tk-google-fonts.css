@@ -60,3 +60,27 @@ ul#selected-fonts li p {
 ul#selected-fonts li p a.dele_form {
 	font-size: 12px;
 }
+
+/** Notice Modal **/
+
+.tk-notice-modal-dialog .ui-dialog-titlebar {
+	height: auto;
+	position: relative;
+	padding-top: 8px;
+	padding-bottom: 8px;
+	padding-right: 46px;
+}
+
+.tk-notice-modal-dialog .ui-button {
+	top: calc(50% - 36px/2);
+	width: 46px;
+}
+
+#tk-notice-modal p:first-child {
+	margin-top: 0;
+}
+
+#tk-notice-modal .close-for-ever {
+	float: right;
+    margin-top: 0.5rem;
+}

@@ -26,6 +26,9 @@ function tk_google_fonts_js() {
 
 	wp_enqueue_style( 'tk-google-fonts-css', plugins_url( '/admin/css/tk-google-fonts.css', __FILE__ ) );
 
+    wp_enqueue_script( 'jquery-ui-dialog' ); 
+    wp_enqueue_style( 'wp-jquery-ui-dialog' );
+
 	tk_google_fonts_enqueue_fonts();
 }
 
@@ -79,4 +82,17 @@ add_action( 'wp_ajax_tk_dismiss_notice', 'tk_dismiss_notice' );
 
 function tk_dismiss_notice() {
     update_option( 'tk_dismiss_notice', true );
+}
+
+add_action( 'wp_ajax_tk_notice_modal', 'tk_google_font_notice_modal_ajax' );
+function tk_google_font_notice_modal_ajax() {
+
+	if ( empty( $_POST['modal-id'] ) ) {
+		die();
+	}
+
+	$modal_id = sanitize_text_field( $_POST['modal-id'] );
+
+	update_option( 'tk_google_fonts_notice_modal', $modal_id );
+	die();
 }

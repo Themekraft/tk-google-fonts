@@ -31,7 +31,24 @@ function tk_google_fonts_screen() { ?>
             <?php settings_fields( 'tk_google_fonts_options' ); ?>
             <?php do_settings_sections( 'tk_google_fonts_options' ); ?>
         </form>
+		
+		<?php 
+		if ( get_option( 'tk_google_fonts_notice_modal' ) !== 'gdpr' ) {
+			tk_google_font_notice_modal(); 
+		}?>
+
     </div><?php
+}
+
+function tk_google_font_notice_modal() { ?>
+
+	<div id="tk-notice-modal" title="TK Google Font Plugin Pro Version GDPR Compliant update.">
+		<p>With the new update, the pro version is now GDPR Compliant. You don’t risk getting fined by the European Union for not comply with the GDPR. Let's remember that the fines go from 10 to 20 million euros, so you have to be very careful about how you handle your user’s information.</p>
+		<p>To know more about what is the GDPR, what are you risking if you are no compliant, and how to handle the information you have, please read the article we prepared about it: The European Union General Data Protection Regulation.</p>
+		<p>You can also see its video version: <a>https://video-url</a></p>
+		<p>If you need help with the implementation of this plugin, here’s all the documentation about it.</p>
+		<a href="#" class="close-for-ever" data-close-for-ever="gdpr">Don't show me this massage again.</a>
+	</div> <?php
 }
 
 /**
