@@ -175,6 +175,13 @@ function tk_google_fonts_add_font($google_font_name){
 		return;
 
 	$tk_google_fonts_options = get_option('tk_google_fonts_options');
+
+	if ( empty ( $tk_google_fonts_options['selected_fonts'] ) ) {
+		$tk_google_fonts_options = array(
+			'selected_fonts' => array()
+		);
+	}
+
 	$tk_google_fonts_options['selected_fonts'][$google_font_name] = $google_font_name;
 
 	update_option("tk_google_fonts_options", $tk_google_fonts_options);
