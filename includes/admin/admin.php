@@ -31,6 +31,13 @@ function tk_google_fonts_screen() { ?>
             <?php settings_fields( 'tk_google_fonts_options' ); ?>
             <?php do_settings_sections( 'tk_google_fonts_options' ); ?>
         </form>
+
+		<script src="https://www.youtube.com/iframe_api"></script>
+		<script>(function(f,b){if(!b.__SV){var e,g,i,h;window.mixpanel=b;b._i=[];b.init=function(e,f,c){function g(a,d){var b=d.split(".");2==b.length&&(a=a[b[0]],d=b[1]);a[d]=function(){a.push([d].concat(Array.prototype.slice.call(arguments,0)))}}var a=b;"undefined"!==typeof c?a=b[c]=[]:c="mixpanel";a.people=a.people||[];a.toString=function(a){var d="mixpanel";"mixpanel"!==c&&(d+="."+c);a||(d+=" (stub)");return d};a.people.toString=function(){return a.toString(1)+".people (stub)"};i="disable time_event track track_pageview track_links track_forms track_with_groups add_group set_group remove_group register register_once alias unregister identify name_tag set_config reset opt_in_tracking opt_out_tracking has_opted_in_tracking has_opted_out_tracking clear_opt_in_out_tracking start_batch_senders people.set people.set_once people.unset people.increment people.append people.union people.track_charge people.clear_charges people.delete_user people.remove".split(" ");
+			for(h=0;h<i.length;h++)g(a,i[h]);var j="set set_once union unset remove delete".split(" ");a.get_group=function(){function b(c){d[c]=function(){call2_args=arguments;call2=[c].concat(Array.prototype.slice.call(call2_args,0));a.push([e,call2])}}for(var d={},e=["get_group"].concat(Array.prototype.slice.call(arguments,0)),c=0;c<j.length;c++)b(j[c]);return d};b._i.push([e,f,c])};b.__SV=1.2;e=f.createElement("script");e.type="text/javascript";e.async=!0;e.src="undefined"!==typeof MIXPANEL_CUSTOM_LIB_URL?
+			MIXPANEL_CUSTOM_LIB_URL:"file:"===f.location.protocol&&"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js".match(/^\/\//)?"https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js":"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";g=f.getElementsByTagName("script")[0];g.parentNode.insertBefore(e,g)}})(document,window.mixpanel||[]);
+			mixpanel.init("b9e34444f551aa572ff78c8a3f813d37", {batch_requests: true})
+		</script>
 		
 		<?php 
 		if ( get_option( 'tk_google_fonts_notice_modal' ) !== 'gdpr' ) {
@@ -40,15 +47,159 @@ function tk_google_fonts_screen() { ?>
     </div><?php
 }
 
-function tk_google_font_notice_modal() { ?>
+function tk_google_font_notice_modal() { 
+	
+	/**
+	 * @var WP_User
+	 */
+	$user_id    = get_current_user_id();
+	$user       = get_userdata( $user_id );
+	$user_email = isset( $user->data->user_email ) ? $user->data->user_email : '';
+	?>
 
-	<div id="tk-notice-modal" title="TK Google Font Plugin Pro Version GDPR Compliant update.">
-		<p>With the new update, the pro version is now GDPR Compliant. You don’t risk getting fined by the European Union for not comply with the GDPR. Let's remember that the fines go from 10 to 20 million euros, so you have to be very careful about how you handle your user’s information.</p>
-		<p>To know more about what is the GDPR, what are you risking if you are no compliant, and how to handle the information you have, please read the article we prepared about it: The European Union General Data Protection Regulation.</p>
-		<p>You can also see its video version: <a>https://video-url</a></p>
-		<p>If you need help with the implementation of this plugin, here’s all the documentation about it.</p>
+	<div data-user-id="<?php echo $user_id; ?>" data-user-email="<?php echo $user_email ?>" id="tk-notice-modal" title="TK Google Font Plugin Pro Version GDPR Compliant update.">
+		<p>Hi, thanks for installing/updating your TK Google Fonts Plugin.</p>
+
+		<p>With this new update, the pro version is GDPR Compliant, so you don’t risk getting fined by the European Union. (Between 10 and 20 million euros!!)</p>
+
+		<?php if ( tk_gf_fs()->is_free_plan() ) : ?>
+		
+		<p>Because we care about you, your business, and your web, just for this month, we have a 30% discount on our TK
+			Google Font plugin. Don’t let this offer pass you by nor the opportunity to be GDPR compliant.</p>
+			
+		<div class="tk-upgrade-box">
+			<a target="_blank" href="https://checkout.freemius.com/mode/dialog/plugin/426/plan/1631/?coupon=TKGDPRLimitedPromotion">Click now to upgrade/purchase!</a>
+			<p id="tk-count-down"></p>
+		</div>
+		<div class="videoWrapper" style="--aspect-ratio: 3 / 4;">
+			<div id="tkVideo"></div>
+		</div>
+
+		<?php else : ?>
+
+			<img src="<?php echo plugins_url( '/media/gdpr-thumbnail.png', __FILE__ ); ?>" alt="TK Google Font GDPR">
+
+		<?php endif; ?>
+
+		<footer>
+			<p>
+				If you need any help on implementation or have any questions about this plugin you can always write us at
+					support@themekraft.com.
+			</p>
+		</footer>
+
 		<a href="#" class="close-for-ever" data-close-for-ever="gdpr">Don't show me this massage again.</a>
-	</div> <?php
+	</div> 
+	
+	<script>
+
+		jQuery(document).ready(function($) {
+
+			let player = {};
+
+			window.onYouTubeIframeAPIReady = function() {
+				player = new YT.Player('tkVideo', {
+					height: '940',
+					width: '529',
+					videoId: 'R15UnbmMDac',
+					events: {
+						'onStateChange': onPlayerStateChange
+					}
+				});
+			}
+
+			var started = false;
+			window.onPlayerStateChange = function(event) {
+				if (event.data == YT.PlayerState.PLAYING && !started) {
+					console.log('Video started');
+					mixpanel.track("GDPR Pop-up",{ "action": "Video started"});
+					const interval = setInterval(function() {
+						if (parseInt(player.getCurrentTime()) === 30) {
+							console.log('Video After 30s')
+							mixpanel.track("GDPR Pop-up",{ "action": "Video After 30s"});
+							clearInterval(interval);
+
+						}
+					}, 1000);
+
+					started = true;
+				}
+			}
+
+			const initCounterDown = function() {
+				// Set the date we're counting down to
+				const countDownDate = new Date("May 31, 2021 00:00:00").getTime();
+
+				// Update the count down every 1 second
+				const x = setInterval(function() {
+
+					// Get today's date and time
+					const now = new Date().getTime();
+						
+					// Find the distance between now and the count down date
+					const distance = countDownDate - now;
+						
+					// Time calculations for days, hours, minutes and seconds
+					const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+					const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+					const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+					const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+						
+					// Output the result in an element with id="demo"
+					$('#tk-count-down').text( 
+						days + "d " + hours + "h " + minutes + "m " + seconds + "s " 
+					);
+						
+					// If the count down is over, write some text 
+					if (distance < 0) {
+						clearInterval(x);
+						$('#tk-count-down').text("This promotion has expired 😓");
+					}
+
+				}, 1000);
+			}
+
+			const initMixPanelEvents = function() {
+
+				const USER_ID    = $('#tk-notice-modal').data('user-id');
+				const USER_EMAIL = $('#tk-notice-modal').data('user-email');
+
+				// Identify for MixPanel
+				mixpanel.identify(USER_ID);
+				mixpanel.people.set({
+					"$email" : USER_EMAIL,
+					"USER_ID": USER_ID
+				});
+
+				console.log('Pop-up show');
+				mixpanel.track("GDPR Pop-up",{ "action": "Pop-up show"});
+
+				$( '.ui-dialog-titlebar button' ).click(function(e){
+					console.log('Close');
+					mixpanel.track("GDPR Pop-up",{ "action": "Close"});
+					player.stopVideo();
+				});
+
+				$( '.close-for-ever' ).click(function(e){
+					console.log('Close For Ever');
+					mixpanel.track("GDPR Pop-up",{ "action": "Close For Ever"});
+					player.stopVideo();
+				});
+
+				$( '.tk-upgrade-box a' ).click(function(e){
+					console.log('Upgrade/Purchase');
+					mixpanel.track("GDPR Pop-up",{ "action": "Upgrade/Purchase"});
+					player.pauseVideo();
+				});
+			}
+			
+			initCounterDown();
+			initMixPanelEvents();
+
+		});
+	</script>
+
+	<?php
 }
 
 /**

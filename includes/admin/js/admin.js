@@ -69,7 +69,7 @@ jQuery(document).ready(function(){
 		modal: true,
 		resizable: false,
 		draggable: false,
-		width: modalWidth < 640 ? modalWidth : 640,
+		width: modalWidth < 920 ? modalWidth : 920,
 		classes: {
 			"ui-dialog": "tk-notice-modal-dialog"
 		} 
