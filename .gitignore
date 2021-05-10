@@ -156,3 +156,5 @@ fabric.properties
 .idea/httpRequests
 
 /.php_cs.cache
+
+includes/resources/my-fonts
