@@ -77,7 +77,7 @@ function tk_google_font_notice_modal() {
 
 		<?php else : ?>
 
-			<p>If you want to know more about the GDPR, please read our article <a href="https://themekraft.com/the-european-union-general-data-protection-regulation/">European Union General Data Protection Regulation</a></p>
+			<p>If you want to know more about the GDPR, please read our article <a target="_blank" href="https://themekraft.com/the-european-union-general-data-protection-regulation/">European Union General Data Protection Regulation</a></p>
 			
 			<p>Because we care about you, your business, and your web, we’re always updating with new and useful features. Please let us know what you think about this new feature and give us a review in Freemius or WordPress. It would mean the world for us!</p>
 			
