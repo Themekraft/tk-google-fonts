@@ -26,6 +26,9 @@ function tk_google_fonts_js() {
 
 	wp_enqueue_style( 'tk-google-fonts-css', plugins_url( '/admin/css/tk-google-fonts.css', __FILE__ ) );
 
+    wp_enqueue_script( 'jquery-ui-dialog' ); 
+    wp_enqueue_style( 'wp-jquery-ui-dialog' );
+
 	tk_google_fonts_enqueue_fonts();
 }
 

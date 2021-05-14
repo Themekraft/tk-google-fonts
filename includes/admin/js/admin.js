@@ -57,6 +57,44 @@ jQuery(document).ready(function(){
 });
 
 /**
+ * Init Notice Modal
+ */
+jQuery(document).ready(function(){
+
+	const $modal        = jQuery('#tk-notice-modal');
+	const $closeForEver = jQuery('#tk-notice-modal').find('[data-close-for-ever]');
+	const modalWidth    = jQuery(window).width() * 0.90; // 90% of the screen size.
+
+	$modal.dialog({
+		modal: true,
+		resizable: false,
+		draggable: false,
+		width: modalWidth < 920 ? modalWidth : 920,
+		classes: {
+			"ui-dialog": "tk-notice-modal-dialog"
+		} 
+	});
+
+	$closeForEver.click(function(e) {
+
+		e.preventDefault();
+
+		jQuery.ajax({
+			type: 'POST',
+			url: ajaxurl,
+			data: { 
+				"action"  : "tk_notice_modal",
+				"modal-id": $closeForEver.data('close-for-ever')
+			},
+			complete: function(){
+				$modal.dialog( "close" );
+			}
+		});
+	});
+	
+});
+
+/**
  * The Font Selector himself
  * 
  * @author Sven Lehnert 
