@@ -3,11 +3,11 @@ Contributors: svenl77, konradS, themekraft
 Tags: google fonts, fonts, webfonts
 Requires at least: 3.5
 Tested up to: 5.7
-Stable tag: 2.0.4
+Stable tag: 2.1.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-TK Google Fonts is a powerful, extendable Google webfonts plugin that helps you to use Google Fonts in your theme. Pro version: GDPR Compliance.
+TK Google Fonts is a powerful, extendable Google webfonts plugin that helps you to use Google Fonts in your theme. also, the Pro version is GDPR Compliance.
 
 == Description ==
 
@@ -110,6 +110,11 @@ Checkout the related Google Page of the font to see how to write the CSS to call
 6. The TK Google Fonts Admin Settings Panel - Select a Font with preview
 
 == Changelog ==
+= 2.1.0 - 14 May 2021 = 
+* Added new feature to make plugin GDPR Compliant on the Pro version.
+* Adding GDPR Compliant on the landing page.
+* Removed some fonts from the list due to now are not "free accessible" on Google Fonts API.
+
 = 2.0.4 - 17 Mar 2021 =
 * Updated Google Font API used by the plugin
 * Updated FontSelect library
