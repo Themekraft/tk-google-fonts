@@ -132,7 +132,7 @@ function tk_google_font_notice_modal() {
 
 			const initCounterDown = function() {
 				// Set the date we're counting down to
-				const countDownDate = new Date("May 31, 2021 00:00:00").getTime();
+				const countDownDate = new Date("Jun 15, 2021 00:00:00").getTime();
 
 				// Update the count down every 1 second
 				const x = setInterval(function() {
