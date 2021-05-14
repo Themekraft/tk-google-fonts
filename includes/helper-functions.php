@@ -65,18 +65,15 @@ function tk_google_fonts_enqueue_fonts() {
 	
 }
 
-// Admin notice script enqueue
+add_action( 'wp_ajax_tk_notice_modal', 'tk_google_font_notice_modal_ajax' );
+function tk_google_font_notice_modal_ajax() {
 
-add_action( 'admin_enqueue_scripts', 'tk_gdpr_advise' );
+	if ( empty( $_POST['modal-id'] ) ) {
+		die();
+	}
 
-function tk_gdpr_advise() {
-    wp_register_script( 'notice-update', plugins_url( '/resources/font-select/update-notice.js', __FILE__ ), false, '1.0' );
-        
-    wp_enqueue_script(  'notice-update' );
-}
+	$modal_id = sanitize_text_field( $_POST['modal-id'] );
 
-add_action( 'wp_ajax_tk_dismiss_notice', 'tk_dismiss_notice' );
-
-function tk_dismiss_notice() {
-    update_option( 'tk_dismiss_notice', true );
+	update_option( 'tk_google_fonts_notice_modal', $modal_id );
+	die();
 }
