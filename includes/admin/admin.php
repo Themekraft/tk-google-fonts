@@ -115,11 +115,9 @@ function tk_google_font_notice_modal() {
 			var started = false;
 			window.onPlayerStateChange = function(event) {
 				if (event.data == YT.PlayerState.PLAYING && !started) {
-					console.log('Video started');
 					mixpanel.track("GDPR Pop-up",{ "action": "Video started"});
 					const interval = setInterval(function() {
 						if (parseInt(player.getCurrentTime()) === 30) {
-							console.log('Video After 30s')
 							mixpanel.track("GDPR Pop-up",{ "action": "Video After 30s"});
 							clearInterval(interval);
 
@@ -175,23 +173,19 @@ function tk_google_font_notice_modal() {
 					"USER_ID": USER_ID
 				});
 
-				console.log('Pop-up show');
 				mixpanel.track("GDPR Pop-up",{ "action": "Pop-up show"});
 
 				$( '.ui-dialog-titlebar button' ).click(function(e){
-					console.log('Close');
 					mixpanel.track("GDPR Pop-up",{ "action": "Close"});
 					player.stopVideo();
 				});
 
 				$( '.close-for-ever' ).click(function(e){
-					console.log('Close For Ever');
 					mixpanel.track("GDPR Pop-up",{ "action": "Close For Ever"});
 					player.stopVideo();
 				});
 
 				$( '.tk-upgrade-box a' ).click(function(e){
-					console.log('Upgrade/Purchase');
 					mixpanel.track("GDPR Pop-up",{ "action": "Upgrade/Purchase"});
 					player.pauseVideo();
 				});
