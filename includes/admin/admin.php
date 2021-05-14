@@ -343,6 +343,13 @@ function tk_google_fonts_add_font($google_font_name){
 		return;
 
 	$tk_google_fonts_options = get_option('tk_google_fonts_options');
+
+	if ( empty ( $tk_google_fonts_options['selected_fonts'] ) ) {
+		$tk_google_fonts_options = array(
+			'selected_fonts' => array()
+		);
+	}
+
 	$tk_google_fonts_options['selected_fonts'][$google_font_name] = $google_font_name;
 
 	update_option("tk_google_fonts_options", $tk_google_fonts_options);
@@ -424,19 +431,4 @@ function tk_google_fonts_delete_font(){
     die();
 
 }
-
-// Adding the admin notice
-
-if( get_option( 'tk_dismiss_notice' ) != true && ! tk_gf_fs()->is_plan__premium_only( 'professional' )) {
-    add_action( 'admin_notices', 'add_dismissible' );
-}
-
-function add_dismissible() {
-    
-    echo '<div class="notice notice-warning tk-dismiss-notice is-dismissible">
-        <p><strong>GOOGLE FONTS ARE AGAINST THE EUROPE LOW.</strong></p>
-		<p>Get our <a href="themes.php?page=tk-google-fonts-options-pricing" class="current" aria-current="page">latest pro version with GDPR Compliance</a> to stay save and avoid paying costly warning letter.</p>
-      	</div>';
-}
-
 
