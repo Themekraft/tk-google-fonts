@@ -1,6 +1,24 @@
 <?php
 
 /**
+ * Redirect to the landing page after update the plugin.
+ * @author jnfDev
+ */
+add_action( 'upgrader_process_complete', 'tk_google_fonts_redirect_after_upgrade',10, 2);
+ 
+function tk_google_fonts_redirect_after_upgrade( $upgrader_object, $options ) {
+    $current_plugin_path_name = plugin_basename( __FILE__ );
+ 
+	if ( $options['action'] === 'update' && $options['type'] === 'plugin' ) {
+		foreach( $options['plugins'] as $each_plugin ) {
+        	if ( $each_plugin === $current_plugin_path_name ) {
+				wp_redirect( admin_url( '/themes.php?page=tk-google-fonts-options' ) );
+        	}
+       }
+    }
+}
+
+/**
  * Adding the Admin Page
  *
  * @author Sven Lehnert
