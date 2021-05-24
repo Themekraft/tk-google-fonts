@@ -102,7 +102,13 @@ jQuery(document).ready(function(){
  */     
 jQuery(function(){
 
-	jQuery('#font').fontselect().change(function(){
+	jQuery('#font').fontselect(
+		{
+			googleApi: 'https://fonts.googleapis.com/css2?family=',
+			localFontsUrl: '../my-fonts/',
+			systemFonts: 'Roboto|Open+Sans|Lato|Montserrat|Oswald|Raleway|Ubuntu'.split('|'),
+		}
+	).change(function(){
 
 		// replace + signs with spaces for css
 		var font = jQuery(this).val().replace(/\+/g, ' ');
