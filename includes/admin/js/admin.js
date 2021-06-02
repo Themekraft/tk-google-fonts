@@ -12,7 +12,7 @@ jQuery(document).ready(function(){
 		});
 	}
 		
-	jQuery('.add_google_font').click(function(){
+/* 	jQuery('.add_google_font').click(function(){
 		var action = jQuery(this);
 		var google_font_name = jQuery('#font').val();
 		var new_google_font = jQuery('#new_font').val();
@@ -31,7 +31,7 @@ jQuery(document).ready(function(){
 				alert('Something went wrong.. ;-(sorry)');
 			}
 		});
-	});
+	}); */
 	
  	jQuery('.dele_form').click(function(){
  		var google_font_name = jQuery(this).attr('id');

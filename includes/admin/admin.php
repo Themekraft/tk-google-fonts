@@ -282,7 +282,7 @@ function tk_google_fonts_field_font() {
 
         <div class="input-wrap">
         	<input id="font" type="text" />
-        	<input type="text" id="new_font" placeholder="Add a not listed font here" />
+ <!--       	<input type="text" id="new_font" placeholder="Add a not listed font here" /> -->
         	<input type="button" value="Add Font" name="add_google_font" class="button add_google_font btn" />
 
         </div>
