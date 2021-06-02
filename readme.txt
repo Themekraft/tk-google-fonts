@@ -111,7 +111,8 @@ Checkout the related Google Page of the font to see how to write the CSS to call
 
 == Changelog ==
 = 2.1.1 - 02 Jun 2021 =
-* Hotfix: temporary solution to fix the issue with the fonts family names.
+* Hotfix: Fixed issue when a non-existing font was loaded.
+* Hotfix: temporary solution to fix the issue with fonts family names on the font selector.
 
 = 2.1.0 - 14 May 2021 = 
 * Added new feature to make plugin GDPR Compliant on the Pro version.
