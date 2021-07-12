@@ -2,8 +2,8 @@
 Contributors: svenl77, konradS, themekraft
 Tags: google fonts, fonts, webfonts
 Requires at least: 3.5
-Tested up to: 5.7
-Stable tag: 2.1.1
+Tested up to: 5.8
+Stable tag: 2.1.2
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -110,6 +110,10 @@ Checkout the related Google Page of the font to see how to write the CSS to call
 6. The TK Google Fonts Admin Settings Panel - Select a Font with preview
 
 == Changelog ==
+= 2.1.2 - 12 Jul 2021 =
+* Tested up WordPress 5.8
+* Fixed security issue.
+
 = 2.1.1 - 02 Jun 2021 =
 * Hotfix: Fixed issue when a non-existing font was loaded.
 * Hotfix: temporary solution to fix the issue with fonts family names on the font selector.
