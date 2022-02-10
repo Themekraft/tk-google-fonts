@@ -11,6 +11,8 @@ TK Google Fonts is a powerful, extendable Google webfonts plugin that helps you 
 
 == Description ==
 
+[youtube https://www.youtube.com/watch?v=i1_us4mjlCA]
+
 = Fast Pageload =
 
 The plugin only loads the fonts you select. This is good for your page loading times, as you want your site to load fast.
