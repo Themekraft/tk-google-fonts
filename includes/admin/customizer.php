@@ -382,12 +382,6 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 				) ) );
 	}
 
-
-
-
-
-
-
 	// Page Title
 
   $wp_customize->add_setting( 'page_title_font', array(
@@ -492,9 +486,6 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 				) ) );
 	}
 
-
-
-
 	// Headings
 
   $wp_customize->add_setting( 'headings_font', array(
@@ -560,9 +551,6 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 				) ) );
 	}
 
-
-
-
 	// H1
 
   $wp_customize->add_setting( 'h1_font', array(
@@ -589,7 +577,6 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 
 	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'h1_font_color', array(
 		'label'             => 'H1 Font Color',
-		// 'description'       => 'Leave blank to fallback to your current theme\'s CSS.',
 		'section'           => 'tk_h1',
 		'settings'          => 'h1_font_color',
     'priority'		      => 12,
@@ -668,11 +655,6 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 				) ) );
 	}
 
-
-
-
-
-
 	// H2
 
   $wp_customize->add_setting( 'h2_font', array(
@@ -691,77 +673,75 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 
 	if ( tk_gf_fs()->is_plan__premium_only('professional') ) {
 
-  $wp_customize->add_setting( 'h2_font_color', array(
-    'sanitize_callback' => 'sanitize_hex_color',
-    'default'           => 'default',
-		'transport'         => 'refresh',
-	) );
+		$wp_customize->add_setting( 'h2_font_color', array(
+			'sanitize_callback' => 'sanitize_hex_color',
+			'default'           => 'default',
+				'transport'         => 'refresh',
+			) );
 
-	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'h2_font_color', array(
-		'label'             => 'H2 Font Color',
-		// 'description'       => 'Leave blank to fallback to your current theme\'s CSS.',
-		'section'           => 'tk_h2',
-		'settings'          => 'h2_font_color',
-    'priority'		      => 12,
-	) ) );
+			$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'h2_font_color', array(
+				'label'             => 'H2 Font Color',
+				'section'           => 'tk_h2',
+				'settings'          => 'h2_font_color',
+			'priority'		      => 12,
+			) ) );
 
-  $wp_customize->add_setting( 'h2_font_weight', array(
-		'default'           => 'default',
-		'transport'         => 'refresh',
-	) );
+		$wp_customize->add_setting( 'h2_font_weight', array(
+				'default'           => 'default',
+				'transport'         => 'refresh',
+			) );
 
-	$wp_customize->add_control( 'h2_font_weight', array(
-		'label'             => 'H2 Font Weight',
-		'description'       => 'Auto = fallback to your current theme\'s CSS.',
-		'section'           => 'tk_h2',
-		'type'              => 'radio',
-		'priority'		      => 14,
-		'choices'           => array(
-      'auto'     => 'auto',
-			'normal'   => 'normal',
-			'bold'     => 'bold',
-		),
-	) );
+			$wp_customize->add_control( 'h2_font_weight', array(
+				'label'             => 'H2 Font Weight',
+				'description'       => 'Auto = fallback to your current theme\'s CSS.',
+				'section'           => 'tk_h2',
+				'type'              => 'radio',
+				'priority'		      => 14,
+				'choices'           => array(
+			'auto'     => 'auto',
+					'normal'   => 'normal',
+					'bold'     => 'bold',
+				),
+			) );
 
-  $wp_customize->add_setting( 'h2_font_size_sm', array(
-		'default'           => 'default',
-		'transport'         => 'refresh',
-	) );
+		$wp_customize->add_setting( 'h2_font_size_sm', array(
+				'default'           => 'default',
+				'transport'         => 'refresh',
+			) );
 
-	$wp_customize->add_control( 'h2_font_size_sm', array(
-		'label'             => 'H2 Font Size - Mobile',
-		'description'       => 'on screens smaller than 768px. Write including unit, for example "14px" or "2em"',
-		'section'           => 'tk_h2',
-		'type'              => 'text',
-		'priority'		      => 16,
-	) );
+			$wp_customize->add_control( 'h2_font_size_sm', array(
+				'label'             => 'H2 Font Size - Mobile',
+				'description'       => 'on screens smaller than 768px. Write including unit, for example "14px" or "2em"',
+				'section'           => 'tk_h2',
+				'type'              => 'text',
+				'priority'		      => 16,
+			) );
 
-	$wp_customize->add_setting( 'h2_font_size_md', array(
-		'default'           => 'default',
-		'transport'         => 'refresh',
-	) );
+			$wp_customize->add_setting( 'h2_font_size_md', array(
+				'default'           => 'default',
+				'transport'         => 'refresh',
+			) );
 
-	$wp_customize->add_control( 'h2_font_size_md', array(
-		'label'             => 'H2 Font Size - Pad Devices',
-		'description'       => 'on screens from 768px to 1199px. Write including unit, for example "14px" or "2em"',
-		'section'           => 'tk_h2',
-		'type'              => 'text',
-		'priority'		      => 17,
-	) );
+			$wp_customize->add_control( 'h2_font_size_md', array(
+				'label'             => 'H2 Font Size - Pad Devices',
+				'description'       => 'on screens from 768px to 1199px. Write including unit, for example "14px" or "2em"',
+				'section'           => 'tk_h2',
+				'type'              => 'text',
+				'priority'		      => 17,
+			) );
 
-	$wp_customize->add_setting( 'h2_font_size_lg', array(
-		'default'           => 'default',
-		'transport'         => 'refresh',
-	) );
+			$wp_customize->add_setting( 'h2_font_size_lg', array(
+				'default'           => 'default',
+				'transport'         => 'refresh',
+			) );
 
-	$wp_customize->add_control( 'h2_font_size_lg', array(
-		'label'             => 'H2 Font Size - Large Screens',
-		'description'       => 'on screens from 1200px. Write including unit, for example "14px" or "2em"',
-		'section'           => 'tk_h2',
-		'type'              => 'text',
-		'priority'		      => 18,
-	) );
-
+			$wp_customize->add_control( 'h2_font_size_lg', array(
+				'label'             => 'H2 Font Size - Large Screens',
+				'description'       => 'on screens from 1200px. Write including unit, for example "14px" or "2em"',
+				'section'           => 'tk_h2',
+				'type'              => 'text',
+				'priority'		      => 18,
+			) );
 	}
 
 	if( ! $tk_google_pro ){
@@ -777,11 +757,6 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 						'priority'		      => 120,
 				) ) );
 	}
-
-
-
-
-
 
 	// H3
 
@@ -801,96 +776,90 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 
 	if ( tk_gf_fs()->is_plan__premium_only('professional') ) {
 
-  $wp_customize->add_setting( 'h3_font_color', array(
-    'sanitize_callback' => 'sanitize_hex_color',
-    'default'           => 'default',
-		'transport'         => 'refresh',
-	) );
+		$wp_customize->add_setting( 'h3_font_color', array(
+			'sanitize_callback' => 'sanitize_hex_color',
+			'default'           => 'default',
+				'transport'         => 'refresh',
+			) );
 
-	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'h3_font_color', array(
-		'label'             => 'H3 Font Color',
-		// 'description'       => 'Leave blank to fallback to your current theme\'s CSS.',
-		'section'           => 'tk_h3',
-		'settings'          => 'h3_font_color',
-    'priority'		      => 12,
-	) ) );
+			$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'h3_font_color', array(
+				'label'             => 'H3 Font Color',
+				'section'           => 'tk_h3',
+				'settings'          => 'h3_font_color',
+			'priority'		      => 12,
+			) ) );
 
-  $wp_customize->add_setting( 'h3_font_weight', array(
-		'default'           => 'default',
-		'transport'         => 'refresh',
-	) );
+		$wp_customize->add_setting( 'h3_font_weight', array(
+				'default'           => 'default',
+				'transport'         => 'refresh',
+			) );
 
-	$wp_customize->add_control( 'h3_font_weight', array(
-		'label'             => 'H3 Font Weight',
-		'description'       => 'Auto = fallback to your current theme\'s CSS.',
-		'section'           => 'tk_h3',
-		'type'              => 'radio',
-		'priority'		      => 14,
-		'choices'           => array(
-      'auto'     => 'auto',
-			'normal'   => 'normal',
-			'bold'     => 'bold',
-		),
-	) );
+			$wp_customize->add_control( 'h3_font_weight', array(
+				'label'             => 'H3 Font Weight',
+				'description'       => 'Auto = fallback to your current theme\'s CSS.',
+				'section'           => 'tk_h3',
+				'type'              => 'radio',
+				'priority'		      => 14,
+				'choices'           => array(
+			'auto'     => 'auto',
+					'normal'   => 'normal',
+					'bold'     => 'bold',
+				),
+			) );
 
-  $wp_customize->add_setting( 'h3_font_size_sm', array(
-		'default'           => 'default',
-		'transport'         => 'refresh',
-	) );
+		$wp_customize->add_setting( 'h3_font_size_sm', array(
+				'default'           => 'default',
+				'transport'         => 'refresh',
+			) );
 
-	$wp_customize->add_control( 'h3_font_size_sm', array(
-		'label'             => 'H3 Font Size - Mobile',
-		'description'       => 'on screens smaller than 768px. Write including unit, for example "14px" or "2em"',
-		'section'           => 'tk_h3',
-		'type'              => 'text',
-		'priority'		      => 16,
-	) );
+			$wp_customize->add_control( 'h3_font_size_sm', array(
+				'label'             => 'H3 Font Size - Mobile',
+				'description'       => 'on screens smaller than 768px. Write including unit, for example "14px" or "2em"',
+				'section'           => 'tk_h3',
+				'type'              => 'text',
+				'priority'		      => 16,
+			) );
 
-	$wp_customize->add_setting( 'h3_font_size_md', array(
-		'default'           => 'default',
-		'transport'         => 'refresh',
-	) );
+			$wp_customize->add_setting( 'h3_font_size_md', array(
+				'default'           => 'default',
+				'transport'         => 'refresh',
+			) );
 
-	$wp_customize->add_control( 'h3_font_size_md', array(
-		'label'             => 'H3 Font Size - Pad Devices',
-		'description'       => 'on screens from 768px to 1199px. Write including unit, for example "14px" or "2em"',
-		'section'           => 'tk_h3',
-		'type'              => 'text',
-		'priority'		      => 17,
-	) );
+			$wp_customize->add_control( 'h3_font_size_md', array(
+				'label'             => 'H3 Font Size - Pad Devices',
+				'description'       => 'on screens from 768px to 1199px. Write including unit, for example "14px" or "2em"',
+				'section'           => 'tk_h3',
+				'type'              => 'text',
+				'priority'		      => 17,
+			) );
 
-	$wp_customize->add_setting( 'h3_font_size_lg', array(
-		'default'           => 'default',
-		'transport'         => 'refresh',
-	) );
+			$wp_customize->add_setting( 'h3_font_size_lg', array(
+				'default'           => 'default',
+				'transport'         => 'refresh',
+			) );
 
-	$wp_customize->add_control( 'h3_font_size_lg', array(
-		'label'             => 'H3 Font Size - Large Screens',
-		'description'       => 'on screens from 1200px. Write including unit, for example "14px" or "2em"',
-		'section'           => 'tk_h3',
-		'type'              => 'text',
-		'priority'		      => 18,
-	) );
-
+			$wp_customize->add_control( 'h3_font_size_lg', array(
+				'label'             => 'H3 Font Size - Large Screens',
+				'description'       => 'on screens from 1200px. Write including unit, for example "14px" or "2em"',
+				'section'           => 'tk_h3',
+				'type'              => 'text',
+				'priority'		      => 18,
+			) );
 	}
 
 	if( ! $tk_google_pro ){
-				$wp_customize->add_setting( 'h3_title_pro_options', array(
-						'default'           => array('H3 Font Color', 'H3 Font Weight', 'H3 Font Size - Mobile', 'H3 Font Size - Pad Devices', 'H3 Font Size - Large Screens'),
-						'transport'         => 'refresh',
-				) );
+		$wp_customize->add_setting( 'h3_title_pro_options', array(
+				'default'           => array('H3 Font Color', 'H3 Font Weight', 'H3 Font Size - Mobile', 'H3 Font Size - Pad Devices', 'H3 Font Size - Large Screens'),
+				'transport'         => 'refresh',
+		) );
 
-				$wp_customize->add_control( new WP_Customize_TK_Google_GO_PRO_Control( $wp_customize, 'h3_title_pro_options', array(
-						'label'             => 'Get More Options For H3 Headings:',
-						'section'           => 'tk_h3',
-						'settings'          => 'h3_title_pro_options',
-						'priority'		      => 120,
-				) ) );
+		$wp_customize->add_control( new WP_Customize_TK_Google_GO_PRO_Control( $wp_customize, 'h3_title_pro_options', array(
+				'label'             => 'Get More Options For H3 Headings:',
+				'section'           => 'tk_h3',
+				'settings'          => 'h3_title_pro_options',
+				'priority'		      => 120,
+		) ) );
 	}
-
-
-
-
 
 	// H4
 
@@ -910,95 +879,90 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 
 	if ( tk_gf_fs()->is_plan__premium_only('professional') ) {
 
-  $wp_customize->add_setting( 'h4_font_color', array(
-    'sanitize_callback' => 'sanitize_hex_color',
-    'default'           => 'default',
-		'transport'         => 'refresh',
-	) );
+		$wp_customize->add_setting( 'h4_font_color', array(
+			'sanitize_callback' => 'sanitize_hex_color',
+			'default'           => 'default',
+				'transport'         => 'refresh',
+			) );
 
-	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'h4_font_color', array(
-		'label'             => 'H4 Font Color',
-		// 'description'       => 'Leave blank to fallback to your current theme\'s CSS.',
-		'section'           => 'tk_h4',
-		'settings'          => 'h4_font_color',
-    'priority'		      => 12,
-	) ) );
+			$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'h4_font_color', array(
+				'label'             => 'H4 Font Color',
+				'section'           => 'tk_h4',
+				'settings'          => 'h4_font_color',
+			'priority'		      => 12,
+			) ) );
 
-  $wp_customize->add_setting( 'h4_font_weight', array(
-		'default'           => 'default',
-		'transport'         => 'refresh',
-	) );
+		$wp_customize->add_setting( 'h4_font_weight', array(
+				'default'           => 'default',
+				'transport'         => 'refresh',
+			) );
 
-	$wp_customize->add_control( 'h4_font_weight', array(
-		'label'             => 'H4 Font Weight',
-		'description'       => 'Auto = fallback to your current theme\'s CSS.',
-		'section'           => 'tk_h4',
-		'type'              => 'radio',
-		'priority'		      => 14,
-		'choices'           => array(
-      'auto'     => 'auto',
-			'normal'   => 'normal',
-			'bold'     => 'bold',
-		),
-	) );
+			$wp_customize->add_control( 'h4_font_weight', array(
+				'label'             => 'H4 Font Weight',
+				'description'       => 'Auto = fallback to your current theme\'s CSS.',
+				'section'           => 'tk_h4',
+				'type'              => 'radio',
+				'priority'		      => 14,
+				'choices'           => array(
+			'auto'     => 'auto',
+					'normal'   => 'normal',
+					'bold'     => 'bold',
+				),
+			) );
 
-  $wp_customize->add_setting( 'h4_font_size_sm', array(
-		'default'           => 'default',
-		'transport'         => 'refresh',
-	) );
+		$wp_customize->add_setting( 'h4_font_size_sm', array(
+				'default'           => 'default',
+				'transport'         => 'refresh',
+			) );
 
-	$wp_customize->add_control( 'h4_font_size_sm', array(
-		'label'             => 'H4 Font Size - Mobile',
-		'description'       => 'on screens smaller than 768px. Write including unit, for example "14px" or "2em"',
-		'section'           => 'tk_h4',
-		'type'              => 'text',
-		'priority'		      => 16,
-	) );
+			$wp_customize->add_control( 'h4_font_size_sm', array(
+				'label'             => 'H4 Font Size - Mobile',
+				'description'       => 'on screens smaller than 768px. Write including unit, for example "14px" or "2em"',
+				'section'           => 'tk_h4',
+				'type'              => 'text',
+				'priority'		      => 16,
+			) );
 
-	$wp_customize->add_setting( 'h4_font_size_md', array(
-		'default'           => 'default',
-		'transport'         => 'refresh',
-	) );
+			$wp_customize->add_setting( 'h4_font_size_md', array(
+				'default'           => 'default',
+				'transport'         => 'refresh',
+			) );
 
-	$wp_customize->add_control( 'h4_font_size_md', array(
-		'label'             => 'H4 Font Size - Pad Devices',
-		'description'       => 'on screens from 768px to 1199px. Write including unit, for example "14px" or "2em"',
-		'section'           => 'tk_h4',
-		'type'              => 'text',
-		'priority'		      => 17,
-	) );
+			$wp_customize->add_control( 'h4_font_size_md', array(
+				'label'             => 'H4 Font Size - Pad Devices',
+				'description'       => 'on screens from 768px to 1199px. Write including unit, for example "14px" or "2em"',
+				'section'           => 'tk_h4',
+				'type'              => 'text',
+				'priority'		      => 17,
+			) );
 
-	$wp_customize->add_setting( 'h4_font_size_lg', array(
-		'default'           => 'default',
-		'transport'         => 'refresh',
-	) );
+			$wp_customize->add_setting( 'h4_font_size_lg', array(
+				'default'           => 'default',
+				'transport'         => 'refresh',
+			) );
 
-	$wp_customize->add_control( 'h4_font_size_lg', array(
-		'label'             => 'H4 Font Size - Large Screens',
-		'description'       => 'on screens from 1200px. Write including unit, for example "14px" or "2em"',
-		'section'           => 'tk_h4',
-		'type'              => 'text',
-		'priority'		      => 18,
-	) );
-
+			$wp_customize->add_control( 'h4_font_size_lg', array(
+				'label'             => 'H4 Font Size - Large Screens',
+				'description'       => 'on screens from 1200px. Write including unit, for example "14px" or "2em"',
+				'section'           => 'tk_h4',
+				'type'              => 'text',
+				'priority'		      => 18,
+			) );
 	}
 
 	if( ! $tk_google_pro ){
-				$wp_customize->add_setting( 'h4_title_pro_options', array(
-						'default'           => array('H4 Font Color', 'H4 Font Weight', 'H4 Font Size - Mobile', 'H4 Font Size - Pad Devices', 'H4 Font Size - Large Screens'),
-						'transport'         => 'refresh',
-				) );
+		$wp_customize->add_setting( 'h4_title_pro_options', array(
+				'default'           => array('H4 Font Color', 'H4 Font Weight', 'H4 Font Size - Mobile', 'H4 Font Size - Pad Devices', 'H4 Font Size - Large Screens'),
+				'transport'         => 'refresh',
+		) );
 
-				$wp_customize->add_control( new WP_Customize_TK_Google_GO_PRO_Control( $wp_customize, 'h4_title_pro_options', array(
-						'label'             => 'Get More Options For H4 Headings:',
-						'section'           => 'tk_h4',
-						'settings'          => 'h4_title_pro_options',
-						'priority'		      => 120,
-				) ) );
+		$wp_customize->add_control( new WP_Customize_TK_Google_GO_PRO_Control( $wp_customize, 'h4_title_pro_options', array(
+				'label'             => 'Get More Options For H4 Headings:',
+				'section'           => 'tk_h4',
+				'settings'          => 'h4_title_pro_options',
+				'priority'		      => 120,
+		) ) );
 	}
-
-
-
 
 
 	// H5
@@ -1019,95 +983,90 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 
 	if ( tk_gf_fs()->is_plan__premium_only('professional') ) {
 
-  $wp_customize->add_setting( 'h5_font_color', array(
-    'sanitize_callback' => 'sanitize_hex_color',
-    'default'           => 'default',
-		'transport'         => 'refresh',
-	) );
+		$wp_customize->add_setting( 'h5_font_color', array(
+			'sanitize_callback' => 'sanitize_hex_color',
+			'default'           => 'default',
+				'transport'         => 'refresh',
+			) );
 
-	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'h5_font_color', array(
-		'label'             => 'H5 Font Color',
-		// 'description'       => 'Leave blank to fallback to your current theme\'s CSS.',
-		'section'           => 'tk_h5',
-		'settings'          => 'h5_font_color',
-    'priority'		      => 12,
-	) ) );
+			$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'h5_font_color', array(
+				'label'             => 'H5 Font Color',
+				'section'           => 'tk_h5',
+				'settings'          => 'h5_font_color',
+			'priority'		      => 12,
+			) ) );
 
-  $wp_customize->add_setting( 'h5_font_weight', array(
-		'default'           => 'default',
-		'transport'         => 'refresh',
-	) );
+		$wp_customize->add_setting( 'h5_font_weight', array(
+				'default'           => 'default',
+				'transport'         => 'refresh',
+			) );
 
-	$wp_customize->add_control( 'h5_font_weight', array(
-		'label'             => 'H5 Font Weight',
-		'description'       => 'Auto = fallback to your current theme\'s CSS.',
-		'section'           => 'tk_h5',
-		'type'              => 'radio',
-		'priority'		      => 14,
-		'choices'           => array(
-      'auto'     => 'auto',
-			'normal'   => 'normal',
-			'bold'     => 'bold',
-		),
-	) );
+			$wp_customize->add_control( 'h5_font_weight', array(
+				'label'             => 'H5 Font Weight',
+				'description'       => 'Auto = fallback to your current theme\'s CSS.',
+				'section'           => 'tk_h5',
+				'type'              => 'radio',
+				'priority'		      => 14,
+				'choices'           => array(
+			'auto'     => 'auto',
+					'normal'   => 'normal',
+					'bold'     => 'bold',
+				),
+			) );
 
-  $wp_customize->add_setting( 'h5_font_size_sm', array(
-		'default'           => 'default',
-		'transport'         => 'refresh',
-	) );
+		$wp_customize->add_setting( 'h5_font_size_sm', array(
+				'default'           => 'default',
+				'transport'         => 'refresh',
+			) );
 
-	$wp_customize->add_control( 'h5_font_size_sm', array(
-		'label'             => 'H5 Font Size - Mobile',
-		'description'       => 'on screens smaller than 768px. Write including unit, for example "14px" or "2em"',
-		'section'           => 'tk_h5',
-		'type'              => 'text',
-		'priority'		      => 16,
-	) );
+			$wp_customize->add_control( 'h5_font_size_sm', array(
+				'label'             => 'H5 Font Size - Mobile',
+				'description'       => 'on screens smaller than 768px. Write including unit, for example "14px" or "2em"',
+				'section'           => 'tk_h5',
+				'type'              => 'text',
+				'priority'		      => 16,
+			) );
 
-	$wp_customize->add_setting( 'h5_font_size_md', array(
-		'default'           => 'default',
-		'transport'         => 'refresh',
-	) );
+			$wp_customize->add_setting( 'h5_font_size_md', array(
+				'default'           => 'default',
+				'transport'         => 'refresh',
+			) );
 
-	$wp_customize->add_control( 'h5_font_size_md', array(
-		'label'             => 'H5 Font Size - Pad Devices',
-		'description'       => 'on screens from 768px to 1199px. Write including unit, for example "14px" or "2em"',
-		'section'           => 'tk_h5',
-		'type'              => 'text',
-		'priority'		      => 17,
-	) );
+			$wp_customize->add_control( 'h5_font_size_md', array(
+				'label'             => 'H5 Font Size - Pad Devices',
+				'description'       => 'on screens from 768px to 1199px. Write including unit, for example "14px" or "2em"',
+				'section'           => 'tk_h5',
+				'type'              => 'text',
+				'priority'		      => 17,
+			) );
 
-	$wp_customize->add_setting( 'h5_font_size_lg', array(
-		'default'           => 'default',
-		'transport'         => 'refresh',
-	) );
+			$wp_customize->add_setting( 'h5_font_size_lg', array(
+				'default'           => 'default',
+				'transport'         => 'refresh',
+			) );
 
-	$wp_customize->add_control( 'h5_font_size_lg', array(
-		'label'             => 'H5 Font Size - Large Screens',
-		'description'       => 'on screens from 1200px. Write including unit, for example "14px" or "2em"',
-		'section'           => 'tk_h5',
-		'type'              => 'text',
-		'priority'		      => 18,
-	) );
-
+			$wp_customize->add_control( 'h5_font_size_lg', array(
+				'label'             => 'H5 Font Size - Large Screens',
+				'description'       => 'on screens from 1200px. Write including unit, for example "14px" or "2em"',
+				'section'           => 'tk_h5',
+				'type'              => 'text',
+				'priority'		      => 18,
+			) );
 	}
 
 	if( ! $tk_google_pro ){
-				$wp_customize->add_setting( 'h5_title_pro_options', array(
-						'default'           => array('H5 Font Color', 'H5 Font Weight', 'H5 Font Size - Mobile', 'H5 Font Size - Pad Devices', 'H5 Font Size - Large Screens'),
-						'transport'         => 'refresh',
-				) );
+		$wp_customize->add_setting( 'h5_title_pro_options', array(
+				'default'           => array('H5 Font Color', 'H5 Font Weight', 'H5 Font Size - Mobile', 'H5 Font Size - Pad Devices', 'H5 Font Size - Large Screens'),
+				'transport'         => 'refresh',
+		) );
 
-				$wp_customize->add_control( new WP_Customize_TK_Google_GO_PRO_Control( $wp_customize, 'h5_title_pro_options', array(
-						'label'             => 'Get More Options For H5 Headings:',
-						'section'           => 'tk_h5',
-						'settings'          => 'h5_title_pro_options',
-						'priority'		      => 120,
-				) ) );
+		$wp_customize->add_control( new WP_Customize_TK_Google_GO_PRO_Control( $wp_customize, 'h5_title_pro_options', array(
+				'label'             => 'Get More Options For H5 Headings:',
+				'section'           => 'tk_h5',
+				'settings'          => 'h5_title_pro_options',
+				'priority'		      => 120,
+		) ) );
 	}
-
-
-
 
 	// H6
 
@@ -1127,174 +1086,90 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 
 	if ( tk_gf_fs()->is_plan__premium_only('professional') ) {
 
-  $wp_customize->add_setting( 'h6_font_color', array(
-    'sanitize_callback' => 'sanitize_hex_color',
-    'default'           => 'default',
-		'transport'         => 'refresh',
-	) );
-
-	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'h6_font_color', array(
-		'label'             => 'H6 Font Color',
-		// 'description'       => 'Leave blank to fallback to your current theme\'s CSS.',
-		'section'           => 'tk_h6',
-		'settings'          => 'h6_font_color',
-    'priority'		      => 12,
-	) ) );
-
-  $wp_customize->add_setting( 'h6_font_weight', array(
-		'default'           => 'default',
-		'transport'         => 'refresh',
-	) );
-
-	$wp_customize->add_control( 'h6_font_weight', array(
-		'label'             => 'H6 Font Weight',
-		'description'       => 'Auto = fallback to your current theme\'s CSS.',
-		'section'           => 'tk_h6',
-		'type'              => 'radio',
-		'priority'		      => 14,
-		'choices'           => array(
-      'auto'     => 'auto',
-			'normal'   => 'normal',
-			'bold'     => 'bold',
-		),
-	) );
-
-  $wp_customize->add_setting( 'h6_font_size_sm', array(
-		'default'           => 'default',
-		'transport'         => 'refresh',
-	) );
-
-	$wp_customize->add_control( 'h6_font_size_sm', array(
-		'label'             => 'H6 Font Size - Mobile',
-		'description'       => 'on screens smaller than 768px. Write including unit, for example "14px" or "2em"',
-		'section'           => 'tk_h6',
-		'type'              => 'text',
-		'priority'		      => 16,
-	) );
-
-	$wp_customize->add_setting( 'h6_font_size_md', array(
-		'default'           => 'default',
-		'transport'         => 'refresh',
-	) );
-
-	$wp_customize->add_control( 'h6_font_size_md', array(
-		'label'             => 'H6 Font Size - Pad Devices',
-		'description'       => 'on screens from 768px to 1199px. Write including unit, for example "14px" or "2em"',
-		'section'           => 'tk_h6',
-		'type'              => 'text',
-		'priority'		      => 17,
-	) );
-
-	$wp_customize->add_setting( 'h6_font_size_lg', array(
-		'default'           => 'default',
-		'transport'         => 'refresh',
-	) );
-
-	$wp_customize->add_control( 'h6_font_size_lg', array(
-		'label'             => 'H6 Font Size - Large Screens',
-		'description'       => 'on screens from 1200px. Write including unit, for example "14px" or "2em"',
-		'section'           => 'tk_h6',
-		'type'              => 'text',
-		'priority'		      => 18,
-	) );
-
-}
-
-if( ! $tk_google_pro ){
-			$wp_customize->add_setting( 'h6_title_pro_options', array(
-					'default'           => array('H6 Font Color', 'H6 Font Weight', 'H6 Font Size - Mobile', 'H6 Font Size - Pad Devices', 'H6 Font Size - Large Screens'),
-					'transport'         => 'refresh',
+		$wp_customize->add_setting( 'h6_font_color', array(
+			'sanitize_callback' => 'sanitize_hex_color',
+			'default'           => 'default',
+				'transport'         => 'refresh',
 			) );
 
-			$wp_customize->add_control( new WP_Customize_TK_Google_GO_PRO_Control( $wp_customize, 'h6_title_pro_options', array(
-					'label'             => 'Get More Options For H6 Headings:',
-					'section'           => 'tk_h6',
-					'settings'          => 'h6_title_pro_options',
-					'priority'		      => 120,
+			$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'h6_font_color', array(
+				'label'             => 'H6 Font Color',
+				'section'           => 'tk_h6',
+				'settings'          => 'h6_font_color',
+			'priority'		      => 12,
 			) ) );
-}
 
+		$wp_customize->add_setting( 'h6_font_weight', array(
+				'default'           => 'default',
+				'transport'         => 'refresh',
+			) );
 
+			$wp_customize->add_control( 'h6_font_weight', array(
+				'label'             => 'H6 Font Weight',
+				'description'       => 'Auto = fallback to your current theme\'s CSS.',
+				'section'           => 'tk_h6',
+				'type'              => 'radio',
+				'priority'		      => 14,
+				'choices'           => array(
+			'auto'     => 'auto',
+					'normal'   => 'normal',
+					'bold'     => 'bold',
+				),
+			) );
 
+		$wp_customize->add_setting( 'h6_font_size_sm', array(
+				'default'           => 'default',
+				'transport'         => 'refresh',
+			) );
 
-	// $wp_customize->add_setting( 'h1_font', array(
-	// 	'default'        => 'default',
-	// 	'transport'   => 'refresh',
-	// ) );
-  //
-	// $wp_customize->add_control( 'h1_font', array(
-	// 	'label'   => 'H1 Heading',
-	// 	'section' => 'tk_google_fonts_settings',
-	// 	'type'    => 'select',
-	// 	'priority'		=> 20,
-	// 	'choices'    => $tk_google_font_array
-	// ) );
-  //
- // 	$wp_customize->add_setting( 'h2_font', array(
-	// 	'default'        => 'default',
-	// 	'transport'   => 'refresh',
-	// ) );
-  //
-	// $wp_customize->add_control( 'h2_font', array(
-	// 	'label'   => 'H2 Heading',
-	// 	'section' => 'tk_google_fonts_settings',
-	// 	'type'    => 'select',
-	// 	'priority'		=> 20,
-	// 	'choices'    => $tk_google_font_array
-	// ) );
-  //
- // 	$wp_customize->add_setting( 'h3_font', array(
-	// 	'default'        => 'default',
-	// 	'transport'   => 'refresh',
-	// ) );
-  //
-	// $wp_customize->add_control( 'h3_font', array(
-	// 	'label'   => 'H3 Heading',
-	// 	'section' => 'tk_google_fonts_settings',
-	// 	'type'    => 'select',
-	// 	'priority'		=> 30,
-	// 	'choices'    => $tk_google_font_array
-	// ) );
-  //
- // 	$wp_customize->add_setting( 'h4_font', array(
-	// 	'default'        => 'default',
-	// 	'transport'   => 'refresh',
-	// ) );
-  //
-	// $wp_customize->add_control( 'h4_font', array(
-	// 	'label'   => 'H4 Heading',
-	// 	'section' => 'tk_google_fonts_settings',
-	// 	'type'    => 'select',
-	// 	'priority'		=> 40,
-	// 	'choices'    => $tk_google_font_array
-	// ) );
-  //
- // 	$wp_customize->add_setting( 'h5_font', array(
-	// 	'default'        => 'default',
-	// 	'transport'   => 'refresh',
-	// ) );
-  //
-	// $wp_customize->add_control( 'h5_font', array(
-	// 	'label'   => 'H5 Heading',
-	// 	'section' => 'tk_google_fonts_settings',
-	// 	'type'    => 'select',
-	// 	'priority'		=> 50,
-	// 	'choices'    => $tk_google_font_array
-	// ) );
-  //
- // 	$wp_customize->add_setting( 'h6_font', array(
-	// 	'default'        => 'default',
-	// 	'transport'   => 'refresh',
-	// ) );
-  //
-	// $wp_customize->add_control( 'h6_font', array(
-	// 	'label'   => 'H6 Heading',
-	// 	'section' => 'tk_google_fonts_settings',
-	// 	'type'    => 'select',
-	// 	'priority'		=> 60,
-	// 	'choices'    => $tk_google_font_array
-	// ) );
+			$wp_customize->add_control( 'h6_font_size_sm', array(
+				'label'             => 'H6 Font Size - Mobile',
+				'description'       => 'on screens smaller than 768px. Write including unit, for example "14px" or "2em"',
+				'section'           => 'tk_h6',
+				'type'              => 'text',
+				'priority'		      => 16,
+			) );
 
+			$wp_customize->add_setting( 'h6_font_size_md', array(
+				'default'           => 'default',
+				'transport'         => 'refresh',
+			) );
+
+			$wp_customize->add_control( 'h6_font_size_md', array(
+				'label'             => 'H6 Font Size - Pad Devices',
+				'description'       => 'on screens from 768px to 1199px. Write including unit, for example "14px" or "2em"',
+				'section'           => 'tk_h6',
+				'type'              => 'text',
+				'priority'		      => 17,
+			) );
+
+			$wp_customize->add_setting( 'h6_font_size_lg', array(
+				'default'           => 'default',
+				'transport'         => 'refresh',
+			) );
+
+			$wp_customize->add_control( 'h6_font_size_lg', array(
+				'label'             => 'H6 Font Size - Large Screens',
+				'description'       => 'on screens from 1200px. Write including unit, for example "14px" or "2em"',
+				'section'           => 'tk_h6',
+				'type'              => 'text',
+				'priority'		      => 18,
+			) );
+	}
+
+	if( ! $tk_google_pro ){
+		$wp_customize->add_setting( 'h6_title_pro_options', array(
+				'default'           => array('H6 Font Color', 'H6 Font Weight', 'H6 Font Size - Mobile', 'H6 Font Size - Pad Devices', 'H6 Font Size - Large Screens'),
+				'transport'         => 'refresh',
+		) );
+
+		$wp_customize->add_control( new WP_Customize_TK_Google_GO_PRO_Control( $wp_customize, 'h6_title_pro_options', array(
+				'label'             => 'Get More Options For H6 Headings:',
+				'section'           => 'tk_h6',
+				'settings'          => 'h6_title_pro_options',
+				'priority'		      => 120,
+		) ) );
+	}
 
 	// Body Text
 
@@ -1314,76 +1189,72 @@ if( ! $tk_google_pro ){
 
 	if ( tk_gf_fs()->is_plan__premium_only('professional') ) {
 
-  $wp_customize->add_setting( 'body_font_color', array(
-    'sanitize_callback' => 'sanitize_hex_color',
-    'default'           => 'default',
-		'transport'         => 'refresh',
-	) );
+		$wp_customize->add_setting( 'body_font_color', array(
+			'sanitize_callback' => 'sanitize_hex_color',
+			'default'           => 'default',
+				'transport'         => 'refresh',
+			) );
 
-	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'body_font_color', array(
-		'label'             => __( 'Body Font Color', 'mytheme' ),
-		'section'           => 'tk_body',
-		'settings'          => 'body_font_color',
-    'priority'		      => 72,
-	) ) );
+			$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'body_font_color', array(
+				'label'             => __( 'Body Font Color', 'mytheme' ),
+				'section'           => 'tk_body',
+				'settings'          => 'body_font_color',
+			'priority'		      => 72,
+			) ) );
 
-	$wp_customize->add_setting( 'body_font_size_sm', array(
-		'default'           => 'default',
-		'transport'         => 'refresh',
-	) );
+			$wp_customize->add_setting( 'body_font_size_sm', array(
+				'default'           => 'default',
+				'transport'         => 'refresh',
+			) );
 
-	$wp_customize->add_control( 'body_font_size_sm', array(
-		'label'             => 'Body Font Size - Mobile',
-		'description'       => 'on screens smaller than 768px. Write including unit, for example "14px" or "2em"',
-		'section'           => 'tk_body',
-		'type'              => 'text',
-		'priority'		      => 100,
-	) );
+			$wp_customize->add_control( 'body_font_size_sm', array(
+				'label'             => 'Body Font Size - Mobile',
+				'description'       => 'on screens smaller than 768px. Write including unit, for example "14px" or "2em"',
+				'section'           => 'tk_body',
+				'type'              => 'text',
+				'priority'		      => 100,
+			) );
 
-	$wp_customize->add_setting( 'body_font_size_md', array(
-		'default'           => 'default',
-		'transport'         => 'refresh',
-	) );
+			$wp_customize->add_setting( 'body_font_size_md', array(
+				'default'           => 'default',
+				'transport'         => 'refresh',
+			) );
 
-	$wp_customize->add_control( 'body_font_size_md', array(
-		'label'             => 'Body Font Size - Pad Devices',
-		'description'       => 'on screens from 768px to 1199px. Write including unit, for example "14px" or "2em"',
-		'section'           => 'tk_body',
-		'type'              => 'text',
-		'priority'		      => 120,
-	) );
+			$wp_customize->add_control( 'body_font_size_md', array(
+				'label'             => 'Body Font Size - Pad Devices',
+				'description'       => 'on screens from 768px to 1199px. Write including unit, for example "14px" or "2em"',
+				'section'           => 'tk_body',
+				'type'              => 'text',
+				'priority'		      => 120,
+			) );
 
-	$wp_customize->add_setting( 'body_font_size_lg', array(
-		'default'           => 'default',
-		'transport'         => 'refresh',
-	) );
+			$wp_customize->add_setting( 'body_font_size_lg', array(
+				'default'           => 'default',
+				'transport'         => 'refresh',
+			) );
 
-	$wp_customize->add_control( 'body_font_size_lg', array(
-		'label'             => 'Body Font Size - Large Screens',
-		'description'       => 'on screens from 1200px. Write including unit, for example "14px" or "2em"',
-		'section'           => 'tk_body',
-		'type'              => 'text',
-		'priority'		      => 140,
-	) );
-
+			$wp_customize->add_control( 'body_font_size_lg', array(
+				'label'             => 'Body Font Size - Large Screens',
+				'description'       => 'on screens from 1200px. Write including unit, for example "14px" or "2em"',
+				'section'           => 'tk_body',
+				'type'              => 'text',
+				'priority'		      => 140,
+			) );
 	}
 
 	if( ! $tk_google_pro ){
-				$wp_customize->add_setting( 'body_pro_options', array(
-						'default'           => array('Body Font Color', 'Body Font Size - Mobile', 'Body Font Size - Pad Devices', 'Body Font Size - Large Screens'),
-						'transport'         => 'refresh',
-				) );
+		$wp_customize->add_setting( 'body_pro_options', array(
+				'default'           => array('Body Font Color', 'Body Font Size - Mobile', 'Body Font Size - Pad Devices', 'Body Font Size - Large Screens'),
+				'transport'         => 'refresh',
+		) );
 
-				$wp_customize->add_control( new WP_Customize_TK_Google_GO_PRO_Control( $wp_customize, 'body_pro_options', array(
-						'label'             => 'Get More Options For Body Text:',
-						'section'           => 'tk_body',
-						'settings'          => 'body_pro_options',
-						'priority'		      => 120,
-				) ) );
+		$wp_customize->add_control( new WP_Customize_TK_Google_GO_PRO_Control( $wp_customize, 'body_pro_options', array(
+				'label'             => 'Get More Options For Body Text:',
+				'section'           => 'tk_body',
+				'settings'          => 'body_pro_options',
+				'priority'		      => 120,
+		) ) );
 	}
-
-
-
 
 
 	// Blockquotes
@@ -1404,102 +1275,46 @@ if( ! $tk_google_pro ){
 
 	if ( tk_gf_fs()->is_plan__premium_only('professional') ) {
 
-  $wp_customize->add_setting( 'blockquote_font_color', array(
-    'sanitize_callback' => 'sanitize_hex_color',
-    'default'           => 'default',
-		'transport'         => 'refresh',
-	) );
+		$wp_customize->add_setting( 'blockquote_font_color', array(
+			'sanitize_callback' => 'sanitize_hex_color',
+			'default'           => 'default',
+				'transport'         => 'refresh',
+			) );
 
-	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'blockquote_font_color', array(
-		'label'             => __( 'Blockquote Font Color', 'mytheme' ),
-		'section'           => 'tk_blockquote',
-		'settings'          => 'blockquote_font_color',
-    'priority'		      => 82,
-	) ) );
+			$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'blockquote_font_color', array(
+				'label'             => __( 'Blockquote Font Color', 'mytheme' ),
+				'section'           => 'tk_blockquote',
+				'settings'          => 'blockquote_font_color',
+			'priority'		      => 82,
+			) ) );
 
-  $wp_customize->add_setting( 'blockquote_bg_color', array(
-    'sanitize_callback' => 'sanitize_hex_color',
-    'default'           => 'default',
-		'transport'         => 'refresh',
-	) );
+		$wp_customize->add_setting( 'blockquote_bg_color', array(
+			'sanitize_callback' => 'sanitize_hex_color',
+			'default'           => 'default',
+				'transport'         => 'refresh',
+			) );
 
-	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'blockquote_bg_color', array(
-		'label'             => __( 'Blockquote Background Color', 'tk-google-fonts' ),
-		'section'           => 'tk_blockquote',
-		'settings'          => 'blockquote_bg_color',
-    'priority'		      => 84,
-	) ) );
-
+			$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'blockquote_bg_color', array(
+				'label'             => __( 'Blockquote Background Color', 'tk-google-fonts' ),
+				'section'           => 'tk_blockquote',
+				'settings'          => 'blockquote_bg_color',
+			'priority'		      => 84,
+			) ) );
 	}
 
 	if( ! $tk_google_pro ){
-				$wp_customize->add_setting( 'blockquote_pro_options', array(
-						'default'           => array('Blockquotes Font Color', 'Blockquotes Background Color'),
-						'transport'         => 'refresh',
-				) );
+		$wp_customize->add_setting( 'blockquote_pro_options', array(
+				'default'           => array('Blockquotes Font Color', 'Blockquotes Background Color'),
+				'transport'         => 'refresh',
+		) );
 
-				$wp_customize->add_control( new WP_Customize_TK_Google_GO_PRO_Control( $wp_customize, 'blockquote_pro_options', array(
-						'label'             => 'Get More Options For Blockquotes:',
-						'section'           => 'tk_blockquote',
-						'settings'          => 'blockquote_pro_options',
-						'priority'		      => 120,
-				) ) );
+		$wp_customize->add_control( new WP_Customize_TK_Google_GO_PRO_Control( $wp_customize, 'blockquote_pro_options', array(
+				'label'             => 'Get More Options For Blockquotes:',
+				'section'           => 'tk_blockquote',
+				'settings'          => 'blockquote_pro_options',
+				'priority'		      => 120,
+		) ) );
 	}
-
-
-  // $wp_customize->add_setting( 'tk_post_title', array(
-	// 	'default'           => 'default',
-	// 	'transport'         => 'refresh',
-	// ) );
-	//
-	// $wp_customize->add_control( 'tk_post_title', array(
-	// 	'label'             => 'Post Title Font Family',
-	// 	'section'           => 'tk_post_fonts',
-	// 	'type'              => 'select',
-	// 	'priority'		      => 10,
-	// 	'choices'           => $tk_google_font_array
-	// ) );
-	//
-  // $wp_customize->add_setting( 'tk_post_title_color', array(
-  //   'sanitize_callback' => 'sanitize_hex_color',
-  //   'default'           => 'default',
-  //   'transport'         => 'refresh',
-  // ) );
-	//
-  // $wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'tk_post_title_color', array(
-  //   'label'             => __( 'Post Title Color', 'tk-google-fonts' ),
-  //   'section'           => 'tk_post_fonts',
-  //   'settings'          => 'tk_post_title_color',
-  //   'priority'		      => 20,
-  // ) ) );
-	//
-  // $wp_customize->add_setting( 'tk_page_title', array(
-	// 	'default'           => 'default',
-	// 	'transport'         => 'refresh',
-	// ) );
-	//
-	// $wp_customize->add_control( 'tk_page_title', array(
-	// 	'label'             => 'Page Title Font Family',
-	// 	'section'           => 'tk_page_fonts',
-	// 	'type'              => 'select',
-	// 	'priority'		      => 10,
-	// 	'choices'           => $tk_google_font_array
-	// ) );
-	//
-  // $wp_customize->add_setting( 'tk_page_title_color', array(
-  //   'sanitize_callback' => 'sanitize_hex_color',
-  //   'default'           => 'default',
-  //   'transport'         => 'refresh',
-  // ) );
-	//
-  // $wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'tk_page_title_color', array(
-  //   'label'             => __( 'Page Title Color', 'tk-google-fonts' ),
-  //   'section'           => 'tk_page_fonts',
-  //   'settings'          => 'tk_page_title_color',
-  //   'priority'		      => 20,
-  // ) ) );
-
-
 
 }
 
@@ -1675,11 +1490,11 @@ function tk_google_fonts_customize_css(){
 		if( get_theme_mod('h1_font', '') || get_theme_mod('h1_font_color', '') || get_theme_mod('h1_font_weight', '') && get_theme_mod('h1_font_weight', '') != 'auto' ):
 			echo 'h1 { ';
 				if( get_theme_mod('h1_font', '') )
-					echo 'font-family: '. get_theme_mod('h1_font') . '!important; ';
+					echo 'font-family: '. get_theme_mod('h1_font') . ' !important; ';
 				if( get_theme_mod('h1_font_color', '') )
-					echo 'color: '. get_theme_mod('h1_font_color') . '!important; ';
+					echo 'color: '. get_theme_mod('h1_font_color') . ' !important; ';
 				if( get_theme_mod('h1_font_weight', '') && get_theme_mod('h1_font_weight', '') != 'auto' )
-					echo 'font-weight: '. get_theme_mod('h1_font_weight') . '!important; ';
+					echo 'font-weight: '. get_theme_mod('h1_font_weight') . ' !important; ';
 			echo '} ';
 		endif;
 
@@ -1713,11 +1528,11 @@ function tk_google_fonts_customize_css(){
 		if( get_theme_mod('h2_font', '') || get_theme_mod('h2_font_color', '') || get_theme_mod('h2_font_weight', '') && get_theme_mod('h2_font_weight', '') != 'auto' ):
 			echo 'h2 { ';
 				if( get_theme_mod('h2_font', '') )
-					echo 'font-family: '. get_theme_mod('h2_font') . '!important; ';
+					echo 'font-family: '. get_theme_mod('h2_font') . ' !important; ';
 				if( get_theme_mod('h2_font_color', '') )
-					echo 'color: '. get_theme_mod('h2_font_color') . '!important; ';
+					echo 'color: '. get_theme_mod('h2_font_color') . ' !important; ';
 				if( get_theme_mod('h2_font_weight', '') && get_theme_mod('h2_font_weight', '') != 'auto' )
-					echo 'font-weight: '. get_theme_mod('h2_font_weight') . '!important; ';
+					echo 'font-weight: '. get_theme_mod('h2_font_weight') . ' !important; ';
 			echo '} ';
 		endif;
 
@@ -1751,11 +1566,11 @@ function tk_google_fonts_customize_css(){
 		if( get_theme_mod('h3_font', '') || get_theme_mod('h3_font_color', '') || get_theme_mod('h3_font_weight', '') && get_theme_mod('h3_font_weight', '') != 'auto' ):
 			echo 'h3 { ';
 				if( get_theme_mod('h3_font', '') )
-					echo 'font-family: '. get_theme_mod('h3_font') . '!important; ';
+					echo 'font-family: '. get_theme_mod('h3_font') . ' !important; ';
 				if( get_theme_mod('h3_font_color', '') )
-					echo 'color: '. get_theme_mod('h3_font_color') . '!important; ';
+					echo 'color: '. get_theme_mod('h3_font_color') . ' !important; ';
 				if( get_theme_mod('h3_font_weight', '') && get_theme_mod('h3_font_weight', '') != 'auto' )
-					echo 'font-weight: '. get_theme_mod('h3_font_weight') . '!important; ';
+					echo 'font-weight: '. get_theme_mod('h3_font_weight') . ' !important; ';
 			echo '} ';
 		endif;
 
@@ -1789,11 +1604,11 @@ function tk_google_fonts_customize_css(){
 		if( get_theme_mod('h4_font', '') || get_theme_mod('h4_font_color', '') || get_theme_mod('h4_font_weight', '') && get_theme_mod('h4_font_weight', '') != 'auto' ):
 			echo 'h4 { ';
 				if( get_theme_mod('h4_font', '') )
-					echo 'font-family: '. get_theme_mod('h4_font') . '!important; ';
+					echo 'font-family: '. get_theme_mod('h4_font') . ' !important; ';
 				if( get_theme_mod('h4_font_color', '') )
-					echo 'color: '. get_theme_mod('h4_font_color') . '!important; ';
+					echo 'color: '. get_theme_mod('h4_font_color') . ' !important; ';
 				if( get_theme_mod('h4_font_weight', '') && get_theme_mod('h4_font_weight', '') != 'auto' )
-					echo 'font-weight: '. get_theme_mod('h4_font_weight') . '!important; ';
+					echo 'font-weight: '. get_theme_mod('h4_font_weight') . ' !important; ';
 			echo '} ';
 		endif;
 
@@ -1828,11 +1643,11 @@ function tk_google_fonts_customize_css(){
 		if( get_theme_mod('h5_font', '') || get_theme_mod('h5_font_color', '') || get_theme_mod('h5_font_weight', '') && get_theme_mod('h5_font_weight', '') != 'auto' ):
 			echo 'h5 { ';
 				if( get_theme_mod('h5_font', '') )
-					echo 'font-family: '. get_theme_mod('h5_font') . '!important; ';
+					echo 'font-family: '. get_theme_mod('h5_font') . ' !important; ';
 				if( get_theme_mod('h5_font_color', '') )
-					echo 'color: '. get_theme_mod('h5_font_color') . '!important; ';
+					echo 'color: '. get_theme_mod('h5_font_color') . ' !important; ';
 				if( get_theme_mod('h5_font_weight', '') && get_theme_mod('h5_font_weight', '') != 'auto' )
-					echo 'font-weight: '. get_theme_mod('h5_font_weight') . '!important; ';
+					echo 'font-weight: '. get_theme_mod('h5_font_weight') . ' !important; ';
 			echo '} ';
 		endif;
 
@@ -1866,11 +1681,11 @@ function tk_google_fonts_customize_css(){
 		if( get_theme_mod('h6_font', '') || get_theme_mod('h6_font_color', '') || get_theme_mod('h6_font_weight', '') && get_theme_mod('h6_font_weight', '') != 'auto' ):
 			echo 'h6 { ';
 				if( get_theme_mod('h6_font', '') )
-					echo 'font-family: '. get_theme_mod('h6_font') . '!important; ';
+					echo 'font-family: '. get_theme_mod('h6_font') . ' !important; ';
 				if( get_theme_mod('h6_font_color', '') )
-					echo 'color: '. get_theme_mod('h6_font_color') . '!important; ';
+					echo 'color: '. get_theme_mod('h6_font_color') . ' !important; ';
 				if( get_theme_mod('h6_font_weight', '') && get_theme_mod('h6_font_weight', '') != 'auto' )
-					echo 'font-weight: '. get_theme_mod('h6_font_weight') . '!important; ';
+					echo 'font-weight: '. get_theme_mod('h6_font_weight') . ' !important; ';
 			echo '} ';
 		endif;
 
@@ -1904,9 +1719,9 @@ function tk_google_fonts_customize_css(){
 		if( get_theme_mod('body_text', '') || get_theme_mod('body_font_color', '') ):
 			echo 'body, p { ';
 				if( get_theme_mod('body_text', '') )
-					echo 'font-family: '. get_theme_mod('body_text') . '!important; ';
+					echo 'font-family: '. get_theme_mod('body_text') . ' !important; ';
 				if( get_theme_mod('body_font_color', '') )
-					echo 'color: '. get_theme_mod('body_font_color') . '!important; ';
+					echo 'color: '. get_theme_mod('body_font_color') . ' !important; ';
 			echo '} ';
 		endif;
 
@@ -1941,11 +1756,11 @@ function tk_google_fonts_customize_css(){
 		if( get_theme_mod('blockquotes', '') || get_theme_mod('blockquote_font_color', '') || get_theme_mod('blockquote_bg_color', '') ):
 			echo 'blockquote, blockquote p { ';
 			if( get_theme_mod('blockquotes', '') )
-				echo 'font-family: '. get_theme_mod('blockquotes') . '!important; ';
+				echo 'font-family: '. get_theme_mod('blockquotes') . ' !important; ';
 			if( get_theme_mod('blockquote_font_color', '') )
-				echo 'color: '. get_theme_mod('blockquote_font_color') . '!important; ';
+				echo 'color: '. get_theme_mod('blockquote_font_color') . ' !important; ';
 			if( get_theme_mod('blockquote_bg_color', '') )
-				echo 'background-color: '. get_theme_mod('blockquote_bg_color') . '!important; ';
+				echo 'background-color: '. get_theme_mod('blockquote_bg_color') . ' !important; ';
 			echo '} ';
 		endif;
 
