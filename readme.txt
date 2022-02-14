@@ -1,4 +1,4 @@
-=== TK Google Fonts ===
+=== TK Google Fonts GDPR Compliant ===
 Contributors: svenl77, konradS, themekraft
 Tags: google fonts, fonts, webfonts
 Requires at least: 3.5
@@ -7,19 +7,21 @@ Stable tag: 2.1.3
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-TK Google Fonts is a powerful, extendable Google webfonts plugin that helps you to use Google Fonts in your theme. also, the Pro version is GDPR Compliance.
+TK Google Fonts gives you a simple and easy way to add custom google fonts to any WordPress site without complex codes. Full GDPR Compliance. Full support for any theme. 
 
 == Description ==
 
 [youtube https://www.youtube.com/watch?v=i1_us4mjlCA]
 
+= Why TK Google Fonts? =
+
 = Fast Pageload =
 
-The plugin only loads the fonts you select. This is good for your page loading times, as you want your site to load fast.
+The plugin makes your WordPress website loads faster as it only loads the fonts you select. This is good for your page loading times and provide seamless customer experience for your user.
 
 = Easy to use UI =
 
-We have build a native UI so that selecting your Google Fonts is a joy.
+We have build a native and user friendly UI so that selecting your favorite Google Fonts is a pure joy.
 Fancy previews of every font and your custom text for font testing!
 Easy adding and removing of fonts with just one click.
 
@@ -39,7 +41,7 @@ Follow the instructions on the Google Page how to integrate your font.
 The Plugin auto detects your site security and use https to load the google fonts if SSL is enabled.
 
 = Great for SEO =
-Fonts get loaded so that they not harm your page speed and take care of your ranking
+TK Google Fonts help shoot your website rankink by reducing your website loadtime.
 
 = Use within theme options =
 
