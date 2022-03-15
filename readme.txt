@@ -3,7 +3,7 @@ Contributors: svenl77, konradS, themekraft
 Tags: google fonts, fonts, webfonts
 Requires at least: 3.5
 Tested up to: 5.9
-Stable tag: 2.2.0
+Stable tag: 2.2.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -114,6 +114,10 @@ Checkout the related Google Page of the font to see how to write the CSS to call
 6. The TK Google Fonts Admin Settings Panel - Select a Font with preview
 
 == Changelog ==
+= 2.2.1 - 15 Mar 2022 =
+* Fixed security issue.
+* Fixed issue with multiple trial version admin notices.
+
 = 2.2.0 - 14 Feb 2022 =
 * GDPR feature is now available in free version.
 * Tested up to WordPress 5.9
