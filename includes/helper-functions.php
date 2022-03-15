@@ -71,3 +71,8 @@ function tk_google_font_notice_modal_ajax() {
 	update_option( 'tk_google_fonts_notice_modal', $modal_id );
 	die();
 }
+
+add_filter( 'show_trial', 'tk_google_font_disable_trial_notice' );
+function tk_google_font_disable_trial_notice(){
+	return false;
+}
