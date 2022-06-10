@@ -222,19 +222,11 @@ function tk_google_fonts_add_font( $google_font_name ) {
 		wp_mkdir_p( $tk_fonts_folder . $google_font_name );
 	}
 
-	$fp            = fopen( $tk_fonts_folder . $google_font_name . '/' . $google_font_name . '.css', 'w+' );
-	$tk_user_agent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36';
-	$tk_family_url = 'https://fonts.googleapis.com/css2?family=' . $google_font_name;
-	$ch            = curl_init();
-	$timeout       = 5;
-	curl_setopt( $ch, CURLOPT_USERAGENT, $tk_user_agent );
-	curl_setopt( $ch, CURLOPT_URL, $tk_family_url );
-	curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
-	curl_setopt( $ch, CURLOPT_CONNECTTIMEOUT, $timeout );
-	$tk_font_data = curl_exec( $ch );
-	$request_info = curl_getinfo( $ch );
+	$font_url     = 'https://fonts.googleapis.com/css2?family=' . $google_font_name;
+	$font_request = wp_remote_get( $font_url, array( 'user-agent' => 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36' ) );
+	$fp           = fopen( $tk_fonts_folder . $google_font_name . '/' . $google_font_name . '.css', 'w+' );
 
-	if ( isset( $request_info['http_code'] ) && 200 === $request_info['http_code'] ) {
+	if ( isset( $font_request['response']['code'] ) && 200 === $font_request['response']['code'] ) {
 
 		/**
 		 * Save font name on database
@@ -253,29 +245,22 @@ function tk_google_fonts_add_font( $google_font_name ) {
 		 * Save font assets in local.
 		 */
 		$tk_search_url = '/(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z0-9]{3,4}(\/\S[^)]*)?/';
-		if ( preg_match_all( $tk_search_url, $tk_font_data, $tk_font_fileinfo ) ) {
+		if ( preg_match_all( $tk_search_url, $font_request['body'], $tk_font_fileinfo ) ) {
 			$tk_font_urls    = $tk_font_fileinfo[0];
-			$tk_hosted_fonts = $tk_font_data;
+			$tk_hosted_fonts = $font_request['body'];
 			$tk_main_url     = dirname( plugin_dir_url( __FILE__ ) ) . '/resources/my-fonts/';
 			$i               = 0;
 			foreach ( $tk_font_urls as $googlefonts_urls ) {
-				$tk_google_urls = $tk_font_urls[ $i ];
-				$ff             = fopen( $tk_fonts_folder . $google_font_name . '/' . $google_font_name . '-' . $i . '.woff2', 'w+' );
-				$ci             = curl_init();
-				curl_setopt( $ci, CURLOPT_USERAGENT, $tk_user_agent );
-				curl_setopt( $ci, CURLOPT_URL, $tk_font_urls[ $i ] );
-				curl_setopt( $ci, CURLOPT_RETURNTRANSFER, 1 );
-				curl_setopt( $ci, CURLOPT_CONNECTTIMEOUT, 5 );
-				$tk_new_fontfamily_urls = curl_exec( $ci );
+				$tk_google_urls         = $tk_font_urls[ $i ];
+				$ff                     = fopen( $tk_fonts_folder . $google_font_name . '/' . $google_font_name . '-' . $i . '.woff2', 'w+' );
+				$tk_new_fontfamily_urls = file_get_contents( $tk_google_urls, false );
 				fwrite( $ff, $tk_new_fontfamily_urls );
-				curl_close( $ci );
 				fclose( $ff );
 				$tk_hosted_fonts = str_replace( $tk_google_urls, $tk_main_url . $google_font_name . '/' . $google_font_name . '-' . $i . '.woff2', $tk_hosted_fonts );
 				$i++;
 
 			}
 			fwrite( $fp, $tk_hosted_fonts );
-			curl_close( $ch );
 			fclose( $fp );
 		}
 
@@ -303,7 +288,7 @@ function tk_google_fonts_delete_font() {
 	$tk_fonts_folder         = dirname( plugin_dir_path( __FILE__ ) ) . '/resources/my-fonts/';
 	$google_font_name        = sanitize_text_field( wp_unslash( $_POST['google_font_name'] ) );
 	$tk_google_fonts_options = get_option( 'tk_google_fonts_options' );
-	unset( $tk_google_fonts_options['selected_fonts'][ $_POST['google_font_name'] ] );
+	unset( $tk_google_fonts_options['selected_fonts'][ sanitize_text_field( wp_unslash( $_POST['google_font_name'] ) ) ] );
 	$direc = $tk_fonts_folder . $google_font_name;
 
 	if ( is_dir( $direc ) ) {
