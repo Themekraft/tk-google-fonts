@@ -96,6 +96,11 @@ if ( function_exists( 'tk_gf_fs' ) ) {
 		tk_gf_fs()->add_filter( 'after_skip_url', 'tk_gf_fs_settings_url' );
 		tk_gf_fs()->add_filter( 'after_connect_url', 'tk_gf_fs_settings_url' );
 		tk_gf_fs()->add_filter( 'after_pending_connect_url', 'tk_gf_fs_settings_url' );
+
+		tk_gf_fs()->add_filter( 'show_admin_notice', 'tk_gf_disable_fs_admin_notice', 10, 2 );
+		function tk_gf_disable_fs_admin_notice( $show, $msg ) {
+				return false;
+		}
 	}
 	/**
 	 * Main class to load requirements.
