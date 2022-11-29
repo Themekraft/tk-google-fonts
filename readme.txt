@@ -116,6 +116,7 @@ Checkout the related Google Page of the font to see how to write the CSS to call
 == Changelog ==
 = 2.2.5 - 28 Nov 2022 =
 * Updated Freemius SDK.
+* Added bundle license auto activation.
 * Tested up to WordPress 6.1.1
 
 = 2.2.4 - 21 Jul 2022 =
