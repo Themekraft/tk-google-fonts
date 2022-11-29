@@ -3,7 +3,7 @@
  * Plugin Name: TK Google Fonts
  * Plugin URI:  http://themekraft.com/shop/product-category/themes/extentions/
  * Description: Google Fonts UI for WordPress Themes
- * Version: 2.2.4
+ * Version: 2.2.5
  * Author: ThemeKraft
  * Author URI: http://themekraft.com/
  * Licence: GPLv3
@@ -70,6 +70,7 @@ if ( function_exists( 'tk_gf_fs' ) ) {
 							),
 						),
 						'is_live'         => true,
+						'bundle_license_auto_activation' => true,
 					)
 				);
 			}
