@@ -1,23 +1,27 @@
-=== TK Google Fonts ===
+=== TK Google Fonts GDPR Compliant ===
 Contributors: svenl77, konradS, themekraft
 Tags: google fonts, fonts, webfonts
 Requires at least: 3.5
-Tested up to: 5.7
-Stable tag: 2.1.0
+Tested up to: 6.1.1
+Stable tag: 2.2.6
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-TK Google Fonts is a powerful, extendable Google webfonts plugin that helps you to use Google Fonts in your theme. also, the Pro version is GDPR Compliance.
+TK Google Fonts gives you a simple and easy way to add custom google fonts to any WordPress site without complex codes. Full GDPR Compliance. Full support for any theme. 
 
 == Description ==
 
+[youtube https://www.youtube.com/watch?v=i1_us4mjlCA]
+
+= Why TK Google Fonts? =
+
 = Fast Pageload =
 
-The plugin only loads the fonts you select. This is good for your page loading times, as you want your site to load fast.
+The plugin makes your WordPress website loads faster as it only loads the fonts you select. This is good for your page loading times and provide seamless customer experience for your user.
 
 = Easy to use UI =
 
-We have build a native UI so that selecting your Google Fonts is a joy.
+We have build a native and user friendly UI so that selecting your favorite Google Fonts is a pure joy.
 Fancy previews of every font and your custom text for font testing!
 Easy adding and removing of fonts with just one click.
 
@@ -37,7 +41,7 @@ Follow the instructions on the Google Page how to integrate your font.
 The Plugin auto detects your site security and use https to load the google fonts if SSL is enabled.
 
 = Great for SEO =
-Fonts get loaded so that they not harm your page speed and take care of your ranking
+TK Google Fonts help shoot your website rankink by reducing your website loadtime.
 
 = Use within theme options =
 
@@ -110,6 +114,45 @@ Checkout the related Google Page of the font to see how to write the CSS to call
 6. The TK Google Fonts Admin Settings Panel - Select a Font with preview
 
 == Changelog ==
+= 2.2.6 - 16 Dec 2022 =
+* Updated Freemius SDK.
+* Enabled 7 days trial version.
+
+= 2.2.5 - 28 Nov 2022 =
+* Updated Freemius SDK.
+* Added bundle license auto activation.
+* Tested up to WordPress 6.1.1
+
+= 2.2.4 - 21 Jul 2022 =
+* Removing old promotions notices.
+* Tested up to WordPress 6.0.1
+
+= 2.2.3 - 9 Jun 2022 =
+* Fixed vulnerability issue.
+* Tested up to WordPress 6.0
+
+= 2.2.2 - 17 May 2022 =
+* Updated readme.txt
+
+= 2.2.1 - 15 Mar 2022 =
+* Fixed security issue.
+* Fixed issue with multiple trial version admin notices.
+
+= 2.2.0 - 14 Feb 2022 =
+* GDPR feature is now available in free version.
+* Tested up to WordPress 5.9
+
+= 2.1.3 - 5 Dec 2021 =
+* Fixed issue with free version deactivation.
+
+= 2.1.2 - 12 Jul 2021 =
+* Tested up WordPress 5.8
+* Fixed security issue.
+
+= 2.1.1 - 02 Jun 2021 =
+* Hotfix: Fixed issue when a non-existing font was loaded.
+* Hotfix: temporary solution to fix the issue with fonts family names on the font selector.
+
 = 2.1.0 - 14 May 2021 = 
 * Added new feature to make plugin GDPR Compliant on the Pro version.
 * Adding GDPR Compliant on the landing page.

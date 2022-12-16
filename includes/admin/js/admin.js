@@ -24,12 +24,11 @@ jQuery(document).ready(function(){
 			type: 'POST',
 			url: ajaxurl,
 			data: {"action": "tk_google_fonts_add_font", "google_font_name": google_font_name},
-			success: function(data){
-				window.location.reload(true);
-			},
-			error: function() { 
-				alert('Something went wrong.. ;-(sorry)');
-			}
+		}).done(function(){
+			location.reload();
+		}).fail(function(jqXHR){
+			const error_msg = (jqXHR && jqXHR.responseText) ? jqXHR.responseText : 'Something went wrong...'
+			alert( error_msg );
 		});
 	});
 	
@@ -43,8 +42,7 @@ jQuery(document).ready(function(){
 				url: ajaxurl,
 				data: {"action": "tk_google_fonts_delete_font", "google_font_name": google_font_name},
 				success: function(data){
-					window.location.reload(true);
-				}
+					location.reload();				}
 			});
 		
 		return false;
@@ -56,43 +54,6 @@ jQuery(document).ready(function(){
 
 });
 
-/**
- * Init Notice Modal
- */
-jQuery(document).ready(function(){
-
-	const $modal        = jQuery('#tk-notice-modal');
-	const $closeForEver = jQuery('#tk-notice-modal').find('[data-close-for-ever]');
-	const modalWidth    = jQuery(window).width() * 0.90; // 90% of the screen size.
-
-	$modal.dialog({
-		modal: true,
-		resizable: false,
-		draggable: false,
-		width: modalWidth < 920 ? modalWidth : 920,
-		classes: {
-			"ui-dialog": "tk-notice-modal-dialog"
-		} 
-	});
-
-	$closeForEver.click(function(e) {
-
-		e.preventDefault();
-
-		jQuery.ajax({
-			type: 'POST',
-			url: ajaxurl,
-			data: { 
-				"action"  : "tk_notice_modal",
-				"modal-id": $closeForEver.data('close-for-ever')
-			},
-			complete: function(){
-				$modal.dialog( "close" );
-			}
-		});
-	});
-	
-});
 
 /**
  * The Font Selector himself
@@ -102,7 +63,13 @@ jQuery(document).ready(function(){
  */     
 jQuery(function(){
 
-	jQuery('#font').fontselect().change(function(){
+	jQuery('#font').fontselect(
+		{
+			googleApi: 'https://fonts.googleapis.com/css2?family=',
+			localFontsUrl: '../my-fonts/',
+			systemFonts: 'Roboto|Open+Sans|Lato|Montserrat|Oswald|Raleway|Ubuntu'.split('|'),
+		}
+	).change(function(){
 
 		// replace + signs with spaces for css
 		var font = jQuery(this).val().replace(/\+/g, ' ');
