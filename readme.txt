@@ -3,7 +3,7 @@ Contributors: svenl77, konradS, themekraft
 Tags: google fonts, fonts, webfonts
 Requires at least: 3.5
 Tested up to: 6.1.1
-Stable tag: 2.2.5
+Stable tag: 2.2.6
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -114,6 +114,10 @@ Checkout the related Google Page of the font to see how to write the CSS to call
 6. The TK Google Fonts Admin Settings Panel - Select a Font with preview
 
 == Changelog ==
+= 2.2.6 - 16 Dec 2022 =
+* Updated Freemius SDK.
+* Enabled 7 days trial version.
+
 = 2.2.5 - 28 Nov 2022 =
 * Updated Freemius SDK.
 * Added bundle license auto activation.

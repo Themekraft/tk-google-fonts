@@ -57,14 +57,3 @@ function tk_google_fonts_enqueue_fonts() {
 
 }
 
-add_filter( 'show_trial', 'tk_google_font_disable_trial_notice' );
-/**
- * Disabling Freemius trial version notes
- *
- * @author Sven Lehnert
- * @package TK Google Fonts
- * @since 1.0
- */
-function tk_google_font_disable_trial_notice() {
-	return false;
-}
