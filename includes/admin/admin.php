@@ -69,6 +69,23 @@ function tk_google_fonts_screen() { ?>
 	<?php
 }
 
+add_action( 'admin_menu', 'tk_google_fonts_admin_menus' );
+function tk_google_fonts_admin_menus() {
+	add_theme_page( 'TK Google Fonts', 'Go Pro', 'edit_theme_options', 'tk-google-fonts-optionss', 'tk_google_fonts_screens' );
+}
+
+/**
+ * The Admin Page
+ *
+ * @author Sven Lehnert
+ * @package TK Google Fonts
+ * @since 1.0
+ */
+function tk_google_fonts_screens() { 
+	
+	include_once 'gopro-screen.php';
+}
+
 add_action( 'admin_init', 'tk_google_fonts_register_admin_settings' );
 /**
  * Register the admin settings

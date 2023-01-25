@@ -18,6 +18,9 @@ add_action( 'admin_enqueue_scripts', 'tk_google_fonts_js' );
 function tk_google_fonts_js() {
 
 	wp_enqueue_script( 'google_fonts_admin_js', plugins_url( '/admin/js/admin.js', __FILE__ ), array(), '1.0', true );
+	wp_register_script( 'tkgf-freemius-checkout', 'https://checkout.freemius.com/checkout.min.js', array(), false );
+    wp_enqueue_script( 'tkgf-freemius-checkout' );
+	wp_enqueue_script( 'google_fonts_gopro_js', plugins_url( '/admin/js/gopro.js', __FILE__ ), array(), '1.0', true );
 	wp_register_script( 'jquery-fontselect', plugins_url( '/resources/font-select/jquery.fontselect.min.js', __FILE__ ), false, '1.0', true );
 	wp_enqueue_script( 'jquery-fontselect' );
 	wp_enqueue_style( 'jquery-fontselect-css', plugins_url( '/resources/font-select/fontselect.css', __FILE__ ), array(), '1.0' );
