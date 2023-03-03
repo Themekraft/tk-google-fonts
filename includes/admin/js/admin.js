@@ -22,8 +22,8 @@ jQuery(document).ready(function(){
 		}	
 		jQuery.ajax({
 			type: 'POST',
-			url: ajaxurl,
-			data: {"action": "tk_google_fonts_add_font", "google_font_name": google_font_name},
+			url: ajax_var.url,
+			data: {"action": "tk_google_fonts_add_font", "google_font_name": google_font_name, "font_nonce": ajax_var.nonce},
 		}).done(function(){
 			location.reload();
 		}).fail(function(jqXHR){
@@ -39,8 +39,8 @@ jQuery(document).ready(function(){
 		if (confirm('Delete Permanently'))
 			jQuery.ajax({
 				type: 'POST',
-				url: ajaxurl,
-				data: {"action": "tk_google_fonts_delete_font", "google_font_name": google_font_name},
+				url: ajax_var.url,
+				data: {"action": "tk_google_fonts_delete_font", "google_font_name": google_font_name, "font_nonce": ajax_var.nonce},
 				success: function(data){
 					location.reload();				}
 			});

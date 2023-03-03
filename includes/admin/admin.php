@@ -228,6 +228,10 @@ add_action( 'wp_ajax_nopriv_tk_google_fonts_add_font', 'tk_google_fonts_add_font
  */
 function tk_google_fonts_add_font( $google_font_name ) {
 
+	if( ! isset( $_POST['font_nonce'] ) || ! wp_verify_nonce( $_POST['font_nonce'], 'font-nonce' ) ){
+		die();
+	}
+
 	if ( ! ( isset( $_POST['google_font_name'] ) && ! empty( $_POST['google_font_name'] ) ) ) {
 		die();
 	}
@@ -299,9 +303,14 @@ add_action( 'wp_ajax_nopriv_tk_google_fonts_delete_font', 'tk_google_fonts_delet
  */
 function tk_google_fonts_delete_font() {
 
+	if( ! isset( $_POST['font_nonce'] ) || ! wp_verify_nonce( $_POST['font_nonce'], 'font-nonce' ) ){
+		die();
+	}
+
 	if ( ! isset( $_POST['google_font_name'] ) ) {
 		return;
 	}
+	
 	$tk_fonts_folder         = dirname( plugin_dir_path( __FILE__ ) ) . '/resources/my-fonts/';
 	$google_font_name        = sanitize_text_field( wp_unslash( $_POST['google_font_name'] ) );
 	$tk_google_fonts_options = get_option( 'tk_google_fonts_options' );
