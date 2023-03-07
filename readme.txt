@@ -116,6 +116,7 @@ Checkout the related Google Page of the font to see how to write the CSS to call
 == Changelog ==
 = 2.2.8 - 03 Mar 2023 =
 * Fixed issue with CSRF vulnerability.
+* Fixed issue with selected fonts not showing up after plugin update.
 
 = 2.2.7 - 24 Jan 2023 =
 * Added new Go Pro screen.
