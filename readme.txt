@@ -3,7 +3,7 @@ Contributors: svenl77, konradS, themekraft
 Tags: google fonts, fonts, webfonts
 Requires at least: 3.5
 Tested up to: 6.1.1
-Stable tag: 2.2.8
+Stable tag: 2.2.9
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -114,9 +114,11 @@ Checkout the related Google Page of the font to see how to write the CSS to call
 6. The TK Google Fonts Admin Settings Panel - Select a Font with preview
 
 == Changelog ==
+= 2.2.9 - 06 Mar 2023 =
+* Hotfix: Fixed issue with selected fonts not showing up after plugin update.
+
 = 2.2.8 - 03 Mar 2023 =
 * Fixed issue with CSRF vulnerability.
-* Fixed issue with selected fonts not showing up after plugin update.
 
 = 2.2.7 - 24 Jan 2023 =
 * Added new Go Pro screen.
