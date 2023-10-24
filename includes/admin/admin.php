@@ -228,6 +228,10 @@ add_action( 'wp_ajax_nopriv_tk_google_fonts_add_font', 'tk_google_fonts_add_font
  */
 function tk_google_fonts_add_font( $google_font_name ) {
 
+	if ( ! current_user_can( 'manage_options' ) ) {
+		die();
+	}
+
 	if( ! isset( $_POST['font_nonce'] ) || ! wp_verify_nonce( $_POST['font_nonce'], 'font-nonce' ) ){
 		die();
 	}
@@ -302,6 +306,10 @@ add_action( 'wp_ajax_nopriv_tk_google_fonts_delete_font', 'tk_google_fonts_delet
  * @since 1.0
  */
 function tk_google_fonts_delete_font() {
+
+	if ( ! current_user_can( 'manage_options' ) ) {
+		die();
+	}
 
 	if( ! isset( $_POST['font_nonce'] ) || ! wp_verify_nonce( $_POST['font_nonce'], 'font-nonce' ) ){
 		die();
