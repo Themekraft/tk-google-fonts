@@ -2,8 +2,8 @@
 Contributors: svenl77, konradS, themekraft
 Tags: google fonts, fonts, webfonts
 Requires at least: 3.5
-Tested up to: 6.3.2
-Stable tag: 2.2.13
+Tested up to: 6.6
+Stable tag: 2.2.14
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -114,6 +114,10 @@ Checkout the related Google Page of the font to see how to write the CSS to call
 6. The TK Google Fonts Admin Settings Panel - Select a Font with preview
 
 == Changelog ==
+= 2.2.14 - 12 Jul 2024 =
+* Updated Freemius SDK.
+* Tested up tp WordPress 6.6
+
 = 2.2.13 - 05 Nov 2023 =
 * Updated Freemius SDK.
 
