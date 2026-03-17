@@ -22,9 +22,6 @@ function tk_google_fonts_js() {
 		'url' => admin_url( 'admin-ajax.php' ),
 		'nonce' => wp_create_nonce( 'font-nonce' )
 	));
-	wp_register_script( 'tkgf-freemius-checkout', 'https://checkout.freemius.com/checkout.min.js', array(), false );
-    wp_enqueue_script( 'tkgf-freemius-checkout' );
-	wp_enqueue_script( 'google_fonts_gopro_js', plugins_url( '/admin/js/gopro.js', __FILE__ ), array(), '1.0', true );
 	wp_register_script( 'jquery-fontselect', plugins_url( '/resources/font-select/jquery.fontselect.min.js', __FILE__ ), false, '1.0', true );
 	wp_enqueue_script( 'jquery-fontselect' );
 	wp_enqueue_style( 'jquery-fontselect-css', plugins_url( '/resources/font-select/fontselect.css', __FILE__ ), array(), '1.0' );
@@ -105,4 +102,3 @@ function tkgf_after_update( $upgrader, $info ){
 		}
 	}
 }
-

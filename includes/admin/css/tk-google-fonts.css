@@ -61,7 +61,7 @@ ul#selected-fonts li p a.dele_form {
 	font-size: 12px;
 }
 
-#menu-appearance a[href^="themes.php?page=tk-google-fonts-optionss"]:before {
+#menu-appearance a[href^="themes.php?page=tk-google-fonts-bundle_screen"]:before {
 	content: "\21B3";
 	margin-right: 0.5em;
 	opacity: 0.5;

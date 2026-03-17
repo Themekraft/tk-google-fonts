@@ -49,6 +49,18 @@ function tk_google_fonts_admin_menu() {
 	add_theme_page( 'TK Google Fonts', 'TK Google Fonts', 'edit_theme_options', 'tk-google-fonts-options', 'tk_google_fonts_screen' );
 }
 
+add_action( 'admin_menu', 'tk_google_fonts_bundle_screen_menu', 9999 );
+/**
+ * Add the bundle screen menu.
+ */
+function tk_google_fonts_bundle_screen_menu() {
+	if ( tk_gf_fs()->is_not_paying() ) {
+		add_theme_page( 'Bundle', 'Go Pro!', 'edit_theme_options', 'tk-google-fonts-bundle_screen', 'buddyforms_bundle_screen_content' );
+	}
+}
+
+require_once dirname( __FILE__ ) . '/pricing-page/pricing-page.php';
+
 /**
  * The Admin Page
  *
@@ -67,24 +79,7 @@ function tk_google_fonts_screen() { ?>
 		</form>
 	</div>
 	<?php
-}
-
-add_action( 'admin_menu', 'tk_google_fonts_admin_menus' );
-function tk_google_fonts_admin_menus() {
-	add_theme_page( 'TK Google Fonts', 'Go Pro', 'edit_theme_options', 'tk-google-fonts-optionss', 'tk_google_fonts_screens' );
-}
-
-/**
- * The Admin Page
- *
- * @author Sven Lehnert
- * @package TK Google Fonts
- * @since 1.0
- */
-function tk_google_fonts_screens() { 
-	
-	include_once 'gopro-screen.php';
-}
+	}
 
 add_action( 'admin_init', 'tk_google_fonts_register_admin_settings' );
 /**
@@ -335,4 +330,3 @@ function tk_google_fonts_delete_font() {
 	die();
 
 }
-

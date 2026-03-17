@@ -2457,7 +2457,7 @@ function tk_google_fonts_go_pro_customizer_control() {
 						</li>
 						<?php } ?>
 					<?php } ?>
-					<li><a class="button button-primary" target="_blank" href="<?php echo esc_url( admin_url() ); ?>themes.php?page=tk-google-fonts-options-pricing">Go Pro Now</a></li>
+					<li><a class="button button-primary" target="_blank" href="<?php echo esc_url( admin_url() ); ?>themes.php?page=tk-google-fonts-bundle_screen">Go Pro Now</a></li>
 				</ul>
 			</label>
 			<?php
