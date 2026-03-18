@@ -30,6 +30,8 @@
  *
  * Have fun!
  */
+require_once __DIR__ . '/vendor/autoload.php';
+
 if ( function_exists( 'tk_gf_fs' ) ) {
 	tk_gf_fs()->set_basename( true, __FILE__ );
 } else {
@@ -43,8 +45,6 @@ if ( function_exists( 'tk_gf_fs' ) ) {
 			global  $tk_gf_fs;
 
 			if ( ! isset( $tk_gf_fs ) ) {
-				// Include Freemius SDK.
-				include_once dirname( __FILE__ ) . '/includes/resources/freemius/start.php';
 				$tk_gf_fs = fs_dynamic_init(
 					array(
 						'id'              => '426',

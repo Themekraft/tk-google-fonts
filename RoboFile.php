@@ -4,15 +4,15 @@ include '.tk/RoboFileBase.php';
 
 class RoboFile extends RoboFileBase {
 	public function directoriesStructure() {
-		return array( 'includes' );
+		return array( 'includes', 'vendor' );
 	}
 
 	public function fileStructure() {
-		return array( 'tk-google-fonts.php', 'composer.json', 'license.txt', 'readme.txt' );
+		return array( 'tk-google-fonts.php', 'composer.json', 'composer.lock', 'license.txt', 'readme.txt' );
 	}
 
 	public function cleanPhpDirectories() {
-		return array( 'includes/resources/freemius' );
+		return array( 'vendor' );
 	}
 
 	public function pluginMainFile() {
