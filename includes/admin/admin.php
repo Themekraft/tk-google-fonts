@@ -7,6 +7,22 @@
  * @since 1.0
  */
 
+/**
+ * Initialise and return the WP_Filesystem instance for direct file access.
+ * Used by the font cache writers to satisfy WP coding standards (which flag
+ * raw fopen / fwrite / fclose).
+ *
+ * @return WP_Filesystem_Base
+ */
+function tk_google_fonts_get_filesystem() {
+	global $wp_filesystem;
+	if ( ! $wp_filesystem ) {
+		require_once ABSPATH . 'wp-admin/includes/file.php';
+		WP_Filesystem();
+	}
+	return $wp_filesystem;
+}
+
 add_action( 'upgrader_process_complete', 'tk_google_fonts_redirect_after_upgrade', 10, 2 );
 /**
  * Activation redirect
@@ -82,6 +98,30 @@ function tk_google_fonts_screen() { ?>
 	<?php
 	}
 
+/**
+ * Sanitize the persisted plugin options. Only the `selected_fonts` map is
+ * recognised; values are sanitized as text fields. Anything else is dropped.
+ *
+ * @param array<string,mixed>|null $input Raw value coming from the Settings API.
+ *
+ * @return array<string,array<string,string>>
+ */
+function tk_google_fonts_sanitize_options( $input ) {
+	$output = array( 'selected_fonts' => array() );
+
+	if ( is_array( $input ) && isset( $input['selected_fonts'] ) && is_array( $input['selected_fonts'] ) ) {
+		foreach ( $input['selected_fonts'] as $key => $value ) {
+			$key   = sanitize_text_field( (string) $key );
+			$value = sanitize_text_field( (string) $value );
+			if ( '' !== $key ) {
+				$output['selected_fonts'][ $key ] = $value;
+			}
+		}
+	}
+
+	return $output;
+}
+
 add_action( 'admin_init', 'tk_google_fonts_register_admin_settings' );
 /**
  * Register the admin settings
@@ -92,7 +132,13 @@ add_action( 'admin_init', 'tk_google_fonts_register_admin_settings' );
  */
 function tk_google_fonts_register_admin_settings() {
 
-	register_setting( 'tk_google_fonts_options', 'tk_google_fonts_options' );
+	register_setting(
+		'tk_google_fonts_options',
+		'tk_google_fonts_options',
+		array(
+			'sanitize_callback' => 'tk_google_fonts_sanitize_options',
+		)
+	);
 
 	// Settings fields and sections.
 	add_settings_section( 'section_typography', '', '', 'tk_google_fonts_options' );
@@ -228,11 +274,12 @@ function tk_google_fonts_add_font( $google_font_name ) {
 		die();
 	}
 
-	if( ! isset( $_POST['font_nonce'] ) || ! wp_verify_nonce( $_POST['font_nonce'], 'font-nonce' ) ){
+	$nonce = isset( $_POST['font_nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['font_nonce'] ) ) : '';
+	if ( ! wp_verify_nonce( $nonce, 'font-nonce' ) ) {
 		die();
 	}
 
-	if ( ! ( isset( $_POST['google_font_name'] ) && ! empty( $_POST['google_font_name'] ) ) ) {
+	if ( empty( $_POST['google_font_name'] ) ) {
 		die();
 	}
 
@@ -245,9 +292,10 @@ function tk_google_fonts_add_font( $google_font_name ) {
 
 	$font_url     = 'https://fonts.googleapis.com/css2?family=' . $google_font_name;
 	$font_request = wp_remote_get( $font_url, array( 'user-agent' => 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36' ) );
-	$fp           = fopen( $tk_fonts_folder . $google_font_name . '/' . $google_font_name . '.css', 'w+' );
 
 	if ( isset( $font_request['response']['code'] ) && 200 === $font_request['response']['code'] ) {
+
+		$wp_filesystem = tk_google_fonts_get_filesystem();
 
 		/**
 		 * Save font name on database
@@ -272,17 +320,24 @@ function tk_google_fonts_add_font( $google_font_name ) {
 			$tk_main_url     = dirname( plugin_dir_url( __FILE__ ) ) . '/resources/my-fonts/';
 			$i               = 0;
 			foreach ( $tk_font_urls as $googlefonts_urls ) {
-				$tk_google_urls         = $tk_font_urls[ $i ];
-				$ff                     = fopen( $tk_fonts_folder . $google_font_name . '/' . $google_font_name . '-' . $i . '.woff2', 'w+' );
-				$tk_new_fontfamily_urls = file_get_contents( $tk_google_urls, false );
-				fwrite( $ff, $tk_new_fontfamily_urls );
-				fclose( $ff );
+				$tk_google_urls = $tk_font_urls[ $i ];
+				$asset_request  = wp_remote_get( $tk_google_urls );
+				if ( ! is_wp_error( $asset_request ) && 200 === wp_remote_retrieve_response_code( $asset_request ) ) {
+					$wp_filesystem->put_contents(
+						$tk_fonts_folder . $google_font_name . '/' . $google_font_name . '-' . $i . '.woff2',
+						wp_remote_retrieve_body( $asset_request ),
+						FS_CHMOD_FILE
+					);
+				}
 				$tk_hosted_fonts = str_replace( $tk_google_urls, $tk_main_url . $google_font_name . '/' . $google_font_name . '-' . $i . '.woff2', $tk_hosted_fonts );
 				$i++;
 
 			}
-			fwrite( $fp, $tk_hosted_fonts );
-			fclose( $fp );
+			$wp_filesystem->put_contents(
+				$tk_fonts_folder . $google_font_name . '/' . $google_font_name . '.css',
+				$tk_hosted_fonts,
+				FS_CHMOD_FILE
+			);
 		}
 
 		die();
@@ -307,7 +362,8 @@ function tk_google_fonts_delete_font() {
 		die();
 	}
 
-	if( ! isset( $_POST['font_nonce'] ) || ! wp_verify_nonce( $_POST['font_nonce'], 'font-nonce' ) ){
+	$nonce = isset( $_POST['font_nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['font_nonce'] ) ) : '';
+	if ( ! wp_verify_nonce( $nonce, 'font-nonce' ) ) {
 		die();
 	}
 

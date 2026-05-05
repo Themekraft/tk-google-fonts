@@ -75,25 +75,31 @@ function tkgf_after_update( $upgrader, $info ){
 				}
 				$font_url     = 'https://fonts.googleapis.com/css2?family=' . $selected_font;
 				$font_request = wp_remote_get( $font_url, array( 'user-agent' => 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36' ) );
-				$fp           = fopen( $tk_fonts_folder . $selected_font . '/' . $selected_font . '.css', 'w+' );
 				if ( isset( $font_request['response']['code'] ) && 200 === $font_request['response']['code'] ) {
 					if ( preg_match_all( $tk_search_url, $font_request['body'], $tk_font_fileinfo ) ) {
+						$wp_filesystem   = tk_google_fonts_get_filesystem();
 						$tk_font_urls    = $tk_font_fileinfo[0];
 						$tk_hosted_fonts = $font_request['body'];
 						$tk_main_url     = dirname( plugin_dir_url( __FILE__ ) ) . '/includes/resources/my-fonts/';
 						$i               = 0;
 						foreach ( $tk_font_urls as $googlefonts_urls ) {
-							$tk_google_urls         = $tk_font_urls[ $i ];
-							$ff                     = fopen( $tk_fonts_folder . $selected_font . '/' . $selected_font . '-' . $i . '.woff2', 'w+' );
-							$tk_new_fontfamily_urls = file_get_contents( $tk_google_urls, false );
-							fwrite( $ff, $tk_new_fontfamily_urls );
-							fclose( $ff );
+							$tk_google_urls = $tk_font_urls[ $i ];
+							$asset_request  = wp_remote_get( $tk_google_urls );
+							if ( ! is_wp_error( $asset_request ) && 200 === wp_remote_retrieve_response_code( $asset_request ) ) {
+								$wp_filesystem->put_contents(
+									$tk_fonts_folder . $selected_font . '/' . $selected_font . '-' . $i . '.woff2',
+									wp_remote_retrieve_body( $asset_request ),
+									FS_CHMOD_FILE
+								);
+							}
 							$tk_hosted_fonts = str_replace( $tk_google_urls, $tk_main_url . $selected_font . '/' . $selected_font . '-' . $i . '.woff2', $tk_hosted_fonts );
 							$i++;
-			
 						}
-						fwrite( $fp, $tk_hosted_fonts );
-						fclose( $fp );
+						$wp_filesystem->put_contents(
+							$tk_fonts_folder . $selected_font . '/' . $selected_font . '.css',
+							$tk_hosted_fonts,
+							FS_CHMOD_FILE
+						);
 					}
 				} else {
 					wp_die( 'We don\'t found your font, sorry... 😔', 'Not Found', 400 );
