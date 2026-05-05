@@ -16,6 +16,11 @@ if ( ! function_exists( 'tk_google_fonts_pricing_page_config' ) ) {
 	 * @return array<string,mixed>
 	 */
 	function tk_google_fonts_pricing_page_config( $config ) {
+		$screen = function_exists( 'get_current_screen' ) ? get_current_screen() : null;
+		if ( ! $screen || ! str_contains( $screen->id, 'tk-google-fonts-bundle_screen' ) ) {
+			return $config;
+		}
+
 		$config['heading']    = __( 'Get TK Google Fonts Pro', 'tk-google-fonts' );
 		$config['subheading'] = __( 'Unlock all premium features with a year of updates and support.', 'tk-google-fonts' );
 
