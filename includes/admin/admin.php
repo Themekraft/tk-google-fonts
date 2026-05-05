@@ -55,11 +55,12 @@ add_action( 'admin_menu', 'tk_google_fonts_bundle_screen_menu', 9999 );
  */
 function tk_google_fonts_bundle_screen_menu() {
 	if ( tk_gf_fs()->is_not_paying() ) {
-		add_theme_page( 'Bundle', 'Go Pro!', 'edit_theme_options', 'tk-google-fonts-bundle_screen', 'buddyforms_bundle_screen_content' );
+		add_theme_page( 'Bundle', 'Go Pro!', 'edit_theme_options', 'tk-google-fonts-bundle_screen', 'tk_pricing_page_render' );
 	}
 }
 
 require_once dirname( __FILE__ ) . '/pricing-page/pricing-page.php';
+require_once dirname( __FILE__ ) . '/pricing-page-config.php';
 
 /**
  * The Admin Page

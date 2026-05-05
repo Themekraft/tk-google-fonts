@@ -3,8 +3,9 @@
     "description": "Google Fonts UI for WordPress Themes",
     "license": "GPLv3",
     "minimum-stability": "dev",
+    "prefer-stable": true,
     "require": {
-        "freemius/wordpress-sdk": "^2.13"
+        "freemius/wordpress-sdk": "^2.13.1"
     },
     "require-dev": {
         "consolidation/robo": "^1.0.0"

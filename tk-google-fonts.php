@@ -42,37 +42,37 @@ if ( function_exists( 'tk_gf_fs' ) ) {
 		 * Create a helper function for easy SDK access.
 		 */
 		function tk_gf_fs() {
-			global  $tk_gf_fs;
+			global $tk_gf_fs;
 
 			if ( ! isset( $tk_gf_fs ) ) {
-				$tk_gf_fs = fs_dynamic_init(
-					array(
-						'id'              => '426',
-						'slug'            => 'tk-google-fonts',
-						'type'            => 'plugin',
-						'public_key'      => 'pk_27b7a20f60176ff52e48568808a9e',
-						'is_premium'      => true,
-						'premium_suffix'  => 'Premium',
-						'has_addons'      => false,
-						'has_paid_plans'  => true,
-						'trial'           => array(
-							'days'               => 7,
-							'is_require_payment' => true,
+				$tk_gf_fs = fs_dynamic_init( array(
+					'id'                             => '426',
+					'slug'                           => 'tk-google-fonts',
+					'type'                           => 'plugin',
+					'public_key'                     => 'pk_27b7a20f60176ff52e48568808a9e',
+					'is_premium'                     => true,
+					'premium_suffix'                 => 'Premium',
+					'has_premium_version'            => true,
+					'has_addons'                     => false,
+					'has_paid_plans'                 => true,
+					'is_org_compliant'               => true,
+					'wp_org_gatekeeper'              => 'OA7#BoRiBNqdf52FvzEf!!074aRLPs8fspif$7K1#4u4Csys1fQlCecVcUTOs2mcpeVHi#C2j9d09fOTvbC0HloPT7fFee5WdS3G',
+					'trial'                          => array(
+						'days'               => 7,
+						'is_require_payment' => true,
+					),
+					'has_affiliation'                => 'all',
+					'menu'                           => array(
+						'slug'           => 'tk-google-fonts-options',
+						'override_exact' => true,
+						'support'        => false,
+						'affiliation'    => false,
+						'parent'         => array(
+							'slug' => 'themes.php',
 						),
-						'has_affiliation' => 'all',
-						'menu'            => array(
-							'slug'           => 'tk-google-fonts-options',
-							'override_exact' => true,
-							'support'        => false,
-							'affiliation'    => false,
-							'parent'         => array(
-								'slug' => 'themes.php',
-							),
-						),
-						'is_live'         => true,
-						'bundle_license_auto_activation' => true,
-					)
-				);
+					),
+					'bundle_license_auto_activation' => true,
+				) );
 			}
 
 			return $tk_gf_fs;
