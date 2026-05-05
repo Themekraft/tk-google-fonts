@@ -3,7 +3,7 @@ Contributors: svenl77, konradS, themekraft
 Tags: google fonts, fonts, webfonts
 Requires at least: 3.5
 Tested up to: 6.6
-Stable tag: 2.2.14
+Stable tag: 2.3.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -114,6 +114,10 @@ Checkout the related Google Page of the font to see how to write the CSS to call
 6. The TK Google Fonts Admin Settings Panel - Select a Font with preview
 
 == Changelog ==
+= 2.3.0 - 04 May 2026 =
+* Updated Freemius SDK to 2.13.1.
+* Reworked the Go Pro page to use the parameterized shared pricing-page submodule with three site-license tiers.
+
 = 2.2.14 - 12 Jul 2024 =
 * Updated Freemius SDK.
 * Tested up tp WordPress 6.6
