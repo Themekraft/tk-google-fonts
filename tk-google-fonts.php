@@ -6,7 +6,8 @@
  * Version: 2.3.0-beta.3
  * Author: ThemeKraft
  * Author URI: http://themekraft.com/
- * Licence: GPLv3
+ * License: GPLv3
+ * License URI: https://www.gnu.org/licenses/gpl-3.0.html
  * Svn: tk-google-fonts
  *
  * @author  Sven Lehnert
