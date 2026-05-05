@@ -117,6 +117,10 @@ Checkout the related Google Page of the font to see how to write the CSS to call
 = 2.3.0 - 04 May 2026 =
 * Updated Freemius SDK to 2.13.1.
 * Reworked the Go Pro page to use the parameterized shared pricing-page submodule with three site-license tiers.
+* Refreshed the Go Pro page card layout to a responsive CSS grid.
+* Hid the duplicate Upgrade menu item under Appearance > TK Google Fonts; the Go Pro link is now the single upsell entry.
+* Highlighted the Go Pro menu link in the admin sidebar.
+* Tested up to WordPress 6.9.
 
 = 2.2.14 - 12 Jul 2024 =
 * Updated Freemius SDK.
