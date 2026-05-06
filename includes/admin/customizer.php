@@ -1714,7 +1714,7 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 					$wp_customize,
 					'body_font_color',
 					array(
-						'label'    => __( 'Body Font Color', 'mytheme' ),
+						'label'    => __( 'Body Font Color', 'tk-google-fonts' ),
 						'section'  => 'tk_body',
 						'settings' => 'body_font_color',
 						'priority' => 72,
@@ -1841,7 +1841,7 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 					$wp_customize,
 					'blockquote_font_color',
 					array(
-						'label'    => __( 'Blockquote Font Color', 'mytheme' ),
+						'label'    => __( 'Blockquote Font Color', 'tk-google-fonts' ),
 						'section'  => 'tk_blockquote',
 						'settings' => 'blockquote_font_color',
 						'priority' => 82,
