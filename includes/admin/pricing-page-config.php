@@ -3,7 +3,7 @@
  * Pricing page filter registration for TK Google Fonts.
  * No bundle product exists for this plugin family — the page sells the Pro Version of TK Google Fonts.
  *
- * @package tk-google-fonts
+ * @package TK Google Fonts
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
