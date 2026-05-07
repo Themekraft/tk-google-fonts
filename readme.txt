@@ -1,4 +1,4 @@
-=== TK Google Fonts GDPR Compliant ===
+=== TK Google Fonts ===
 Contributors: svenl77, konradS, themekraft
 Tags: google fonts, fonts, webfonts
 Requires at least: 3.5
@@ -7,7 +7,7 @@ Stable tag: 2.3.0-beta.4
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-TK Google Fonts gives you a simple and easy way to add custom google fonts to any WordPress site without complex codes. Full GDPR Compliance. Full support for any theme. 
+Add custom Google Fonts to any WordPress site. Full GDPR compliance. Works with any theme — no complex code required.
 
 == Description ==
 
