@@ -125,6 +125,8 @@ Checkout the related Google Page of the font to see how to write the CSS to call
 * Refreshed the Go Pro page card layout to a responsive CSS grid.
 * Hid the duplicate Upgrade menu item under Appearance > TK Google Fonts; the Go Pro link is now the single upsell entry.
 * Highlighted the Go Pro menu link in the admin sidebar.
+* Plugin Check: aligned the readme `===` heading from "TK Google Fonts GDPR Compliant" → "TK Google Fonts" with the plugin-header Plugin Name; trimmed the short description under the 150-char limit. Aligned the `@package` in `pricing-page-config.php` with the plugin name. Three TextDomainMismatch warnings on the shared pricing-page submodule are now suppressed at the submodule layer.
+* Release tooling: bumped the shared tk_script + pricing-page submodules.
 * Tested up to WordPress 6.9.
 
 = 2.2.14 - 12 Jul 2024 =
