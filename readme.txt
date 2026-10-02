@@ -4,7 +4,7 @@ Tags: google fonts, fonts, webfonts
 Requires at least: 5.9
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 2.3.0-beta.8
+Stable tag: 2.3.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -115,7 +115,7 @@ Checkout the related Google Page of the font to see how to write the CSS to call
 6. The TK Google Fonts Admin Settings Panel - Select a Font with preview
 
 == Changelog ==
-= 2.3.0 - 04 May 2026 =
+= 2.3.0 - 02 Oct 2026 =
 * Plugin Check: fixed plugin-header License field and stripped hidden macOS metadata from the release.
 * Plugin Check: replaced direct fopen/fwrite/fclose calls in the font cache writers with the WordPress Filesystem API; remote font assets are now fetched via wp_remote_get instead of file_get_contents.
 * Plugin Check: registered a sanitize callback for the plugin's options array (Settings API).
