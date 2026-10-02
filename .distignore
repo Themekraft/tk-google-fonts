@@ -1,0 +1,3 @@
+# Files and folders that must not ship in the release zip (rsync exclude syntax).
+# VCS metadata, .github, node_modules and the old tk_script files are always excluded.
+/includes/admin/pricing-page/package-lock.json
