@@ -73,13 +73,14 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 		$tk_google_pro = true;
 	}
 
-	$tk_selected_fonts = $tk_google_fonts_options['selected_fonts'];
+	// The option does not exist until the settings page is saved once.
+	$tk_selected_fonts = isset( $tk_google_fonts_options['selected_fonts'] ) ? (array) $tk_google_fonts_options['selected_fonts'] : array();
 
 	$tk_google_font_array = array();
 
 	$tk_google_font_array['none'] = '';
 
-	if ( isset( $tk_selected_fonts ) ) {
+	if ( ! empty( $tk_selected_fonts ) ) {
 		foreach ( $tk_selected_fonts as $key => $tk_selected_font ) {
 			$tk_google_font_string                          = str_replace( '+', ' ', $tk_selected_font );
 			$tk_google_font_array[ $tk_google_font_string ] = $tk_google_font_string;
