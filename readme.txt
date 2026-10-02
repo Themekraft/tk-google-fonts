@@ -1,8 +1,9 @@
 === TK Google Fonts ===
 Contributors: svenl77, konradS, themekraft
 Tags: google fonts, fonts, webfonts
-Requires at least: 3.5
-Tested up to: 6.9
+Requires at least: 5.9
+Tested up to: 7.1
+Requires PHP: 7.4
 Stable tag: 2.3.0-beta.6
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -126,8 +127,8 @@ Checkout the related Google Page of the font to see how to write the CSS to call
 * Hid the duplicate Upgrade menu item under Appearance > TK Google Fonts; the Go Pro link is now the single upsell entry.
 * Highlighted the Go Pro menu link in the admin sidebar.
 * Plugin Check: aligned the readme `===` heading from "TK Google Fonts GDPR Compliant" → "TK Google Fonts" with the plugin-header Plugin Name; trimmed the short description under the 150-char limit. Aligned the `@package` in `pricing-page-config.php` with the plugin name. Three TextDomainMismatch warnings on the shared pricing-page submodule are now suppressed at the submodule layer.
-* Release tooling: bumped the shared tk_script + pricing-page submodules.
-* Tested up to WordPress 6.9.
+* Requires WordPress 5.9 or later and PHP 7.4 or later.
+* Tested up to WordPress 7.1.
 
 = 2.2.14 - 12 Jul 2024 =
 * Updated Freemius SDK.

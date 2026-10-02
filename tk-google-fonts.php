@@ -8,6 +8,8 @@
  * Author URI: http://themekraft.com/
  * License: GPLv3
  * License URI: https://www.gnu.org/licenses/gpl-3.0.html
+ * Requires at least: 5.9
+ * Requires PHP: 7.4
  * Svn: tk-google-fonts
  *
  * @author  Sven Lehnert
@@ -31,6 +33,10 @@
  *
  * Have fun!
  */
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 require_once __DIR__ . '/vendor/autoload.php';
 
 if ( function_exists( 'tk_gf_fs' ) ) {
