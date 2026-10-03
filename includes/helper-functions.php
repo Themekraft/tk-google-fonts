@@ -1,4 +1,8 @@
 <?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 /**
  * Enqueue admin JS and CSS
  *
@@ -18,6 +22,10 @@ add_action( 'admin_enqueue_scripts', 'tk_google_fonts_js' );
 function tk_google_fonts_js() {
 
 	wp_enqueue_script( 'google_fonts_admin_js', plugins_url( '/admin/js/admin.js', __FILE__ ), array(), '1.0', true );
+	wp_localize_script( 'google_fonts_admin_js', 'ajax_var', array(
+		'url' => admin_url( 'admin-ajax.php' ),
+		'nonce' => wp_create_nonce( 'font-nonce' )
+	));
 	wp_register_script( 'jquery-fontselect', plugins_url( '/resources/font-select/jquery.fontselect.min.js', __FILE__ ), false, '1.0', true );
 	wp_enqueue_script( 'jquery-fontselect' );
 	wp_enqueue_style( 'jquery-fontselect-css', plugins_url( '/resources/font-select/fontselect.css', __FILE__ ), array(), '1.0' );
@@ -57,3 +65,50 @@ function tk_google_fonts_enqueue_fonts() {
 
 }
 
+add_action( 'upgrader_process_complete', 'tkgf_after_update', 5, 2 );
+function tkgf_after_update( $upgrader, $info ){
+
+	if( isset( $upgrader->result['destination_name'] ) && ( $upgrader->result['destination_name'] == 'tk-google-fonts' || $upgrader->result['destination_name'] == 'tk-google-fonts-premium' ) ){
+		$tk_google_fonts_options = get_option( 'tk_google_fonts_options' );
+		if ( ! empty( $tk_google_fonts_options['selected_fonts'] ) ) {
+			$tk_fonts_folder  = dirname( plugin_dir_path( __FILE__ ) ) . '/includes/resources/my-fonts/';
+			$tk_search_url = '/(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z0-9]{3,4}(\/\S[^)]*)?/';
+			foreach( $tk_google_fonts_options['selected_fonts'] as $selected_font ){
+				if ( ! is_dir( $tk_fonts_folder . $selected_font ) ) {
+					wp_mkdir_p( $tk_fonts_folder . $selected_font );
+				}
+				$font_url     = 'https://fonts.googleapis.com/css2?family=' . $selected_font;
+				$font_request = wp_remote_get( $font_url, array( 'user-agent' => 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36' ) );
+				if ( isset( $font_request['response']['code'] ) && 200 === $font_request['response']['code'] ) {
+					if ( preg_match_all( $tk_search_url, $font_request['body'], $tk_font_fileinfo ) ) {
+						$wp_filesystem   = tk_google_fonts_get_filesystem();
+						$tk_font_urls    = $tk_font_fileinfo[0];
+						$tk_hosted_fonts = $font_request['body'];
+						$tk_main_url     = dirname( plugin_dir_url( __FILE__ ) ) . '/includes/resources/my-fonts/';
+						$i               = 0;
+						foreach ( $tk_font_urls as $googlefonts_urls ) {
+							$tk_google_urls = $tk_font_urls[ $i ];
+							$asset_request  = wp_remote_get( $tk_google_urls );
+							if ( ! is_wp_error( $asset_request ) && 200 === wp_remote_retrieve_response_code( $asset_request ) ) {
+								$wp_filesystem->put_contents(
+									$tk_fonts_folder . $selected_font . '/' . $selected_font . '-' . $i . '.woff2',
+									wp_remote_retrieve_body( $asset_request ),
+									FS_CHMOD_FILE
+								);
+							}
+							$tk_hosted_fonts = str_replace( $tk_google_urls, $tk_main_url . $selected_font . '/' . $selected_font . '-' . $i . '.woff2', $tk_hosted_fonts );
+							$i++;
+						}
+						$wp_filesystem->put_contents(
+							$tk_fonts_folder . $selected_font . '/' . $selected_font . '.css',
+							$tk_hosted_fonts,
+							FS_CHMOD_FILE
+						);
+					}
+				} else {
+					wp_die( 'We don\'t found your font, sorry... 😔', 'Not Found', 400 );
+				}
+			}
+		}
+	}
+}

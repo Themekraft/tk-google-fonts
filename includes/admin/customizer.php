@@ -1,4 +1,8 @@
 <?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 /**
  * All settings for the customizer screen.
  *
@@ -69,13 +73,14 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 		$tk_google_pro = true;
 	}
 
-	$tk_selected_fonts = $tk_google_fonts_options['selected_fonts'];
+	// The option does not exist until the settings page is saved once.
+	$tk_selected_fonts = isset( $tk_google_fonts_options['selected_fonts'] ) ? (array) $tk_google_fonts_options['selected_fonts'] : array();
 
 	$tk_google_font_array = array();
 
 	$tk_google_font_array['none'] = '';
 
-	if ( isset( $tk_selected_fonts ) ) {
+	if ( ! empty( $tk_selected_fonts ) ) {
 		foreach ( $tk_selected_fonts as $key => $tk_selected_font ) {
 			$tk_google_font_string                          = str_replace( '+', ' ', $tk_selected_font );
 			$tk_google_font_array[ $tk_google_font_string ] = $tk_google_font_string;
@@ -1714,7 +1719,7 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 					$wp_customize,
 					'body_font_color',
 					array(
-						'label'    => __( 'Body Font Color', 'mytheme' ),
+						'label'    => __( 'Body Font Color', 'tk-google-fonts' ),
 						'section'  => 'tk_body',
 						'settings' => 'body_font_color',
 						'priority' => 72,
@@ -1841,7 +1846,7 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 					$wp_customize,
 					'blockquote_font_color',
 					array(
-						'label'    => __( 'Blockquote Font Color', 'mytheme' ),
+						'label'    => __( 'Blockquote Font Color', 'tk-google-fonts' ),
 						'section'  => 'tk_blockquote',
 						'settings' => 'blockquote_font_color',
 						'priority' => 82,
@@ -2457,7 +2462,7 @@ function tk_google_fonts_go_pro_customizer_control() {
 						</li>
 						<?php } ?>
 					<?php } ?>
-					<li><a class="button button-primary" target="_blank" href="<?php echo esc_url( admin_url() ); ?>themes.php?page=tk-google-fonts-options-pricing">Go Pro Now</a></li>
+					<li><a class="button button-primary" target="_blank" href="<?php echo esc_url( admin_url() ); ?>themes.php?page=tk-google-fonts-bundle_screen">Go Pro Now</a></li>
 				</ul>
 			</label>
 			<?php
