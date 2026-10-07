@@ -37,11 +37,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-require_once __DIR__ . '/vendor/autoload.php';
-
 if ( function_exists( 'tk_gf_fs' ) ) {
 	tk_gf_fs()->set_basename( true, __FILE__ );
 } else {
+	// Only the copy that runs loads Composer: the free and premium builds share
+	// the autoloader class name, so loading it twice is a fatal error.
+	require_once __DIR__ . '/vendor/autoload.php';
 
 	if ( ! function_exists( 'tk_gf_fs' ) ) {
 
