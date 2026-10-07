@@ -4,7 +4,7 @@ Tags: google fonts, fonts, webfonts
 Requires at least: 5.9
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 2.3.1
+Stable tag: 2.3.2
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -115,6 +115,9 @@ Checkout the related Google Page of the font to see how to write the CSS to call
 6. The TK Google Fonts Admin Settings Panel - Select a Font with preview
 
 == Changelog ==
+= 2.3.2 - 07 Oct 2026 =
+* Fixed a fatal error when activating the premium version while the free version is active. Activating one version now deactivates the other one.
+
 = 2.3.1 - 03 Oct 2026 =
 * Removed build tooling files that were accidentally included in the 2.3.0 package.
 
