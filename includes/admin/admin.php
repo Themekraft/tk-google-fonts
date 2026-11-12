@@ -149,10 +149,10 @@ function tk_google_fonts_register_admin_settings() {
 
 	add_settings_field(
 		'primary-font',
-		'<h3>1. Add Google Fonts</h3> <i>The plugin loads the Google Fonts automatically from Google.<br><br>
+		'<h3>1. Add Google Fonts</h3> <i>When you add a font, the plugin downloads it once and serves it from your own site, so your visitors\' browsers never connect to Google.<br><br>
 							If the Google Font you are looking for shouldn\'t be available in the Font Selectbox, just type in the name into the text field and then click on "Add Font".<br><br>
         					Just use the name with spaces, no need to find a special slug. The name is enough, we do the rest. ;-) <br><br>
-        					You can find all available Google Fonts on the <br><br><a href="http://www.google.com/fonts/" target="blank">Google Fonts Website</a> </i>',
+        					You can find all available Google Fonts on the <br><br><a href="https://fonts.google.com/" target="_blank" rel="noopener">Google Fonts Website</a> </i>',
 		'tk_google_fonts_field_font',
 		'tk_google_fonts_options',
 		'section_typography'
