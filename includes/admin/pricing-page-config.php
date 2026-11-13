@@ -36,7 +36,8 @@ if ( ! function_exists( 'tk_google_fonts_pricing_page_config' ) ) {
 				'label'     => __( 'All TK Google Fonts Pro features unlocked', 'tk-google-fonts' ),
 				'highlight' => true,
 			),
-			__( 'GDPR-compliant Google Fonts integration', 'tk-google-fonts' ),
+			__( 'Font color and weight for each element in the Customizer', 'tk-google-fonts' ),
+			__( 'Separate font sizes for mobile, tablet and large screens', 'tk-google-fonts' ),
 			__( 'One year of support', 'tk-google-fonts' ),
 			__( 'One year of updates', 'tk-google-fonts' ),
 		);
