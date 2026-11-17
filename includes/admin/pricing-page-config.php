@@ -36,8 +36,10 @@ if ( ! function_exists( 'tk_google_fonts_pricing_page_config' ) ) {
 				'label'     => __( 'All TK Google Fonts Pro features unlocked', 'tk-google-fonts' ),
 				'highlight' => true,
 			),
-			__( 'Font color and weight for each element in the Customizer', 'tk-google-fonts' ),
+			__( 'Font color for the site title, post and page titles, headings and body text', 'tk-google-fonts' ),
+			__( 'Font weight for the site title, post and page titles and headings', 'tk-google-fonts' ),
 			__( 'Separate font sizes for mobile, tablet and large screens', 'tk-google-fonts' ),
+			__( 'Blockquote text and background color', 'tk-google-fonts' ),
 			__( 'One year of support', 'tk-google-fonts' ),
 			__( 'One year of updates', 'tk-google-fonts' ),
 		);
