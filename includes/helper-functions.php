@@ -51,6 +51,8 @@ function tk_google_fonts_enqueue_fonts() {
 		return;
 	}
 
+	$missing = array();
+
 	// Enquire only the selected fonts.
 	foreach ( $tk_google_fonts_options['selected_fonts'] as $key => $tk_google_font ) {
 		$tk_font_base_url = plugin_dir_url( __FILE__ ) . '/resources/my-fonts/' . $tk_google_font . '/' . $tk_google_font . '.css';
@@ -61,12 +63,52 @@ function tk_google_fonts_enqueue_fonts() {
 
 		// Version by file time, so caches pick up a font downloaded again.
 		$tk_font_css_file = tkgf_fonts_dir() . $tk_google_font . '/' . $tk_google_font . '.css';
-		$tk_font_version  = file_exists( $tk_font_css_file ) ? (string) filemtime( $tk_font_css_file ) : TK_GOOGLE_FONTS;
+		if ( file_exists( $tk_font_css_file ) ) {
+			$tk_font_version = (string) filemtime( $tk_font_css_file );
+		} else {
+			$tk_font_version = TK_GOOGLE_FONTS;
+			$missing[]       = $tk_google_font;
+		}
 
 		wp_register_style( 'font-style-' . $tk_google_font, $tk_font_base_url, array(), $tk_font_version );
 		wp_enqueue_style( 'font-style-' . $tk_google_font );
 	}
 
+	// Reuses the file_exists() above, so a normal request costs nothing extra.
+	if ( $missing ) {
+		tkgf_fonts_missing( $missing );
+	}
+
+}
+
+/**
+ * Some selected fonts have no CSS file. Updates replace the plugin folder,
+ * which holds the fonts, and the update hook does not always refill it
+ * (2.3.2 fataled outside wp-admin, a switch between the free and premium
+ * copies, the other sites of a network), so download them in the background.
+ *
+ * @param string[] $missing Selected fonts without a CSS file.
+ */
+function tkgf_fonts_missing( $missing ) {
+	// Fonts Google did not have at the last refresh are not retried for a day.
+	$unavailable = get_transient( 'tkgf_fonts_unavailable' );
+	if ( is_array( $unavailable ) ) {
+		$missing = array_diff( $missing, $unavailable );
+	}
+	if ( $missing ) {
+		tkgf_schedule_refresh();
+	}
+}
+
+/**
+ * Schedule a background download of the selected fonts, unless one is
+ * already scheduled or the last one failed less than an hour ago.
+ */
+function tkgf_schedule_refresh() {
+	if ( wp_next_scheduled( 'tkgf_refresh_fonts' ) || get_transient( 'tkgf_refresh_fonts_retry' ) ) {
+		return;
+	}
+	wp_schedule_single_event( time(), 'tkgf_refresh_fonts' );
 }
 
 /**
@@ -146,8 +188,8 @@ function tkgf_download_font( $google_font_name ) {
 	}
 
 	$wp_filesystem = tk_google_fonts_get_filesystem();
-	if ( ! $wp_filesystem ) {
-		return new WP_Error( 'tkgf_retry', 'The filesystem is not writable.' );
+	if ( ! $wp_filesystem || ! wp_mkdir_p( tkgf_fonts_dir() ) || ! $wp_filesystem->is_writable( tkgf_fonts_dir() ) ) {
+		return new WP_Error( 'tkgf_retry', 'The fonts folder is not writable.' );
 	}
 
 	$user_agent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36';
@@ -166,10 +208,15 @@ function tkgf_download_font( $google_font_name ) {
 			$last_error = new WP_Error( 'tkgf_retry', $response->get_error_message() );
 			continue;
 		}
+		$code = (int) wp_remote_retrieve_response_code( $response );
 		$body = wp_remote_retrieve_body( $response );
-		if ( 200 === wp_remote_retrieve_response_code( $response ) && false !== strpos( $body, '@font-face' ) ) {
+		if ( 200 === $code && false !== strpos( $body, '@font-face' ) ) {
 			$css = $body;
 			break;
+		}
+		// Google is down or rate limiting: the font may exist, try again later.
+		if ( 429 === $code || $code >= 500 ) {
+			return new WP_Error( 'tkgf_retry', 'Google Fonts answered HTTP ' . $code . '.' );
 		}
 		$last_error = new WP_Error( 'tkgf_not_found', 'Font not found.' );
 	}
@@ -197,8 +244,8 @@ function tkgf_download_font( $google_font_name ) {
 	}
 
 	$folder = tkgf_fonts_dir() . $google_font_name . '/';
-	if ( ! is_dir( $folder ) ) {
-		wp_mkdir_p( $folder );
+	if ( ! wp_mkdir_p( $folder ) || ! $wp_filesystem->is_writable( $folder ) ) {
+		return new WP_Error( 'tkgf_retry', 'The fonts folder is not writable.' );
 	}
 
 	// Remove files from a previous download that the new CSS no longer uses.
@@ -209,9 +256,14 @@ function tkgf_download_font( $google_font_name ) {
 	}
 
 	foreach ( $files as $file_name => $contents ) {
-		$wp_filesystem->put_contents( $folder . $file_name, $contents, FS_CHMOD_FILE );
+		if ( ! $wp_filesystem->put_contents( $folder . $file_name, $contents, FS_CHMOD_FILE ) ) {
+			return new WP_Error( 'tkgf_retry', 'Could not write ' . $file_name );
+		}
 	}
-	$wp_filesystem->put_contents( $folder . $google_font_name . '.css', $css, FS_CHMOD_FILE );
+	// The CSS file goes last: its presence means the font is complete.
+	if ( ! $wp_filesystem->put_contents( $folder . $google_font_name . '.css', $css, FS_CHMOD_FILE ) ) {
+		return new WP_Error( 'tkgf_retry', 'Could not write ' . $google_font_name . '.css' );
+	}
 
 	return true;
 }
@@ -271,23 +323,42 @@ function tkgf_fetch_files( $urls ) {
 }
 
 /**
- * Download every selected font again.
+ * Download the selected fonts again.
  *
- * @return bool False when a font could not be downloaded because of a
- *              connection error, so the caller can retry later.
+ * @param bool $only_missing Only download fonts that have no CSS file.
+ * @return array {
+ *     @type bool     $ok          False when a font could not be downloaded
+ *                                 for a temporary reason (connection error,
+ *                                 Google 5xx or 429, folder not writable), so
+ *                                 the caller can retry later.
+ *     @type string[] $unavailable Fonts Google does not have.
+ * }
  */
-function tkgf_download_selected_fonts() {
+function tkgf_download_selected_fonts( $only_missing = false ) {
 	$tk_google_fonts_options = get_option( 'tk_google_fonts_options' );
 	$ok                      = true;
+	$unavailable             = array();
 	if ( ! empty( $tk_google_fonts_options['selected_fonts'] ) ) {
 		foreach ( $tk_google_fonts_options['selected_fonts'] as $selected_font ) {
-			$result = tkgf_download_font( $selected_font );
-			if ( is_wp_error( $result ) && 'tkgf_retry' === $result->get_error_code() ) {
-				$ok = false;
+			if ( $only_missing && file_exists( tkgf_fonts_dir() . $selected_font . '/' . $selected_font . '.css' ) ) {
+				continue;
 			}
+			$result = tkgf_download_font( $selected_font );
+			if ( ! is_wp_error( $result ) ) {
+				continue;
+			}
+			if ( 'tkgf_retry' === $result->get_error_code() ) {
+				$ok = false;
+				// The rest would fail the same way: stop and retry later.
+				break;
+			}
+			$unavailable[] = $selected_font;
 		}
 	}
-	return $ok;
+	return array(
+		'ok'          => $ok,
+		'unavailable' => $unavailable,
+	);
 }
 
 /**
@@ -295,13 +366,15 @@ function tkgf_download_selected_fonts() {
  * Loaded on every request (not only in wp-admin) because fonts are also
  * downloaded from cron and from background plugin updates.
  *
- * @return WP_Filesystem_Base
+ * @return WP_Filesystem_Base|false False when the filesystem needs credentials.
  */
 function tk_google_fonts_get_filesystem() {
 	global $wp_filesystem;
 	if ( ! $wp_filesystem ) {
 		require_once ABSPATH . 'wp-admin/includes/file.php';
-		WP_Filesystem();
+		if ( ! WP_Filesystem() ) {
+			return false;
+		}
 	}
 	return $wp_filesystem;
 }
@@ -312,6 +385,7 @@ add_action( 'init', 'tkgf_maybe_refresh_fonts' );
  * Updating does not fix that by itself: upgrader_process_complete runs the
  * code of the version being replaced, which downloads the old way. So the
  * first request on the new version schedules a background download.
+ * Fonts whose files are missing are detected in tk_google_fonts_enqueue_fonts().
  */
 function tkgf_maybe_refresh_fonts() {
 	if ( (int) get_option( 'tkgf_fonts_format' ) >= TKGF_FONTS_FORMAT ) {
@@ -322,34 +396,75 @@ function tkgf_maybe_refresh_fonts() {
 		update_option( 'tkgf_fonts_format', TKGF_FONTS_FORMAT );
 		return;
 	}
-	if ( get_transient( 'tkgf_refresh_fonts_retry' ) || wp_next_scheduled( 'tkgf_refresh_fonts' ) ) {
-		return;
-	}
-	wp_schedule_single_event( time(), 'tkgf_refresh_fonts' );
+	tkgf_schedule_refresh();
 }
 
 add_action( 'tkgf_refresh_fonts', 'tkgf_refresh_fonts' );
 /**
- * Cron callback: download the selected fonts in the current format.
+ * Cron callback: download the selected fonts in the current format, or only
+ * the missing ones when the format is already current.
  */
 function tkgf_refresh_fonts() {
-	if ( tkgf_download_selected_fonts() ) {
-		update_option( 'tkgf_fonts_format', TKGF_FONTS_FORMAT );
-	} else {
+	$only_missing = (int) get_option( 'tkgf_fonts_format' ) >= TKGF_FONTS_FORMAT;
+	$result       = tkgf_download_selected_fonts( $only_missing );
+
+	if ( ! $result['ok'] ) {
 		set_transient( 'tkgf_refresh_fonts_retry', 1, HOUR_IN_SECONDS );
+		return;
 	}
+
+	delete_transient( 'tkgf_refresh_fonts_retry' );
+	update_option( 'tkgf_fonts_format', TKGF_FONTS_FORMAT );
+	if ( $result['unavailable'] ) {
+		set_transient( 'tkgf_fonts_unavailable', $result['unavailable'], DAY_IN_SECONDS );
+	} else {
+		delete_transient( 'tkgf_fonts_unavailable' );
+	}
+}
+
+add_action( 'admin_init', 'tkgf_run_overdue_refresh' );
+/**
+ * Sites without a working WP-Cron never run the scheduled refresh. When it is
+ * more than 10 minutes overdue, run it on an admin page load instead.
+ */
+function tkgf_run_overdue_refresh() {
+	$next = wp_next_scheduled( 'tkgf_refresh_fonts' );
+	if ( ! $next || $next > time() - 10 * MINUTE_IN_SECONDS || wp_doing_ajax() || ! current_user_can( 'manage_options' ) ) {
+		return;
+	}
+	wp_unschedule_event( $next, 'tkgf_refresh_fonts' );
+	tkgf_refresh_fonts();
 }
 
 add_action( 'upgrader_process_complete', 'tkgf_after_update', 5, 2 );
 /**
  * Updates replace the plugin folder, which holds the downloaded fonts, so
- * download them again after this plugin is updated.
+ * download them again after this plugin is updated. Single updates pass the
+ * plugin in $info['plugin'], bulk updates (several plugins in wp-admin, any
+ * multi-plugin WP-CLI update) in $info['plugins'].
  *
  * @param WP_Upgrader $upgrader Upgrader instance.
  * @param array       $info     Update details.
  */
 function tkgf_after_update( $upgrader, $info ) {
-	if ( isset( $upgrader->result['destination_name'] ) && in_array( $upgrader->result['destination_name'], array( 'tk-google-fonts', 'tk-google-fonts-premium' ), true ) ) {
-		tkgf_download_selected_fonts();
+	if ( ! isset( $info['type'] ) || 'plugin' !== $info['type'] ) {
+		return;
+	}
+
+	$folders = array();
+	if ( ! empty( $info['plugins'] ) ) {
+		$folders = array_map( 'dirname', (array) $info['plugins'] );
+	} elseif ( ! empty( $info['plugin'] ) ) {
+		$folders = array( dirname( $info['plugin'] ) );
+	}
+	// Uploading a zip to replace the installed copy reports no plugin basename.
+	if ( isset( $upgrader->result['destination_name'] ) ) {
+		$folders[] = $upgrader->result['destination_name'];
+	}
+
+	// Only refill when the copy running this code (free or premium, whatever
+	// its folder name) was updated: an inactive copy's fonts are not used.
+	if ( in_array( basename( dirname( __DIR__ ) ), $folders, true ) ) {
+		tkgf_refresh_fonts();
 	}
 }
