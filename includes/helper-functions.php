@@ -21,7 +21,7 @@ add_action( 'admin_enqueue_scripts', 'tk_google_fonts_js' );
  */
 function tk_google_fonts_js() {
 
-	wp_enqueue_script( 'google_fonts_admin_js', plugins_url( '/admin/js/admin.js', __FILE__ ), array(), '1.0', true );
+	wp_enqueue_script( 'google_fonts_admin_js', plugins_url( '/admin/js/admin.js', __FILE__ ), array(), TK_GOOGLE_FONTS, true );
 	wp_localize_script( 'google_fonts_admin_js', 'ajax_var', array(
 		'url' => admin_url( 'admin-ajax.php' ),
 		'nonce' => wp_create_nonce( 'font-nonce' )
@@ -59,7 +59,11 @@ function tk_google_fonts_enqueue_fonts() {
 			$tk_font_base_url = str_replace( 'http:', 'https:', $tk_font_base_url );
 		}
 
-		wp_register_style( 'font-style-' . $tk_google_font, $tk_font_base_url, array(), '1.0' );
+		// Version by file time, so caches pick up a font downloaded again.
+		$tk_font_css_file = tkgf_fonts_dir() . $tk_google_font . '/' . $tk_google_font . '.css';
+		$tk_font_version  = file_exists( $tk_font_css_file ) ? (string) filemtime( $tk_font_css_file ) : TK_GOOGLE_FONTS;
+
+		wp_register_style( 'font-style-' . $tk_google_font, $tk_font_base_url, array(), $tk_font_version );
 		wp_enqueue_style( 'font-style-' . $tk_google_font );
 	}
 
@@ -179,17 +183,17 @@ function tkgf_download_font( $google_font_name ) {
 	}
 
 	// Variable fonts reuse one file for several weights: download it once.
+	$urls   = array_values( array_unique( $matches[1] ) );
+	$bodies = tkgf_fetch_files( $urls );
+	if ( is_wp_error( $bodies ) ) {
+		return $bodies;
+	}
+
 	$files = array();
-	$i     = 0;
-	foreach ( array_unique( $matches[1] ) as $file_url ) {
-		$asset = wp_remote_get( $file_url, array( 'timeout' => 15 ) );
-		if ( is_wp_error( $asset ) || 200 !== wp_remote_retrieve_response_code( $asset ) ) {
-			return new WP_Error( 'tkgf_retry', 'Could not download ' . $file_url );
-		}
+	foreach ( $urls as $i => $file_url ) {
 		$file_name           = $google_font_name . '-' . $i . '.woff2';
-		$files[ $file_name ] = wp_remote_retrieve_body( $asset );
+		$files[ $file_name ] = $bodies[ $i ];
 		$css                 = str_replace( $file_url, tkgf_fonts_url() . $google_font_name . '/' . $file_name, $css );
-		$i++;
 	}
 
 	$folder = tkgf_fonts_dir() . $google_font_name . '/';
@@ -210,6 +214,60 @@ function tkgf_download_font( $google_font_name ) {
 	$wp_filesystem->put_contents( $folder . $google_font_name . '.css', $css, FS_CHMOD_FILE );
 
 	return true;
+}
+
+/**
+ * Download font files, several at a time. A font with regular, bold and
+ * italic styles is around 4 files per character subset (36 for Roboto), and
+ * one by one that takes long enough to hit max_execution_time.
+ *
+ * @param string[] $urls File URLs.
+ * @return string[]|WP_Error File contents, in the same order as $urls.
+ */
+function tkgf_fetch_files( $urls ) {
+	$bodies = array();
+
+	if ( class_exists( 'WpOrg\\Requests\\Requests' ) ) {
+		$requests_class = 'WpOrg\\Requests\\Requests';
+	} elseif ( class_exists( 'Requests' ) ) {
+		$requests_class = 'Requests';
+	} else {
+		$requests_class = '';
+	}
+
+	if ( '' === $requests_class ) {
+		foreach ( $urls as $i => $url ) {
+			$response = wp_remote_get( $url, array( 'timeout' => 15 ) );
+			if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) ) {
+				return new WP_Error( 'tkgf_retry', 'Could not download ' . $url );
+			}
+			$bodies[ $i ] = wp_remote_retrieve_body( $response );
+		}
+		return $bodies;
+	}
+
+	$options = array(
+		'timeout'   => 15,
+		'useragent' => 'WordPress/' . get_bloginfo( 'version' ) . '; ' . home_url(),
+		'verify'    => ABSPATH . WPINC . '/certificates/ca-bundle.crt',
+	);
+
+	foreach ( array_chunk( $urls, 12, true ) as $chunk ) {
+		$requests = array();
+		foreach ( $chunk as $i => $url ) {
+			$requests[ $i ] = array( 'url' => $url );
+		}
+		$responses = call_user_func( array( $requests_class, 'request_multiple' ), $requests, $options );
+		foreach ( $chunk as $i => $url ) {
+			$response = isset( $responses[ $i ] ) ? $responses[ $i ] : null;
+			if ( ! is_object( $response ) || $response instanceof Exception || 200 !== (int) $response->status_code ) {
+				return new WP_Error( 'tkgf_retry', 'Could not download ' . $url );
+			}
+			$bodies[ $i ] = $response->body;
+		}
+	}
+
+	return $bodies;
 }
 
 /**
