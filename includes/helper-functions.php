@@ -21,7 +21,7 @@ add_action( 'admin_enqueue_scripts', 'tk_google_fonts_js' );
  */
 function tk_google_fonts_js() {
 
-	wp_enqueue_script( 'google_fonts_admin_js', plugins_url( '/admin/js/admin.js', __FILE__ ), array(), '1.0', true );
+	wp_enqueue_script( 'google_fonts_admin_js', plugins_url( '/admin/js/admin.js', __FILE__ ), array(), TK_GOOGLE_FONTS, true );
 	wp_localize_script( 'google_fonts_admin_js', 'ajax_var', array(
 		'url' => admin_url( 'admin-ajax.php' ),
 		'nonce' => wp_create_nonce( 'font-nonce' )
@@ -59,56 +59,297 @@ function tk_google_fonts_enqueue_fonts() {
 			$tk_font_base_url = str_replace( 'http:', 'https:', $tk_font_base_url );
 		}
 
-		wp_register_style( 'font-style-' . $tk_google_font, $tk_font_base_url, array(), '1.0' );
+		// Version by file time, so caches pick up a font downloaded again.
+		$tk_font_css_file = tkgf_fonts_dir() . $tk_google_font . '/' . $tk_google_font . '.css';
+		$tk_font_version  = file_exists( $tk_font_css_file ) ? (string) filemtime( $tk_font_css_file ) : TK_GOOGLE_FONTS;
+
+		wp_register_style( 'font-style-' . $tk_google_font, $tk_font_base_url, array(), $tk_font_version );
 		wp_enqueue_style( 'font-style-' . $tk_google_font );
 	}
 
 }
 
-add_action( 'upgrader_process_complete', 'tkgf_after_update', 5, 2 );
-function tkgf_after_update( $upgrader, $info ){
+/**
+ * Version of the local font download format. Bump it when the way fonts are
+ * downloaded changes, so existing sites download their fonts again.
+ * 2: regular, bold, italic and bold italic (TKT-130).
+ */
+define( 'TKGF_FONTS_FORMAT', 2 );
 
-	if( isset( $upgrader->result['destination_name'] ) && ( $upgrader->result['destination_name'] == 'tk-google-fonts' || $upgrader->result['destination_name'] == 'tk-google-fonts-premium' ) ){
-		$tk_google_fonts_options = get_option( 'tk_google_fonts_options' );
-		if ( ! empty( $tk_google_fonts_options['selected_fonts'] ) ) {
-			$tk_fonts_folder  = dirname( plugin_dir_path( __FILE__ ) ) . '/includes/resources/my-fonts/';
-			$tk_search_url = '/(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z0-9]{3,4}(\/\S[^)]*)?/';
-			foreach( $tk_google_fonts_options['selected_fonts'] as $selected_font ){
-				if ( ! is_dir( $tk_fonts_folder . $selected_font ) ) {
-					wp_mkdir_p( $tk_fonts_folder . $selected_font );
-				}
-				$font_url     = 'https://fonts.googleapis.com/css2?family=' . $selected_font;
-				$font_request = wp_remote_get( $font_url, array( 'user-agent' => 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36' ) );
-				if ( isset( $font_request['response']['code'] ) && 200 === $font_request['response']['code'] ) {
-					if ( preg_match_all( $tk_search_url, $font_request['body'], $tk_font_fileinfo ) ) {
-						$wp_filesystem   = tk_google_fonts_get_filesystem();
-						$tk_font_urls    = $tk_font_fileinfo[0];
-						$tk_hosted_fonts = $font_request['body'];
-						$tk_main_url     = dirname( plugin_dir_url( __FILE__ ) ) . '/includes/resources/my-fonts/';
-						$i               = 0;
-						foreach ( $tk_font_urls as $googlefonts_urls ) {
-							$tk_google_urls = $tk_font_urls[ $i ];
-							$asset_request  = wp_remote_get( $tk_google_urls );
-							if ( ! is_wp_error( $asset_request ) && 200 === wp_remote_retrieve_response_code( $asset_request ) ) {
-								$wp_filesystem->put_contents(
-									$tk_fonts_folder . $selected_font . '/' . $selected_font . '-' . $i . '.woff2',
-									wp_remote_retrieve_body( $asset_request ),
-									FS_CHMOD_FILE
-								);
-							}
-							$tk_hosted_fonts = str_replace( $tk_google_urls, $tk_main_url . $selected_font . '/' . $selected_font . '-' . $i . '.woff2', $tk_hosted_fonts );
-							$i++;
-						}
-						$wp_filesystem->put_contents(
-							$tk_fonts_folder . $selected_font . '/' . $selected_font . '.css',
-							$tk_hosted_fonts,
-							FS_CHMOD_FILE
-						);
-					}
-				} else {
-					wp_die( 'We don\'t found your font, sorry... 😔', 'Not Found', 400 );
-				}
+/**
+ * Folder where the downloaded fonts are stored.
+ *
+ * @return string
+ */
+function tkgf_fonts_dir() {
+	return plugin_dir_path( __FILE__ ) . 'resources/my-fonts/';
+}
+
+/**
+ * URL of the folder where the downloaded fonts are stored.
+ *
+ * @return string
+ */
+function tkgf_fonts_url() {
+	return plugin_dir_url( __FILE__ ) . 'resources/my-fonts/';
+}
+
+/**
+ * Styles requested from Google for each font, in order. Google answers 400
+ * when none of the requested styles exist, so a font without regular or bold
+ * (for example Buda, only 300) falls back to every static weight, and a name
+ * Google does not accept with axes falls back to the plain family request.
+ *
+ * @param string $google_font_name Font name as stored, with + for spaces.
+ * @return string[] Query strings to append after "family=<name>".
+ */
+function tkgf_font_style_queries( $google_font_name ) {
+	// Legacy names that already carry a style (for example "Open+Sans:300").
+	if ( false !== strpos( $google_font_name, ':' ) ) {
+		return array( '' );
+	}
+
+	$all = array();
+	foreach ( array( 0, 1 ) as $ital ) {
+		foreach ( range( 100, 900, 100 ) as $wght ) {
+			$all[] = $ital . ',' . $wght;
+		}
+	}
+
+	$queries = array(
+		':ital,wght@0,400;0,700;1,400;1,700',
+		':ital,wght@' . implode( ';', $all ),
+		'',
+	);
+
+	/**
+	 * Filters the style queries tried, in order, when downloading a font.
+	 *
+	 * @param string[] $queries          Query strings appended to the family name.
+	 * @param string   $google_font_name Font name.
+	 */
+	return apply_filters( 'tkgf_font_style_queries', $queries, $google_font_name );
+}
+
+/**
+ * Download a Google font (CSS and woff2 files) into the local fonts folder.
+ *
+ * The @font-face rules are kept as Google returns them, so each one carries
+ * its own font-weight and font-style; only the file URLs are rewritten.
+ *
+ * @param string $google_font_name Font name as stored, with + for spaces.
+ * @return true|WP_Error
+ */
+function tkgf_download_font( $google_font_name ) {
+	if ( '' === $google_font_name || preg_match( '#[/\\\\]|\.\.#', $google_font_name ) ) {
+		return new WP_Error( 'tkgf_invalid', 'Invalid font name.' );
+	}
+
+	$wp_filesystem = tk_google_fonts_get_filesystem();
+	if ( ! $wp_filesystem ) {
+		return new WP_Error( 'tkgf_retry', 'The filesystem is not writable.' );
+	}
+
+	$user_agent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36';
+	$css        = '';
+	$last_error = null;
+
+	foreach ( tkgf_font_style_queries( $google_font_name ) as $query ) {
+		$response = wp_remote_get(
+			'https://fonts.googleapis.com/css2?family=' . $google_font_name . $query,
+			array(
+				'user-agent' => $user_agent,
+				'timeout'    => 15,
+			)
+		);
+		if ( is_wp_error( $response ) ) {
+			$last_error = new WP_Error( 'tkgf_retry', $response->get_error_message() );
+			continue;
+		}
+		$body = wp_remote_retrieve_body( $response );
+		if ( 200 === wp_remote_retrieve_response_code( $response ) && false !== strpos( $body, '@font-face' ) ) {
+			$css = $body;
+			break;
+		}
+		$last_error = new WP_Error( 'tkgf_not_found', 'Font not found.' );
+	}
+
+	if ( '' === $css ) {
+		return $last_error ? $last_error : new WP_Error( 'tkgf_not_found', 'Font not found.' );
+	}
+
+	if ( ! preg_match_all( '/url\((https:\/\/[^)\s]+)\)/', $css, $matches ) ) {
+		return new WP_Error( 'tkgf_not_found', 'Font not found.' );
+	}
+
+	// Variable fonts reuse one file for several weights: download it once.
+	$urls   = array_values( array_unique( $matches[1] ) );
+	$bodies = tkgf_fetch_files( $urls );
+	if ( is_wp_error( $bodies ) ) {
+		return $bodies;
+	}
+
+	$files = array();
+	foreach ( $urls as $i => $file_url ) {
+		$file_name           = $google_font_name . '-' . $i . '.woff2';
+		$files[ $file_name ] = $bodies[ $i ];
+		$css                 = str_replace( $file_url, tkgf_fonts_url() . $google_font_name . '/' . $file_name, $css );
+	}
+
+	$folder = tkgf_fonts_dir() . $google_font_name . '/';
+	if ( ! is_dir( $folder ) ) {
+		wp_mkdir_p( $folder );
+	}
+
+	// Remove files from a previous download that the new CSS no longer uses.
+	foreach ( (array) glob( $folder . '*.woff2' ) as $old_file ) {
+		if ( $old_file && ! isset( $files[ basename( $old_file ) ] ) ) {
+			wp_delete_file( $old_file );
+		}
+	}
+
+	foreach ( $files as $file_name => $contents ) {
+		$wp_filesystem->put_contents( $folder . $file_name, $contents, FS_CHMOD_FILE );
+	}
+	$wp_filesystem->put_contents( $folder . $google_font_name . '.css', $css, FS_CHMOD_FILE );
+
+	return true;
+}
+
+/**
+ * Download font files, several at a time. A font with regular, bold and
+ * italic styles is around 4 files per character subset (36 for Roboto), and
+ * one by one that takes long enough to hit max_execution_time.
+ *
+ * @param string[] $urls File URLs.
+ * @return string[]|WP_Error File contents, in the same order as $urls.
+ */
+function tkgf_fetch_files( $urls ) {
+	$bodies = array();
+
+	if ( class_exists( 'WpOrg\\Requests\\Requests' ) ) {
+		$requests_class = 'WpOrg\\Requests\\Requests';
+	} elseif ( class_exists( 'Requests' ) ) {
+		$requests_class = 'Requests';
+	} else {
+		$requests_class = '';
+	}
+
+	if ( '' === $requests_class ) {
+		foreach ( $urls as $i => $url ) {
+			$response = wp_remote_get( $url, array( 'timeout' => 15 ) );
+			if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) ) {
+				return new WP_Error( 'tkgf_retry', 'Could not download ' . $url );
+			}
+			$bodies[ $i ] = wp_remote_retrieve_body( $response );
+		}
+		return $bodies;
+	}
+
+	$options = array(
+		'timeout'   => 15,
+		'useragent' => 'WordPress/' . get_bloginfo( 'version' ) . '; ' . home_url(),
+		'verify'    => ABSPATH . WPINC . '/certificates/ca-bundle.crt',
+	);
+
+	foreach ( array_chunk( $urls, 12, true ) as $chunk ) {
+		$requests = array();
+		foreach ( $chunk as $i => $url ) {
+			$requests[ $i ] = array( 'url' => $url );
+		}
+		$responses = call_user_func( array( $requests_class, 'request_multiple' ), $requests, $options );
+		foreach ( $chunk as $i => $url ) {
+			$response = isset( $responses[ $i ] ) ? $responses[ $i ] : null;
+			if ( ! is_object( $response ) || $response instanceof Exception || 200 !== (int) $response->status_code ) {
+				return new WP_Error( 'tkgf_retry', 'Could not download ' . $url );
+			}
+			$bodies[ $i ] = $response->body;
+		}
+	}
+
+	return $bodies;
+}
+
+/**
+ * Download every selected font again.
+ *
+ * @return bool False when a font could not be downloaded because of a
+ *              connection error, so the caller can retry later.
+ */
+function tkgf_download_selected_fonts() {
+	$tk_google_fonts_options = get_option( 'tk_google_fonts_options' );
+	$ok                      = true;
+	if ( ! empty( $tk_google_fonts_options['selected_fonts'] ) ) {
+		foreach ( $tk_google_fonts_options['selected_fonts'] as $selected_font ) {
+			$result = tkgf_download_font( $selected_font );
+			if ( is_wp_error( $result ) && 'tkgf_retry' === $result->get_error_code() ) {
+				$ok = false;
 			}
 		}
+	}
+	return $ok;
+}
+
+/**
+ * Initialise and return the WP_Filesystem instance for direct file access.
+ * Loaded on every request (not only in wp-admin) because fonts are also
+ * downloaded from cron and from background plugin updates.
+ *
+ * @return WP_Filesystem_Base
+ */
+function tk_google_fonts_get_filesystem() {
+	global $wp_filesystem;
+	if ( ! $wp_filesystem ) {
+		require_once ABSPATH . 'wp-admin/includes/file.php';
+		WP_Filesystem();
+	}
+	return $wp_filesystem;
+}
+
+add_action( 'init', 'tkgf_maybe_refresh_fonts' );
+/**
+ * Fonts downloaded before TKGF_FONTS_FORMAT only have the regular style.
+ * Updating does not fix that by itself: upgrader_process_complete runs the
+ * code of the version being replaced, which downloads the old way. So the
+ * first request on the new version schedules a background download.
+ */
+function tkgf_maybe_refresh_fonts() {
+	if ( (int) get_option( 'tkgf_fonts_format' ) >= TKGF_FONTS_FORMAT ) {
+		return;
+	}
+	$tk_google_fonts_options = get_option( 'tk_google_fonts_options' );
+	if ( empty( $tk_google_fonts_options['selected_fonts'] ) ) {
+		update_option( 'tkgf_fonts_format', TKGF_FONTS_FORMAT );
+		return;
+	}
+	if ( get_transient( 'tkgf_refresh_fonts_retry' ) || wp_next_scheduled( 'tkgf_refresh_fonts' ) ) {
+		return;
+	}
+	wp_schedule_single_event( time(), 'tkgf_refresh_fonts' );
+}
+
+add_action( 'tkgf_refresh_fonts', 'tkgf_refresh_fonts' );
+/**
+ * Cron callback: download the selected fonts in the current format.
+ */
+function tkgf_refresh_fonts() {
+	if ( tkgf_download_selected_fonts() ) {
+		update_option( 'tkgf_fonts_format', TKGF_FONTS_FORMAT );
+	} else {
+		set_transient( 'tkgf_refresh_fonts_retry', 1, HOUR_IN_SECONDS );
+	}
+}
+
+add_action( 'upgrader_process_complete', 'tkgf_after_update', 5, 2 );
+/**
+ * Updates replace the plugin folder, which holds the downloaded fonts, so
+ * download them again after this plugin is updated.
+ *
+ * @param WP_Upgrader $upgrader Upgrader instance.
+ * @param array       $info     Update details.
+ */
+function tkgf_after_update( $upgrader, $info ) {
+	if ( isset( $upgrader->result['destination_name'] ) && in_array( $upgrader->result['destination_name'], array( 'tk-google-fonts', 'tk-google-fonts-premium' ), true ) ) {
+		tkgf_download_selected_fonts();
 	}
 }
