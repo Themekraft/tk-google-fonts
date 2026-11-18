@@ -82,7 +82,40 @@ jQuery(function(){
 		jQuery('#google_fonts_selecter h2').css('font-family', font[0]);
 		jQuery('#google_fonts_selecter h3').css('font-family', font[0]);
 		jQuery('#google_fonts_selecter p').css('font-family', font[0]);
-		
+
+		tkgfLoadPreviewStyles(jQuery(this).val());
+
 	});
+
+	/**
+	 * The font selector only loads the regular style of each font. Load the
+	 * bold and italic styles of the chosen font too, the same ones the plugin
+	 * downloads, so the preview shows the real bold and italic.
+	 */
+	function tkgfLoadPreviewStyles(spec) {
+		if (!spec || spec.indexOf(':') !== -1 || document.querySelector('link[data-tkgf-preview="' + spec + '"]')) {
+			return;
+		}
+		var base = 'https://fonts.googleapis.com/css2?family=' + spec;
+		var all = [];
+		[0, 1].forEach(function(ital){
+			for (var wght = 100; wght <= 900; wght += 100) {
+				all.push(ital + ',' + wght);
+			}
+		});
+		// Google answers 400 when the font has none of the requested styles.
+		var queries = [':ital,wght@0,400;0,700;1,400;1,700', ':ital,wght@' + all.join(';')];
+		var link = document.createElement('link');
+		link.rel = 'stylesheet';
+		link.setAttribute('data-tkgf-preview', spec);
+		link.onerror = function(){
+			queries.shift();
+			if (queries.length) {
+				link.href = base + queries[0];
+			}
+		};
+		link.href = base + queries[0];
+		document.head.appendChild(link);
+	}
 	
 });
