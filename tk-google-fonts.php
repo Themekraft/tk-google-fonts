@@ -126,7 +126,7 @@ if ( function_exists( 'tk_gf_fs' ) ) {
 		 *
 		 * @var string
 		 */
-		public $version = '2.2.2';
+		public $version = '2.3.3';
 			/**
 			 * Main class constructor.
 			 *
