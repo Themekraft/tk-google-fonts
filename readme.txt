@@ -4,7 +4,7 @@ Tags: google fonts, fonts, webfonts
 Requires at least: 5.9
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 2.3.2
+Stable tag: 2.3.3
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -115,6 +115,13 @@ Checkout the related Google Page of the font to see how to write the CSS to call
 6. The TK Google Fonts Admin Settings Panel - Select a Font with preview
 
 == Changelog ==
+= 2.3.3 - 18 Nov 2026 =
+* Fixed bold and italic text being faked by the browser: fonts are now downloaded with their bold and italic styles, not only regular 400. Fonts you already added are downloaded again once after the update.
+* Fixed the fonts folder being left empty when the plugin was updated outside wp-admin (WP-CLI or automatic background updates).
+* Fonts that only come in other weights or only in italic can now be added.
+* Font files are downloaded in parallel, so adding a font is faster.
+* The Go Pro page now lists each Pro Customizer option and describes local font hosting accurately.
+
 = 2.3.2 - 07 Oct 2026 =
 * Fixed a fatal error when activating the premium version while the free version is active. Activating one version now deactivates the other one.
 
