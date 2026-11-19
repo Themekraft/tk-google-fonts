@@ -98,17 +98,17 @@ if ( function_exists( 'tk_gf_fs' ) ) {
 		 * @package TK Google Fonts
 		 * @since 1.0
 		 */
-		function tk_gf_fs_settings_url() {
+		function tkgf_fs_settings_url() {
 			return admin_url( 'themes.php?page=tk-google-fonts-options' );
 		}
 
-		tk_gf_fs()->add_filter( 'connect_url', 'tk_gf_fs_settings_url' );
-		tk_gf_fs()->add_filter( 'after_skip_url', 'tk_gf_fs_settings_url' );
-		tk_gf_fs()->add_filter( 'after_connect_url', 'tk_gf_fs_settings_url' );
-		tk_gf_fs()->add_filter( 'after_pending_connect_url', 'tk_gf_fs_settings_url' );
+		tk_gf_fs()->add_filter( 'connect_url', 'tkgf_fs_settings_url' );
+		tk_gf_fs()->add_filter( 'after_skip_url', 'tkgf_fs_settings_url' );
+		tk_gf_fs()->add_filter( 'after_connect_url', 'tkgf_fs_settings_url' );
+		tk_gf_fs()->add_filter( 'after_pending_connect_url', 'tkgf_fs_settings_url' );
 
-		tk_gf_fs()->add_filter( 'show_admin_notice', 'tk_gf_disable_fs_admin_notice', 10, 2 );
-		function tk_gf_disable_fs_admin_notice( $show, $msg ) {
+		tk_gf_fs()->add_filter( 'show_admin_notice', 'tkgf_disable_fs_admin_notice', 10, 2 );
+		function tkgf_disable_fs_admin_notice( $show, $msg ) {
 				return false;
 		}
 	}

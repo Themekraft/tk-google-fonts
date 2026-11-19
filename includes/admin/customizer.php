@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @package TK Google Fonts
  * @since 1.0
  */
-function tk_google_fonts_customizer(){ ?>
+function tkgf_customizer(){ ?>
 
 	<h3>Use the WordPress Theme Customizer</h3>
 
@@ -60,7 +60,7 @@ function tk_google_fonts_customizer(){ ?>
  * @package TK Google Fonts
  * @since 1.0
  */
-function tk_google_fonts_customize_register( $wp_customize ) {
+function tkgf_customize_register( $wp_customize ) {
 
 	$tk_google_fonts_options = get_option( 'tk_google_fonts_options' );
 
@@ -362,7 +362,7 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 		);
 
 		$wp_customize->add_control(
-			new WP_Customize_TK_Google_GO_PRO_Control(
+			new TKGF_Customize_Go_Pro_Control(
 				$wp_customize,
 				'site_title_pro_options',
 				array(
@@ -514,7 +514,7 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 				);
 
 				$wp_customize->add_control(
-					new WP_Customize_TK_Google_GO_PRO_Control(
+					new TKGF_Customize_Go_Pro_Control(
 						$wp_customize,
 						'post_title_pro_options',
 						array(
@@ -666,7 +666,7 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 				);
 
 				$wp_customize->add_control(
-					new WP_Customize_TK_Google_GO_PRO_Control(
+					new TKGF_Customize_Go_Pro_Control(
 						$wp_customize,
 						'page_title_pro_options',
 						array(
@@ -761,7 +761,7 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 				);
 
 				$wp_customize->add_control(
-					new WP_Customize_TK_Google_GO_PRO_Control(
+					new TKGF_Customize_Go_Pro_Control(
 						$wp_customize,
 						'headings_title_pro_options',
 						array(
@@ -913,7 +913,7 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 				);
 
 				$wp_customize->add_control(
-					new WP_Customize_TK_Google_GO_PRO_Control(
+					new TKGF_Customize_Go_Pro_Control(
 						$wp_customize,
 						'h1_title_pro_options',
 						array(
@@ -1064,7 +1064,7 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 				);
 
 				$wp_customize->add_control(
-					new WP_Customize_TK_Google_GO_PRO_Control(
+					new TKGF_Customize_Go_Pro_Control(
 						$wp_customize,
 						'h2_title_pro_options',
 						array(
@@ -1215,7 +1215,7 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 		);
 
 		$wp_customize->add_control(
-			new WP_Customize_TK_Google_GO_PRO_Control(
+			new TKGF_Customize_Go_Pro_Control(
 				$wp_customize,
 				'h3_title_pro_options',
 				array(
@@ -1366,7 +1366,7 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 		);
 
 		$wp_customize->add_control(
-			new WP_Customize_TK_Google_GO_PRO_Control(
+			new TKGF_Customize_Go_Pro_Control(
 				$wp_customize,
 				'h4_title_pro_options',
 				array(
@@ -1517,7 +1517,7 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 		);
 
 		$wp_customize->add_control(
-			new WP_Customize_TK_Google_GO_PRO_Control(
+			new TKGF_Customize_Go_Pro_Control(
 				$wp_customize,
 				'h5_title_pro_options',
 				array(
@@ -1668,7 +1668,7 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 		);
 
 		$wp_customize->add_control(
-			new WP_Customize_TK_Google_GO_PRO_Control(
+			new TKGF_Customize_Go_Pro_Control(
 				$wp_customize,
 				'h6_title_pro_options',
 				array(
@@ -1795,7 +1795,7 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 		);
 
 		$wp_customize->add_control(
-			new WP_Customize_TK_Google_GO_PRO_Control(
+			new TKGF_Customize_Go_Pro_Control(
 				$wp_customize,
 				'body_pro_options',
 				array(
@@ -1887,7 +1887,7 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 		);
 
 		$wp_customize->add_control(
-			new WP_Customize_TK_Google_GO_PRO_Control(
+			new TKGF_Customize_Go_Pro_Control(
 				$wp_customize,
 				'blockquote_pro_options',
 				array(
@@ -1902,7 +1902,7 @@ function tk_google_fonts_customize_register( $wp_customize ) {
 
 }
 
-add_action( 'init', 'tk_google_fonts_customizer_init' );
+add_action( 'init', 'tkgf_customizer_init' );
 /**
  * WordPress Customizer initialization
  *
@@ -1910,13 +1910,13 @@ add_action( 'init', 'tk_google_fonts_customizer_init' );
  * @package TK Google Fonts
  * @since 1.0
  */
-function tk_google_fonts_customizer_init() {
+function tkgf_customizer_init() {
 
-	add_action( 'customize_register', 'tk_google_fonts_customize_register' );
+	add_action( 'customize_register', 'tkgf_customize_register' );
 
 }
 
-add_action( 'wp_head', 'tk_google_fonts_customize_css', 99999 );
+add_action( 'wp_head', 'tkgf_customize_css', 99999 );
 /**
  * Here comes the resulting CSS output for the frontend!
  *
@@ -1924,7 +1924,7 @@ add_action( 'wp_head', 'tk_google_fonts_customize_css', 99999 );
  * @package TK Google Fonts
  * @since 1.0
  */
-function tk_google_fonts_customize_css() {
+function tkgf_customize_css() {
 
 	$tk_google_fonts_options = get_option( 'tk_google_fonts_options' );
 
@@ -2402,7 +2402,7 @@ function tk_google_fonts_customize_css() {
 
 }
 
-add_action( 'customize_preview_init', 'tk_google_fonts_customize_preview_init' );
+add_action( 'customize_preview_init', 'tkgf_customize_preview_init' );
 /**
  * WordPress Customizer Preview init
  *
@@ -2410,7 +2410,7 @@ add_action( 'customize_preview_init', 'tk_google_fonts_customize_preview_init' )
  * @package TK Google Fonts
  * @since 1.0
  */
-function tk_google_fonts_customize_preview_init() {
+function tkgf_customize_preview_init() {
 
 	$tk_google_fonts_options = get_option( 'tk_google_fonts_options' );
 
@@ -2422,7 +2422,7 @@ function tk_google_fonts_customize_preview_init() {
 
 }
 
-add_action( 'customize_register', 'tk_google_fonts_go_pro_customizer_control' );
+add_action( 'customize_register', 'tkgf_go_pro_customizer_control' );
 /**
  * Upgrade note
  *
@@ -2430,7 +2430,7 @@ add_action( 'customize_register', 'tk_google_fonts_go_pro_customizer_control' );
  * @package TK Google Fonts
  * @since 1.0
  */
-function tk_google_fonts_go_pro_customizer_control() {
+function tkgf_go_pro_customizer_control() {
 	/**
 	 * Class in charge of upgrade notes on frontend
 	 *
@@ -2438,7 +2438,7 @@ function tk_google_fonts_go_pro_customizer_control() {
 	 * @package TK Google Fonts
 	 * @since 1.0
 	 */
-	class WP_Customize_TK_Google_GO_PRO_Control extends WP_Customize_Control {
+	class TKGF_Customize_Go_Pro_Control extends WP_Customize_Control {
 		public $type = 'go_pro';
 		/**
 		 * To render go pro content

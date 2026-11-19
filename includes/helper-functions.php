@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since 1.0
  */
 
-add_action( 'admin_enqueue_scripts', 'tk_google_fonts_js' );
+add_action( 'admin_enqueue_scripts', 'tkgf_js' );
 /**
  * Enqueue JS and CSS for the admin screen
  *
@@ -19,7 +19,7 @@ add_action( 'admin_enqueue_scripts', 'tk_google_fonts_js' );
  * @package TK Google Fonts
  * @since 1.0
  */
-function tk_google_fonts_js() {
+function tkgf_js() {
 
 	wp_enqueue_script( 'google_fonts_admin_js', plugins_url( '/admin/js/admin.js', __FILE__ ), array(), TK_GOOGLE_FONTS, true );
 	wp_localize_script( 'google_fonts_admin_js', 'ajax_var', array(
@@ -32,10 +32,10 @@ function tk_google_fonts_js() {
 	wp_enqueue_style( 'tk-google-fonts-css', plugins_url( '/admin/css/tk-google-fonts.css', __FILE__ ), array(), '1.0' );
 	wp_enqueue_script( 'jquery-ui-dialog' );
 	wp_enqueue_style( 'wp-jquery-ui-dialog' );
-	tk_google_fonts_enqueue_fonts();
+	tkgf_enqueue_fonts();
 }
 
-add_action( 'wp_enqueue_scripts', 'tk_google_fonts_enqueue_fonts' );
+add_action( 'wp_enqueue_scripts', 'tkgf_enqueue_fonts' );
 /**
  * Enqueue JS and CSS for the frontend
  *
@@ -43,7 +43,7 @@ add_action( 'wp_enqueue_scripts', 'tk_google_fonts_enqueue_fonts' );
  * @package TK Google Fonts
  * @since 1.0
  */
-function tk_google_fonts_enqueue_fonts() {
+function tkgf_enqueue_fonts() {
 
 	$tk_google_fonts_options = get_option( 'tk_google_fonts_options' );
 
@@ -187,7 +187,7 @@ function tkgf_download_font( $google_font_name ) {
 		return new WP_Error( 'tkgf_invalid', 'Invalid font name.' );
 	}
 
-	$wp_filesystem = tk_google_fonts_get_filesystem();
+	$wp_filesystem = tkgf_get_filesystem();
 	if ( ! $wp_filesystem || ! wp_mkdir_p( tkgf_fonts_dir() ) || ! $wp_filesystem->is_writable( tkgf_fonts_dir() ) ) {
 		return new WP_Error( 'tkgf_retry', 'The fonts folder is not writable.' );
 	}
@@ -368,7 +368,7 @@ function tkgf_download_selected_fonts( $only_missing = false ) {
  *
  * @return WP_Filesystem_Base|false False when the filesystem needs credentials.
  */
-function tk_google_fonts_get_filesystem() {
+function tkgf_get_filesystem() {
 	global $wp_filesystem;
 	if ( ! $wp_filesystem ) {
 		require_once ABSPATH . 'wp-admin/includes/file.php';
@@ -385,7 +385,7 @@ add_action( 'init', 'tkgf_maybe_refresh_fonts' );
  * Updating does not fix that by itself: upgrader_process_complete runs the
  * code of the version being replaced, which downloads the old way. So the
  * first request on the new version schedules a background download.
- * Fonts whose files are missing are detected in tk_google_fonts_enqueue_fonts().
+ * Fonts whose files are missing are detected in tkgf_enqueue_fonts().
  */
 function tkgf_maybe_refresh_fonts() {
 	if ( (int) get_option( 'tkgf_fonts_format' ) >= TKGF_FONTS_FORMAT ) {

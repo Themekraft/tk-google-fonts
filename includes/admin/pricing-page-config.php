@@ -10,12 +10,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-if ( ! function_exists( 'tk_google_fonts_pricing_page_config' ) ) {
+if ( ! function_exists( 'tkgf_pricing_page_config' ) ) {
 	/**
 	 * @param array<string,mixed> $config
 	 * @return array<string,mixed>
 	 */
-	function tk_google_fonts_pricing_page_config( $config ) {
+	function tkgf_pricing_page_config( $config ) {
 		$screen = function_exists( 'get_current_screen' ) ? get_current_screen() : null;
 		if ( ! $screen || ! str_contains( $screen->id, 'tk-google-fonts-bundle_screen' ) ) {
 			return $config;
@@ -75,4 +75,4 @@ if ( ! function_exists( 'tk_google_fonts_pricing_page_config' ) ) {
 		return $config;
 	}
 }
-add_filter( 'tk_pricing_page_config', 'tk_google_fonts_pricing_page_config' );
+add_filter( 'tk_pricing_page_config', 'tkgf_pricing_page_config' );

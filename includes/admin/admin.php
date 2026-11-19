@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since 1.0
  */
 
-add_action( 'upgrader_process_complete', 'tk_google_fonts_redirect_after_upgrade', 10, 2 );
+add_action( 'upgrader_process_complete', 'tkgf_redirect_after_upgrade', 10, 2 );
 /**
  * Activation redirect
  *
@@ -21,7 +21,7 @@ add_action( 'upgrader_process_complete', 'tk_google_fonts_redirect_after_upgrade
  * @package TK Google Fonts
  * @since 1.0
  */
-function tk_google_fonts_redirect_after_upgrade( $upgrader_object, $options ) {
+function tkgf_redirect_after_upgrade( $upgrader_object, $options ) {
 	$current_plugin_path_name = plugin_basename( __FILE__ );
 
 	if ( 'update' === $options['action'] && 'plugin' === $options['type'] ) {
@@ -41,7 +41,7 @@ function tk_google_fonts_redirect_after_upgrade( $upgrader_object, $options ) {
  * @since 1.0
  */
 
-add_action( 'admin_menu', 'tk_google_fonts_admin_menu' );
+add_action( 'admin_menu', 'tkgf_admin_menu' );
 /**
  * Including Tk Google Fonts tab in admin area.
  *
@@ -49,15 +49,15 @@ add_action( 'admin_menu', 'tk_google_fonts_admin_menu' );
  * @package TK Google Fonts
  * @since 1.0
  */
-function tk_google_fonts_admin_menu() {
-	add_theme_page( 'TK Google Fonts', 'TK Google Fonts', 'edit_theme_options', 'tk-google-fonts-options', 'tk_google_fonts_screen' );
+function tkgf_admin_menu() {
+	add_theme_page( 'TK Google Fonts', 'TK Google Fonts', 'edit_theme_options', 'tk-google-fonts-options', 'tkgf_screen' );
 }
 
-add_action( 'admin_menu', 'tk_google_fonts_bundle_screen_menu', 9999 );
+add_action( 'admin_menu', 'tkgf_bundle_screen_menu', 9999 );
 /**
  * Add the bundle screen menu.
  */
-function tk_google_fonts_bundle_screen_menu() {
+function tkgf_bundle_screen_menu() {
 	if ( tk_gf_fs()->is_not_paying() ) {
 		add_theme_page( 'Bundle', 'Go Pro!', 'edit_theme_options', 'tk-google-fonts-bundle_screen', 'tk_pricing_page_render' );
 	}
@@ -73,7 +73,7 @@ require_once dirname( __FILE__ ) . '/pricing-page-config.php';
  * @package TK Google Fonts
  * @since 1.0
  */
-function tk_google_fonts_screen() { ?>
+function tkgf_screen() { ?>
 	<div class="wrap">
 		<div id="icon-themes" class="icon32"><br></div>
 		<h2>TK Google Fonts Setup</h2>
@@ -94,7 +94,7 @@ function tk_google_fonts_screen() { ?>
  *
  * @return array<string,array<string,string>>
  */
-function tk_google_fonts_sanitize_options( $input ) {
+function tkgf_sanitize_options( $input ) {
 	$output = array( 'selected_fonts' => array() );
 
 	if ( is_array( $input ) && isset( $input['selected_fonts'] ) && is_array( $input['selected_fonts'] ) ) {
@@ -110,7 +110,7 @@ function tk_google_fonts_sanitize_options( $input ) {
 	return $output;
 }
 
-add_action( 'admin_init', 'tk_google_fonts_register_admin_settings' );
+add_action( 'admin_init', 'tkgf_register_admin_settings' );
 /**
  * Register the admin settings
  *
@@ -118,13 +118,13 @@ add_action( 'admin_init', 'tk_google_fonts_register_admin_settings' );
  * @package TK Google Fonts
  * @since 1.0
  */
-function tk_google_fonts_register_admin_settings() {
+function tkgf_register_admin_settings() {
 
 	register_setting(
 		'tk_google_fonts_options',
 		'tk_google_fonts_options',
 		array(
-			'sanitize_callback' => 'tk_google_fonts_sanitize_options',
+			'sanitize_callback' => 'tkgf_sanitize_options',
 		)
 	);
 
@@ -137,7 +137,7 @@ function tk_google_fonts_register_admin_settings() {
 							If the Google Font you are looking for shouldn\'t be available in the Font Selectbox, just type in the name into the text field and then click on "Add Font".<br><br>
         					Just use the name with spaces, no need to find a special slug. The name is enough, we do the rest. ;-) <br><br>
         					You can find all available Google Fonts on the <br><br><a href="https://fonts.google.com/" target="_blank" rel="noopener">Google Fonts Website</a> </i>',
-		'tk_google_fonts_field_font',
+		'tkgf_field_font',
 		'tk_google_fonts_options',
 		'section_typography'
 	);
@@ -146,11 +146,11 @@ function tk_google_fonts_register_admin_settings() {
 		'<h3>2. Manage Google Fonts</h3> <i>Please keep in mind that every font loaded will slow down your site a bit more.
 			If you use to many fonts you will have a slow siteload and that\'s also bad for SEO.
 			Best is to use only 1-2 Fonts.</i><br><br>',
-		'tk_google_fonts_list',
+		'tkgf_list',
 		'tk_google_fonts_options',
 		'section_typography'
 	);
-	add_settings_field( 'customizer_disabled', '<h3>3. Apply Google Fonts</h3>', 'tk_google_fonts_customizer', 'tk_google_fonts_options', 'section_typography' );
+	add_settings_field( 'customizer_disabled', '<h3>3. Apply Google Fonts</h3>', 'tkgf_customizer', 'tk_google_fonts_options', 'section_typography' );
 
 }
 
@@ -161,7 +161,7 @@ function tk_google_fonts_register_admin_settings() {
  * @package TK Google Fonts
  * @since 1.0
  */
-function tk_google_fonts_typography() {
+function tkgf_typography() {
 
 	echo '<p><i>Please keep in mind that every font will slow down your site a bit more. <br>
 			If you use to many fonts you will have a slow siteload and that\'s also bad for SEO.
@@ -176,7 +176,7 @@ function tk_google_fonts_typography() {
  * @package TK Google Fonts
  * @since 1.0
  */
-function tk_google_fonts_field_font() {
+function tkgf_field_font() {
 
 	$options = (array) get_option( 'tk_google_fonts_options' );
 
@@ -214,7 +214,7 @@ function tk_google_fonts_field_font() {
  * @package TK Google Fonts
  * @since 1.0
  */
-function tk_google_fonts_list() {
+function tkgf_list() {
 
 	$options = (array) get_option( 'tk_google_fonts_options' );
 
@@ -246,8 +246,8 @@ function tk_google_fonts_list() {
 
 }
 
-add_action( 'wp_ajax_tk_google_fonts_add_font', 'tk_google_fonts_add_font' );
-add_action( 'wp_ajax_nopriv_tk_google_fonts_add_font', 'tk_google_fonts_add_font' );
+add_action( 'wp_ajax_tk_google_fonts_add_font', 'tkgf_add_font' );
+add_action( 'wp_ajax_nopriv_tk_google_fonts_add_font', 'tkgf_add_font' );
 /**
  * Ajax call back function to add a form element
  *
@@ -256,7 +256,7 @@ add_action( 'wp_ajax_nopriv_tk_google_fonts_add_font', 'tk_google_fonts_add_font
  * @package TK Google Fonts
  * @since 1.0
  */
-function tk_google_fonts_add_font( $google_font_name ) {
+function tkgf_add_font( $google_font_name ) {
 
 	if ( ! current_user_can( 'manage_options' ) ) {
 		die();
@@ -291,8 +291,8 @@ function tk_google_fonts_add_font( $google_font_name ) {
 	die();
 }
 
-add_action( 'wp_ajax_tk_google_fonts_delete_font', 'tk_google_fonts_delete_font' );
-add_action( 'wp_ajax_nopriv_tk_google_fonts_delete_font', 'tk_google_fonts_delete_font' );
+add_action( 'wp_ajax_tk_google_fonts_delete_font', 'tkgf_delete_font' );
+add_action( 'wp_ajax_nopriv_tk_google_fonts_delete_font', 'tkgf_delete_font' );
 /**
  * Ajax call back function to delete a form element
  *
@@ -300,7 +300,7 @@ add_action( 'wp_ajax_nopriv_tk_google_fonts_delete_font', 'tk_google_fonts_delet
  * @package TK Google Fonts
  * @since 1.0
  */
-function tk_google_fonts_delete_font() {
+function tkgf_delete_font() {
 
 	if ( ! current_user_can( 'manage_options' ) ) {
 		die();
