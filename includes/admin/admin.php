@@ -11,22 +11,6 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since 1.0
  */
 
-/**
- * Initialise and return the WP_Filesystem instance for direct file access.
- * Used by the font cache writers to satisfy WP coding standards (which flag
- * raw fopen / fwrite / fclose).
- *
- * @return WP_Filesystem_Base
- */
-function tk_google_fonts_get_filesystem() {
-	global $wp_filesystem;
-	if ( ! $wp_filesystem ) {
-		require_once ABSPATH . 'wp-admin/includes/file.php';
-		WP_Filesystem();
-	}
-	return $wp_filesystem;
-}
-
 add_action( 'upgrader_process_complete', 'tk_google_fonts_redirect_after_upgrade', 10, 2 );
 /**
  * Activation redirect
@@ -149,10 +133,10 @@ function tk_google_fonts_register_admin_settings() {
 
 	add_settings_field(
 		'primary-font',
-		'<h3>1. Add Google Fonts</h3> <i>The plugin loads the Google Fonts automatically from Google.<br><br>
+		'<h3>1. Add Google Fonts</h3> <i>When you add a font, the plugin downloads it once and serves it from your own site, so your visitors\' browsers never connect to Google.<br><br>
 							If the Google Font you are looking for shouldn\'t be available in the Font Selectbox, just type in the name into the text field and then click on "Add Font".<br><br>
         					Just use the name with spaces, no need to find a special slug. The name is enough, we do the rest. ;-) <br><br>
-        					You can find all available Google Fonts on the <br><br><a href="http://www.google.com/fonts/" target="blank">Google Fonts Website</a> </i>',
+        					You can find all available Google Fonts on the <br><br><a href="https://fonts.google.com/" target="_blank" rel="noopener">Google Fonts Website</a> </i>',
 		'tk_google_fonts_field_font',
 		'tk_google_fonts_options',
 		'section_typography'
@@ -263,7 +247,6 @@ function tk_google_fonts_list() {
 }
 
 add_action( 'wp_ajax_tk_google_fonts_add_font', 'tk_google_fonts_add_font' );
-add_action( 'wp_ajax_nopriv_tk_google_fonts_add_font', 'tk_google_fonts_add_font' );
 /**
  * Ajax call back function to add a form element
  *
@@ -288,71 +271,26 @@ function tk_google_fonts_add_font( $google_font_name ) {
 	}
 
 	$google_font_name = sanitize_text_field( wp_unslash( $_POST['google_font_name'] ) );
-	$tk_fonts_folder  = dirname( plugin_dir_path( __FILE__ ) ) . '/resources/my-fonts/';
 
-	if ( ! is_dir( $tk_fonts_folder . $google_font_name ) ) {
-		wp_mkdir_p( $tk_fonts_folder . $google_font_name );
-	}
-
-	$font_url     = 'https://fonts.googleapis.com/css2?family=' . $google_font_name;
-	$font_request = wp_remote_get( $font_url, array( 'user-agent' => 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36' ) );
-
-	if ( isset( $font_request['response']['code'] ) && 200 === $font_request['response']['code'] ) {
-
-		$wp_filesystem = tk_google_fonts_get_filesystem();
-
-		/**
-		 * Save font name on database
-		 */
-		$tk_google_fonts_options = get_option( 'tk_google_fonts_options' );
-		if ( empty( $tk_google_fonts_options['selected_fonts'] ) ) {
-			$tk_google_fonts_options = array(
-				'selected_fonts' => array(),
-			);
-		}
-
-		$tk_google_fonts_options['selected_fonts'][ $google_font_name ] = $google_font_name;
-		update_option( 'tk_google_fonts_options', $tk_google_fonts_options );
-
-		/**
-		 * Save font assets in local.
-		 */
-		$tk_search_url = '/(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z0-9]{3,4}(\/\S[^)]*)?/';
-		if ( preg_match_all( $tk_search_url, $font_request['body'], $tk_font_fileinfo ) ) {
-			$tk_font_urls    = $tk_font_fileinfo[0];
-			$tk_hosted_fonts = $font_request['body'];
-			$tk_main_url     = dirname( plugin_dir_url( __FILE__ ) ) . '/resources/my-fonts/';
-			$i               = 0;
-			foreach ( $tk_font_urls as $googlefonts_urls ) {
-				$tk_google_urls = $tk_font_urls[ $i ];
-				$asset_request  = wp_remote_get( $tk_google_urls );
-				if ( ! is_wp_error( $asset_request ) && 200 === wp_remote_retrieve_response_code( $asset_request ) ) {
-					$wp_filesystem->put_contents(
-						$tk_fonts_folder . $google_font_name . '/' . $google_font_name . '-' . $i . '.woff2',
-						wp_remote_retrieve_body( $asset_request ),
-						FS_CHMOD_FILE
-					);
-				}
-				$tk_hosted_fonts = str_replace( $tk_google_urls, $tk_main_url . $google_font_name . '/' . $google_font_name . '-' . $i . '.woff2', $tk_hosted_fonts );
-				$i++;
-
-			}
-			$wp_filesystem->put_contents(
-				$tk_fonts_folder . $google_font_name . '/' . $google_font_name . '.css',
-				$tk_hosted_fonts,
-				FS_CHMOD_FILE
-			);
-		}
-
-		die();
-
-	} else {
+	$result = tkgf_download_font( $google_font_name );
+	if ( is_wp_error( $result ) ) {
 		wp_die( 'We don\'t found your font, sorry... 😔', 'Not Found', 400 );
 	}
+
+	$tk_google_fonts_options = get_option( 'tk_google_fonts_options' );
+	if ( empty( $tk_google_fonts_options['selected_fonts'] ) ) {
+		$tk_google_fonts_options = array(
+			'selected_fonts' => array(),
+		);
+	}
+
+	$tk_google_fonts_options['selected_fonts'][ $google_font_name ] = $google_font_name;
+	update_option( 'tk_google_fonts_options', $tk_google_fonts_options );
+
+	die();
 }
 
 add_action( 'wp_ajax_tk_google_fonts_delete_font', 'tk_google_fonts_delete_font' );
-add_action( 'wp_ajax_nopriv_tk_google_fonts_delete_font', 'tk_google_fonts_delete_font' );
 /**
  * Ajax call back function to delete a form element
  *
@@ -381,7 +319,8 @@ function tk_google_fonts_delete_font() {
 	unset( $tk_google_fonts_options['selected_fonts'][ sanitize_text_field( wp_unslash( $_POST['google_font_name'] ) ) ] );
 	$direc = $tk_fonts_folder . $google_font_name;
 
-	if ( is_dir( $direc ) ) {
+	// Only a font folder directly inside the fonts folder can be removed, the same names tkgf_download_font() accepts.
+	if ( ! in_array( $google_font_name, array( '', '.' ), true ) && ! preg_match( '#[/\\\\]|\.\.#', $google_font_name ) && is_dir( $direc ) ) {
 		WP_Filesystem();
 		global $wp_filesystem;
 		$wp_filesystem->rmdir( $direc, true );
