@@ -1,6 +1,6 @@
 === TK Google Fonts ===
 Contributors: svenl77, konradS, themekraft
-Tags: google fonts, fonts, webfonts
+Tags: fonts, google fonts, webfonts, gdpr, local fonts
 Requires at least: 5.9
 Tested up to: 7.1
 Requires PHP: 7.4
@@ -8,66 +8,32 @@ Stable tag: 2.3.3
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-Add custom Google Fonts to any WordPress site. Full GDPR compliance. Works with any theme — no complex code required.
+Pick Google Fonts in a live-preview picker and use them in any theme. Fonts are hosted on your own server, so visitors never connect to Google.
 
 == Description ==
 
 [youtube https://www.youtube.com/watch?v=i1_us4mjlCA]
 
-= Why TK Google Fonts? =
+TK Google Fonts lets you add Google Fonts to any WordPress site without writing code. Choose fonts in a visual picker with live preview, then apply them to your site title, headings, body text and blockquotes in the Customizer. The fonts are downloaded and served from your own server, so your visitors never connect to Google.
 
-= Fast Pageload =
+= Free features =
 
-The plugin makes your WordPress website loads faster as it only loads the fonts you select. This is good for your page loading times and provide seamless customer experience for your user.
+* Visual font picker with live preview and your own preview text
+* Add any Google Font by name
+* Fonts hosted on your own server, so visitors never connect to Google (GDPR-friendly)
+* Customizer options to set the font for the site title, post and page titles, all headings (H1 to H6), body text and blockquotes
+* Only the fonts you select are loaded on your site
+* Works with any theme. Apply the fonts in the Customizer or in your own CSS
 
-= Easy to use UI =
+= Want more? TK Google Fonts Pro adds =
 
-We have build a native and user friendly UI so that selecting your favorite Google Fonts is a pure joy.
-Fancy previews of every font and your custom text for font testing!
-Easy adding and removing of fonts with just one click.
+* Font color for the site title, post and page titles, headings, body text and blockquotes
+* Font weight for the site title, post and page titles and headings
+* Responsive font sizes: separate sizes for mobile, tablet and large screens, for the site title, post and page titles, H1 to H6 and body text
 
-TK Google Fonts will automatically add the selected fonts to your site.
-
-= Use via WordPress Customizer =
-
-Simply use the new options that appear in the WordPress Customizer
-to apply the Google Fonts to your titles, body text or blockquotes.
-
-= Use via CSS =
-
-You can then use the fonts in your CSS without any extra step needed.
-Follow the instructions on the Google Page how to integrate your font.
-
-= HTTP and HTTPS Supported =
-The Plugin auto detects your site security and use https to load the google fonts if SSL is enabled.
-
-= Great for SEO =
-TK Google Fonts help shoot your website rankink by reducing your website loadtime.
-
-= Use within theme options =
-
-If your theme supports TK Google Fonts in its theme options,
-your selected fonts will be offered in the theme options there!
-
-See a list of which themes support TK Google Fonts more down the page.
-
-= Customizable and extendable =
-
-TK Google Fonts can be your Google webfonts core plugin.
-
-Use TK Google Fonts in your theme or plugin settings page to let the user select fonts for the different post parts like (title, text, menus,...)
-
-All ThemeKraft Themes support TK Google Fonts 100% and every font will be immediately available in all font selectors of the theme options.
-
-[Add Google Fonts to WordPress Themes easily with the Google Fonts WordPress Plugin](https://themekraft.com/add-google-fonts-to-wordpress-themes-easily-with-the-new-google-fonts-wordpress-plugin/)
+Pro is a yearly license for 1 site, 5 sites or unlimited sites, and every Pro feature is included at every size. [Compare Free and Pro on themekraft.com](https://themekraft.com/plugins/gdpr-compliant-google-fonts/?utm_source=wordpress.org&utm_medium=referral&utm_campaign=free-vs-pro&utm_content=tk-google-fonts)
 
 == Installation ==
-
-= Minimum Requirements =
-
-* WordPress 3.5 or greater
-* PHP version 5.2.4 or greater
-* MySQL version 5.0 or greater
 
 = Manual installation =
 You can download and install the plugin using the built in WordPress plugin installer.
@@ -78,41 +44,46 @@ The manual installation method involves downloading the plugin and uploading it 
 2. Using an FTP program, or your hosting control panel, upload the unzipped plugin folder to your WordPress installation’s wp-content/plugins/ directory.
 3. Activate the plugin from the Plugins menu within the WordPress admin panel.
 
-
-= Supported Themes =
-
-TK Google Fonts works with every WordPress theme.
-You need to apply the new fonts via the WordPress Customizer or your custom CSS.
-
-Themes with theme options can use TK Google Fonts for their font options.
-The following themes integrate TK Google Fonts in their theme options:
-
-List of supported themes
-<ul>
-<li>x2</li>
-<li>Custom Community</li>
-<li>_tk</li>
-</ul>
-
-If your theme supports TK Google Fonts in its theme options but is not listend here,
-please contact us so we can add it to this list.
-
 == Frequently Asked Questions ==
 
-= Will TK Google Fonst work with my theme? =
+= Will TK Google Fonts work with my theme? =
 
-Yes. TK Google Fonts will work with any theme, you can use the fonts via the WordPress Customizer or in your CSS.
+Yes. It works with any theme. Apply the fonts in the Customizer, or use the font name in your own CSS, for example font-family: 'Roboto', sans-serif;
 
-Checkout the related Google Page of the font to see how to write the CSS to call the font.
+= Does TK Google Fonts load fonts from Google's servers? =
+
+No. The fonts are downloaded once and served from your own server, so your visitors never connect to Google.
+
+= Is local font hosting a Pro feature? =
+
+No. Local hosting is included in the free version.
+
+= What does Pro add? =
+
+Font color (including blockquotes), font weight for titles and headings, and responsive font sizes for mobile, tablet and large screens.
+
+= Can I add a font that is not in the list? =
+
+You can add any Google Font by name.
+
+= How is Pro licensed? =
+
+Pro is a yearly license for 1 site, 5 sites or unlimited sites. Every Pro feature is included at every size. Pricing and purchase are on themekraft.com.
+
+= Is there a free trial of Pro? =
+
+Yes. Pro has a 7-day free trial. A payment method is required to start it.
+
+= Can I run the free and Pro versions together? =
+
+No. Activating one version deactivates the other.
 
 == Screenshots ==
 
-1. The TK Google Fonts Animated GIF
-2. The TK Google Fonts - Test your Font in live Preview
-3. The TK Google Fonts - Manage Fonts
-4. The TK Google Fonts - Turn on off Customizer Support
-5. The TK Google Fonts - Customizer options
-6. The TK Google Fonts Admin Settings Panel - Select a Font with preview
+1. Test a font in live preview
+2. Manage your fonts
+3. Turn Customizer support on or off
+4. Select a font with preview in the settings panel
 
 == Changelog ==
 = 2.3.3 - 18 Nov 2026 =
