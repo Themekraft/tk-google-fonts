@@ -5,8 +5,8 @@ Requires at least: 5.9
 Tested up to: 7.1
 Requires PHP: 7.4
 Stable tag: 2.3.3
-License: GPLv3
-License URI: http://www.gnu.org/licenses/gpl-3.0.html
+License: GPLv2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 Add custom Google Fonts to any WordPress site. Full GDPR compliance. Works with any theme — no complex code required.
 
