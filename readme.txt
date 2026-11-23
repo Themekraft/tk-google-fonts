@@ -115,7 +115,9 @@ Checkout the related Google Page of the font to see how to write the CSS to call
 6. The TK Google Fonts Admin Settings Panel - Select a Font with preview
 
 == Changelog ==
-= 2.3.3 - 18 Nov 2026 =
+= 2.3.3 - 20 Nov 2026 =
+* Security: deleting a font now only removes that font's own folder.
+* The Go Pro page wording now matches the plugin description.
 * Fixed bold and italic text being faked by the browser: fonts are now downloaded with their bold and italic styles, not only regular 400. Fonts you already added are downloaded again once after the update.
 * Fixed the fonts folder being left empty when the plugin was updated outside wp-admin (WP-CLI or automatic background updates).
 * Fonts that only come in other weights or only in italic can now be added.

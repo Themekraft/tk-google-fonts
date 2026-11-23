@@ -21,8 +21,8 @@ if ( ! function_exists( 'tkgf_pricing_page_config' ) ) {
 			return $config;
 		}
 
-		$config['heading']    = __( 'Get TK Google Fonts Pro', 'tk-google-fonts' );
-		$config['subheading'] = __( 'Unlock all premium features with a year of updates and support.', 'tk-google-fonts' );
+		$config['heading']    = __( 'Go Pro for full control of your fonts', 'tk-google-fonts' );
+		$config['subheading'] = __( 'The free version picks and hosts your fonts. Pro lets you style them.', 'tk-google-fonts' );
 
 		$config['bundle'] = array(
 			'product_id' => '426',
@@ -36,10 +36,9 @@ if ( ! function_exists( 'tkgf_pricing_page_config' ) ) {
 				'label'     => __( 'All TK Google Fonts Pro features unlocked', 'tk-google-fonts' ),
 				'highlight' => true,
 			),
-			__( 'Font color for the site title, post and page titles, headings and body text', 'tk-google-fonts' ),
+			__( 'Font color for the site title, post and page titles, headings, body text and blockquotes', 'tk-google-fonts' ),
 			__( 'Font weight for the site title, post and page titles and headings', 'tk-google-fonts' ),
-			__( 'Separate font sizes for mobile, tablet and large screens', 'tk-google-fonts' ),
-			__( 'Blockquote text and background color', 'tk-google-fonts' ),
+			__( 'Responsive font sizes for mobile, tablet and large screens', 'tk-google-fonts' ),
 			__( 'One year of support', 'tk-google-fonts' ),
 			__( 'One year of updates', 'tk-google-fonts' ),
 		);

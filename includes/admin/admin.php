@@ -247,7 +247,6 @@ function tkgf_list() {
 }
 
 add_action( 'wp_ajax_tk_google_fonts_add_font', 'tkgf_add_font' );
-add_action( 'wp_ajax_nopriv_tk_google_fonts_add_font', 'tkgf_add_font' );
 /**
  * Ajax call back function to add a form element
  *
@@ -292,7 +291,6 @@ function tkgf_add_font( $google_font_name ) {
 }
 
 add_action( 'wp_ajax_tk_google_fonts_delete_font', 'tkgf_delete_font' );
-add_action( 'wp_ajax_nopriv_tk_google_fonts_delete_font', 'tkgf_delete_font' );
 /**
  * Ajax call back function to delete a form element
  *
@@ -321,7 +319,8 @@ function tkgf_delete_font() {
 	unset( $tk_google_fonts_options['selected_fonts'][ sanitize_text_field( wp_unslash( $_POST['google_font_name'] ) ) ] );
 	$direc = $tk_fonts_folder . $google_font_name;
 
-	if ( is_dir( $direc ) ) {
+	// Only a font folder directly inside the fonts folder can be removed, the same names tkgf_download_font() accepts.
+	if ( ! in_array( $google_font_name, array( '', '.' ), true ) && ! preg_match( '#[/\\\\]|\.\.#', $google_font_name ) && is_dir( $direc ) ) {
 		WP_Filesystem();
 		global $wp_filesystem;
 		$wp_filesystem->rmdir( $direc, true );
