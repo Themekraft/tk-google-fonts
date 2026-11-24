@@ -6,8 +6,8 @@
  * Version: 2.3.3
  * Author: ThemeKraft
  * Author URI: http://themekraft.com/
- * License: GPLv3
- * License URI: https://www.gnu.org/licenses/gpl-3.0.html
+ * License: GPLv2 or later
+ * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Requires at least: 5.9
  * Requires PHP: 7.4
  * Svn: tk-google-fonts
