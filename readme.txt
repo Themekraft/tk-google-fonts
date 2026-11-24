@@ -4,7 +4,7 @@ Tags: fonts, google fonts, webfonts, gdpr, local fonts
 Requires at least: 5.9
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 2.3.3
+Stable tag: 2.3.4-beta.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
